@@ -5,7 +5,7 @@ class Store:
 
     def __init__(self):
         #TODO: Initialize from a central store
-        self.store = {"hochstetter": 190}
+        self.store = {}
         self.current_id = 0
 
     def add_lot(self, name, capacity):
@@ -14,6 +14,9 @@ class Store:
 
     def remove_lot(self, name):
         del self.store[name]
+
+    def get_store(self):
+        return self.store
 
     def __repr__(self):
         return self.store.__str__()
@@ -24,17 +27,17 @@ class ParkingLot:
     def __init__(self, id, name, capacity):
         self.id = id
         self.name = name
-        self.slots = capacity
+        self.spots = capacity
         self.capacity = capacity
 
-    def increase_slots(self):
-        self.slots += 1
+    def increase_spots(self):
+        self.spots = min(self.capacity, self.spots + 1)
 
-    def decrease_slots(self):
-        self.slots -= 1
+    def decrease_spots(self):
+        self.spots = max(0, self.spots - 1)
 
     def __repr__(self):
-        return "Lot(ID: {}, Name: {}, Slots: {}, Capacity: {})".format(self.id, self.name, self.slots, self.capacity)
+        return "Lot(ID: {}, Name: {}, Spots: {}, Capacity: {})".format(self.id, self.name, self.spots, self.capacity)
 
 
 class StoreEncoder(JSONEncoder):

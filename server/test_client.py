@@ -1,7 +1,7 @@
 import socketio
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
-from config import hostname
+from config import hostname, main_room
 
 app = Flask(__name__)
 app.debug = True
@@ -11,11 +11,12 @@ sio = socketio.Client()
 
 @sio.on('connect')
 def connect():
+    join()
     print('connection established')
 
 @sio.on('status')
 def status(data):
-    print('parking lot status: ', data)
+    print(data['store'])
 
 @sio.on('disconnect')
 def disconnect():
@@ -26,10 +27,9 @@ def update():
     print("requesting update")
 
 def join():
-    sio.emit('join', {})
+    sio.emit('join', {'room': main_room})
 
 if __name__ == '__main__':
     sio.connect(hostname)
-    join()
     job = scheduler.add_job(update, 'interval', seconds = 5)
     scheduler.start()
