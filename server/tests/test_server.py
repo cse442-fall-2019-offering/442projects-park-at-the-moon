@@ -1,13 +1,48 @@
 from app import *
-import pytest
+import json
 
-@pytest.fixture(scope="module", autouse=True)
-def setup():
-    """
-    Set up the socket, client, server etc.
-    :return:
-    """
-    pass
+class TestServer:
 
-def test_dummy():
-    assert True
+
+    def test_main(self, client):
+
+        """
+        DISCLAIMER: I HAVEN'T YET BEEN ABLE TO FIGURE OUT HOW TO RESET
+        THE APP CONTEXT, THESE WILL BE DESIGNED BETTER IN THE FUTURE
+        :param client:
+        :return:
+        """
+
+        lot = "hochstetter"
+        spots = 190
+
+        for i in range(spots, -1, -1):
+            self.verify_spots(client, lot, i)
+            response = client.get('/car-entered/' + lot)
+            assert response.status_code == 200
+
+        self.verify_spots(client, lot, 0)
+        response = client.get('/car-entered/' + lot)
+        assert response.status_code == 200
+        self.verify_spots(client, lot, 0)
+
+        for i in range(0, spots):
+            self.verify_spots(client, lot, i)
+            response = client.get('/car-exited/' + lot)
+            assert response.status_code == 200
+
+        self.verify_spots(client, lot, spots)
+        response = client.get('/car-exited/' + lot)
+        assert response.status_code == 200
+        self.verify_spots(client, lot, spots)
+
+
+    def verify_spots(self, client, lot, num_spots):
+
+        response = client.get('/update_spots')
+        store = json.loads(response.data)['store']
+
+        assert response.status_code == 200
+        assert lot in store
+        assert store[lot]['spots'] == num_spots
+        assert store[lot]['capacity'] == 190

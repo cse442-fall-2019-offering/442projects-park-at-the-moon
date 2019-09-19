@@ -8,11 +8,13 @@ dnspython==1.16.0
 eventlet==0.25.1
 Flask==1.1.1
 Flask-SocketIO==4.2.1
+Flask-Testing==0.7.1
 greenlet==0.4.15
 idna==2.8
 importlib-metadata==0.22
 itsdangerous==1.1.0
 Jinja2==2.10.1
+jsonify==0.5
 MarkupSafe==1.1.1
 monotonic==1.5
 more-itertools==7.2.0
@@ -21,6 +23,7 @@ pluggy==0.13.0
 py==1.8.0
 pyparsing==2.4.2
 pytest==5.1.2
+pytest-flask==0.15.0
 python-engineio==3.9.3
 python-socketio==4.3.1
 pytz==2019.2

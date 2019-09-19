@@ -21,6 +21,9 @@ class Store(UserDict):
     def decrease_spots(self, lot):
         self.store[lot].decrease_spots()
 
+    def get_capacity(self, lot):
+        return self.store[lot].get_capacity()
+
     def get_spots(self, lot):
         return self.store[lot].get_spots()
 
@@ -53,6 +56,12 @@ class ParkingLot:
 
     def get_spots(self):
         return self.spots
+
+    def get_capacity(self):
+        return self.capacity
+
+    def reset(self):
+        self.spots = self.capacity
 
     def __repr__(self):
         return "Lot(ID: {}, Name: {}, Spots: {}, Capacity: {})".format(self.id, self.name, self.spots, self.capacity)

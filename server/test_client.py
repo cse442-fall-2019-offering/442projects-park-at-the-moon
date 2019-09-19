@@ -2,6 +2,8 @@ import socketio
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
 from config import hostname, main_room
+import requests
+
 
 app = Flask(__name__)
 app.debug = True
@@ -23,13 +25,16 @@ def disconnect():
     print('disconnected from server')
 
 def update():
-    sio.emit('update')
-    print("requesting update")
+    r = requests.get(hostname + '/update_spots')
+    import json
+    print(json.loads(r.content))
 
 def join():
     sio.emit('join', {'room': main_room})
 
 if __name__ == '__main__':
-    sio.connect(hostname)
+    #sio.connect(hostname)
     job = scheduler.add_job(update, 'interval', seconds = 5)
     scheduler.start()
+    while True:
+        pass
