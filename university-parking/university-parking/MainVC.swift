@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainVC.swift
 //  university-parking
 //
 //  Created by Arthur De Araujo on 9/15/19.
@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
