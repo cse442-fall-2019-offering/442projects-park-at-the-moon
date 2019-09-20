@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48F9C599DC0E1F45CEB6B13E /* Pods_university_parking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F582F862B272025902C1449 /* Pods_university_parking.framework */; };
 		CA7408EC2334561500F8B65C /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7408EB2334561500F8B65C /* OnboardingVC.swift */; };
 		CA7D2665232EA3BA00B5BF47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */; };
 		CA7D2667232EA3BA00B5BF47 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7D2666232EA3BA00B5BF47 /* MainVC.swift */; };
@@ -16,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F582F862B272025902C1449 /* Pods_university_parking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_university_parking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		43F77AF9CBD857927570DA95 /* Pods-university-parking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-university-parking.release.xcconfig"; path = "Target Support Files/Pods-university-parking/Pods-university-parking.release.xcconfig"; sourceTree = "<group>"; };
+		62705CE357411C161A0B4E2C /* Pods-university-parking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-university-parking.debug.xcconfig"; path = "Target Support Files/Pods-university-parking/Pods-university-parking.debug.xcconfig"; sourceTree = "<group>"; };
 		CA7408EB2334561500F8B65C /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
 		CA7D2661232EA3BA00B5BF47 /* university-parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "university-parking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -31,17 +35,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48F9C599DC0E1F45CEB6B13E /* Pods_university_parking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22F36458B670F24338AB17CB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				62705CE357411C161A0B4E2C /* Pods-university-parking.debug.xcconfig */,
+				43F77AF9CBD857927570DA95 /* Pods-university-parking.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8C4ED0E468E0382E2E4AA001 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F582F862B272025902C1449 /* Pods_university_parking.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CA7D2658232EA3BA00B5BF47 = {
 			isa = PBXGroup;
 			children = (
 				CA7D2663232EA3BA00B5BF47 /* university-parking */,
 				CA7D2662232EA3BA00B5BF47 /* Products */,
+				22F36458B670F24338AB17CB /* Pods */,
+				8C4ED0E468E0382E2E4AA001 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CA7D2673232EA3BB00B5BF47 /* Build configuration list for PBXNativeTarget "university-parking" */;
 			buildPhases = (
+				C278988C3E331B7D22F4D892 /* [CP] Check Pods Manifest.lock */,
 				CA7D265D232EA3BA00B5BF47 /* Sources */,
 				CA7D265E232EA3BA00B5BF47 /* Frameworks */,
 				CA7D265F232EA3BA00B5BF47 /* Resources */,
+				60E580D8157FEFD254A86ECE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		60E580D8157FEFD254A86ECE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-university-parking/Pods-university-parking-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/LGButton/LGButton.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGButton.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-university-parking/Pods-university-parking-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C278988C3E331B7D22F4D892 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-university-parking-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CA7D265D232EA3BA00B5BF47 /* Sources */ = {
@@ -284,6 +358,7 @@
 		};
 		CA7D2674232EA3BB00B5BF47 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62705CE357411C161A0B4E2C /* Pods-university-parking.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -302,6 +377,7 @@
 		};
 		CA7D2675232EA3BB00B5BF47 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43F77AF9CBD857927570DA95 /* Pods-university-parking.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
