@@ -10,21 +10,35 @@ import UIKit
 
 class OnboardingVC: UIViewController {
 
+    @IBOutlet var titleLabelTopConstraint: NSLayoutConstraint!
+    
+    // MARK: - UIViewController
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.setNeedsStatusBarAppearanceUpdate()
+
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            titleLabelTopConstraint.constant = 200
+        }
     }
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    // MARK: - OnboardingVC
+
+    // MARK: - Actions
 
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
+     TODO: Create LGButtons and place them
+     programmatically after fetching the universities
+     from the server
     */
-
+    @IBAction func selectedUniversityAtBuffalo(_ sender: Any) {
+        performSegue(withIdentifier: "segueToMain", sender: self)
+    }
+    
 }

@@ -14,6 +14,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
     
+    // MARK: - UIViewController
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -24,6 +26,12 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let centerCoord = CLLocationCoordinate2D.init(latitude: 43.000877, longitude: -78.787342)
         mapView.setCamera(MKMapCamera.init(lookingAtCenter: centerCoord, fromEyeCoordinate: centerCoord, eyeAltitude: 1500), animated: false);
     }
+
+    // MARK: - MainVC
+
+    
+    
+    // MARK: - UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
