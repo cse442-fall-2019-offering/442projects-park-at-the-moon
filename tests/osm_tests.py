@@ -163,5 +163,5 @@ compare_lots(lot_names, osm_dict)
 compare_buildings(building_names, osm_dict)
 
 
-#check_perim_lot_coord(osm_dict, geolocator)
-#check_perim_building_coord(osm_dict, geolocator)
+check_perim_lot_coord(osm_dict, geolocator)
+check_perim_building_coord(osm_dict, geolocator)
