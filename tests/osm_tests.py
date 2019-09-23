@@ -74,9 +74,9 @@ def check_perim_lot_coord(osm_data, geolocator, google_key):
     print('maximum difference between center point and perimeter is ' + str(max_dist) + ' miles')
     print('Accurate\t\t\tInaccurate\t\t\tMissing')
     for lot in osm_data['lots']:
-        location = geolocator.geocode(lot['name'] + ' Lot, University at Buffalo')
+        location = geolocator.geocode(lot['name'] + ' Lot, University at Buffalo', timeout=5)
         if location == None:
-            location = geolocator.geocode(lot['name'] + ' Lot')
+            location = geolocator.geocode(lot['name'] + ' Lot', timeout=5)
         if location == None or not ('Buffalo' in location.address \
             or 'Amherst' in location.address) or 'South Campus' in location.address:
             if google_geolocator != None:
@@ -131,9 +131,9 @@ def check_perim_building_coord(osm_data, geolocator, google_key):
     print('maximum difference between center point and perimeter is ' + str(max_dist) + ' miles')
     print('Accurate\t\t\tInaccurate\t\t\tMissing')
     for building in osm_data['buildings']:
-        location = geolocator.geocode(building['name'] + ', University at Buffalo')
+        location = geolocator.geocode(building['name'] + ', University at Buffalo', timeout=5)
         if location == None:
-            location = geolocator.geocode(building['name'])
+            location = geolocator.geocode(building['name'], timeout=5)
         if location == None or not ('Buffalo' in location.address \
             or 'Amherst' in location.address) or 'South Campus' in location.address:
             if google_geolocator != None:
