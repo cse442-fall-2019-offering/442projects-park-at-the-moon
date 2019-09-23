@@ -2,9 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 from itertools import zip_longest
+import sys
 
-
-def getLotNames():
+def get_lot_names():
 
     lot_names = []
     types = []
@@ -50,7 +50,7 @@ def getLotNames():
             types.append(tempType)
     return lot_names, types
 
-def getBuildingNames():
+def get_building_names():
 
     building_names = []
 
@@ -72,22 +72,45 @@ def getBuildingNames():
     return building_names
 
 
-def write2CSV(lot_names, types, building_names):
+def write_2_csv_lot_building(lot_names, types, building_names):
     fullData = [lot_names, types, building_names]
-    with open('../data/LotBuildingNames.csv', 'w') as f:
+    with open('../data/lot_building_names.csv', 'w') as f:
         writer = csv.writer(f)
         for vals in zip_longest(*fullData):
             writer.writerow(vals)
 
-lot_names, types = getLotNames()
-building_names = getBuildingNames()
-write2CSV(lot_names, types, building_names)
+def write_2_csv_lot(lot_names, types):
+    fullData = [lot_names, types]
+    with open('../data/lot_names.csv', 'w') as f:
+        writer = csv.writer(f)
+        for vals in zip_longest(*fullData):
+            writer.writerow(vals)
 
-'''
-for i in range(len(lot_names)):
-    print("Name: " + lot_names[i])
-    print("Type: " + str(types[i]) + "\n")
+def write_2_csv_building(building_names):
+    fullData = [building_names]
+    with open('../data/building_names.csv', 'w') as f:
+        writer = csv.writer(f)
+        for vals in zip_longest(*fullData):
+            writer.writerow(vals)
 
-for name in building_names:
-    print(name)
-'''
+if len(sys.argv) == 1:
+    print ('Invocation:')
+    print ('\tpython get_lot_building_names.py [ -lot | -building | -both ]')
+    exit()
+else:   
+    if sys.argv[1] == '-lot':  
+        lot_names, types = get_lot_names()
+        write_2_csv_lot(lot_names, types)
+    elif sys.argv[1] == '-building':
+        building_names = get_building_names()
+        write_2_csv_building(building_names)
+    elif sys.argv[1] == '-both':
+        lot_names, types = get_lot_names()
+        building_names = get_building_names()
+        write_2_csv_lot_building(lot_names, types, building_names)
+    else:
+        print ('Invocation:')
+        print ('\tpython get_lot_building_names.py [ -lot | -building | -both ]')
+        exit()
+        
+
