@@ -1,0 +1,424 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		48F9C599DC0E1F45CEB6B13E /* Pods_university_parking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F582F862B272025902C1449 /* Pods_university_parking.framework */; };
+		CA7408EC2334561500F8B65C /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7408EB2334561500F8B65C /* OnboardingVC.swift */; };
+		CA7D2665232EA3BA00B5BF47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */; };
+		CA7D2667232EA3BA00B5BF47 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7D2666232EA3BA00B5BF47 /* MainVC.swift */; };
+		CA7D266A232EA3BA00B5BF47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA7D2668232EA3BA00B5BF47 /* Main.storyboard */; };
+		CA7D266C232EA3BB00B5BF47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA7D266B232EA3BB00B5BF47 /* Assets.xcassets */; };
+		CA7D266F232EA3BB00B5BF47 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA7D266D232EA3BB00B5BF47 /* LaunchScreen.storyboard */; };
+		CAA41E8D23345F3400BCD026 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA41E8C23345F3400BCD026 /* NavigationController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2F582F862B272025902C1449 /* Pods_university_parking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_university_parking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		43F77AF9CBD857927570DA95 /* Pods-university-parking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-university-parking.release.xcconfig"; path = "Target Support Files/Pods-university-parking/Pods-university-parking.release.xcconfig"; sourceTree = "<group>"; };
+		62705CE357411C161A0B4E2C /* Pods-university-parking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-university-parking.debug.xcconfig"; path = "Target Support Files/Pods-university-parking/Pods-university-parking.debug.xcconfig"; sourceTree = "<group>"; };
+		CA7408EB2334561500F8B65C /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
+		CA7D2661232EA3BA00B5BF47 /* university-parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "university-parking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CA7D2666232EA3BA00B5BF47 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		CA7D2669232EA3BA00B5BF47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CA7D266B232EA3BB00B5BF47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CA7D266E232EA3BB00B5BF47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CA7D2670232EA3BB00B5BF47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CAA41E8C23345F3400BCD026 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CA7D265E232EA3BA00B5BF47 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48F9C599DC0E1F45CEB6B13E /* Pods_university_parking.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		22F36458B670F24338AB17CB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				62705CE357411C161A0B4E2C /* Pods-university-parking.debug.xcconfig */,
+				43F77AF9CBD857927570DA95 /* Pods-university-parking.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8C4ED0E468E0382E2E4AA001 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F582F862B272025902C1449 /* Pods_university_parking.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA7D2658232EA3BA00B5BF47 = {
+			isa = PBXGroup;
+			children = (
+				CA7D2663232EA3BA00B5BF47 /* university-parking */,
+				CA7D2662232EA3BA00B5BF47 /* Products */,
+				22F36458B670F24338AB17CB /* Pods */,
+				8C4ED0E468E0382E2E4AA001 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CA7D2662232EA3BA00B5BF47 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CA7D2661232EA3BA00B5BF47 /* university-parking.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CA7D2663232EA3BA00B5BF47 /* university-parking */ = {
+			isa = PBXGroup;
+			children = (
+				CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */,
+				CA7D2666232EA3BA00B5BF47 /* MainVC.swift */,
+				CA7408EB2334561500F8B65C /* OnboardingVC.swift */,
+				CA7D2668232EA3BA00B5BF47 /* Main.storyboard */,
+				CAA41E8C23345F3400BCD026 /* NavigationController.swift */,
+				CA7D266B232EA3BB00B5BF47 /* Assets.xcassets */,
+				CA7D266D232EA3BB00B5BF47 /* LaunchScreen.storyboard */,
+				CA7D2670232EA3BB00B5BF47 /* Info.plist */,
+			);
+			path = "university-parking";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CA7D2660232EA3BA00B5BF47 /* university-parking */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA7D2673232EA3BB00B5BF47 /* Build configuration list for PBXNativeTarget "university-parking" */;
+			buildPhases = (
+				C278988C3E331B7D22F4D892 /* [CP] Check Pods Manifest.lock */,
+				CA7D265D232EA3BA00B5BF47 /* Sources */,
+				CA7D265E232EA3BA00B5BF47 /* Frameworks */,
+				CA7D265F232EA3BA00B5BF47 /* Resources */,
+				60E580D8157FEFD254A86ECE /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "university-parking";
+			productName = "university-parking";
+			productReference = CA7D2661232EA3BA00B5BF47 /* university-parking.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CA7D2659232EA3BA00B5BF47 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1030;
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = "Arthur De Araujo";
+				TargetAttributes = {
+					CA7D2660232EA3BA00B5BF47 = {
+						CreatedOnToolsVersion = 10.3;
+					};
+				};
+			};
+			buildConfigurationList = CA7D265C232EA3BA00B5BF47 /* Build configuration list for PBXProject "university-parking" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CA7D2658232EA3BA00B5BF47;
+			productRefGroup = CA7D2662232EA3BA00B5BF47 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CA7D2660232EA3BA00B5BF47 /* university-parking */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CA7D265F232EA3BA00B5BF47 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA7D266F232EA3BB00B5BF47 /* LaunchScreen.storyboard in Resources */,
+				CA7D266C232EA3BB00B5BF47 /* Assets.xcassets in Resources */,
+				CA7D266A232EA3BA00B5BF47 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		60E580D8157FEFD254A86ECE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-university-parking/Pods-university-parking-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/LGButton/LGButton.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGButton.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-university-parking/Pods-university-parking-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C278988C3E331B7D22F4D892 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-university-parking-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CA7D265D232EA3BA00B5BF47 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA7D2667232EA3BA00B5BF47 /* MainVC.swift in Sources */,
+				CAA41E8D23345F3400BCD026 /* NavigationController.swift in Sources */,
+				CA7408EC2334561500F8B65C /* OnboardingVC.swift in Sources */,
+				CA7D2665232EA3BA00B5BF47 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CA7D2668232EA3BA00B5BF47 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CA7D2669232EA3BA00B5BF47 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CA7D266D232EA3BB00B5BF47 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CA7D266E232EA3BB00B5BF47 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CA7D2671232EA3BB00B5BF47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CA7D2672232EA3BB00B5BF47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CA7D2674232EA3BB00B5BF47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62705CE357411C161A0B4E2C /* Pods-university-parking.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 72H7NZKH7W;
+				INFOPLIST_FILE = "university-parking/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.arthur.university-parking";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CA7D2675232EA3BB00B5BF47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43F77AF9CBD857927570DA95 /* Pods-university-parking.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 72H7NZKH7W;
+				INFOPLIST_FILE = "university-parking/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.arthur.university-parking";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CA7D265C232EA3BA00B5BF47 /* Build configuration list for PBXProject "university-parking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA7D2671232EA3BB00B5BF47 /* Debug */,
+				CA7D2672232EA3BB00B5BF47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CA7D2673232EA3BB00B5BF47 /* Build configuration list for PBXNativeTarget "university-parking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA7D2674232EA3BB00B5BF47 /* Debug */,
+				CA7D2675232EA3BB00B5BF47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CA7D2659232EA3BA00B5BF47 /* Project object */;
+}
