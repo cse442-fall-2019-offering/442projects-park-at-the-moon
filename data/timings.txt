@@ -1,0 +1,35 @@
+Student Parking Lots{
+  7am-3pm M-F Permit Required{
+    Fargo Lot
+    Richmond A
+    Richmond B
+    RedJacket
+    Spaulding
+    Alumni B
+    Alumni C
+    Lake LaSalle
+    Arena Parking
+    Alumni A (metered 8a-8p)
+    Stadium Lot
+    Slee A
+    Slee B
+    Baird A
+    Baird B
+    Special Events Lot
+    Jacobs B
+    Jacobs C
+    Hoch B (commuter lot)
+    Cooke A
+    Cooke B
+    Governors B (half is paid parking)
+    Fronczak A
+    Fronczak B
+    Governors C
+    Governors D
+    Governors E
+    Ketter
+    Jarvis B
+    Jarvis A
+ }
+ Other lots are marked Faculty/Staff, but they require permits from 7a-3p, so they're open for all after 3pm
+    
