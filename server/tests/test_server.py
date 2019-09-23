@@ -1,8 +1,7 @@
-from app import *
 import json
 
-class TestServer:
 
+class TestServer:
 
     def test_main(self, client):
 
@@ -36,6 +35,8 @@ class TestServer:
         assert response.status_code == 200
         self.verify_spots(client, lot, spots)
 
+        response = client.get('/car-exited/' + "asjhcbanjns")
+        assert not json.loads(response.data)
 
     def verify_spots(self, client, lot, num_spots):
 

@@ -1,5 +1,6 @@
 import pytest
 from store import *
+from unittest import TestCase
 
 
 @pytest.fixture(scope="module", autouse=True)
@@ -7,6 +8,7 @@ def setup():
     """
     :return:
     """
+
     parking_store = Store()
 
     lot1 = "fronczak"
@@ -116,3 +118,18 @@ def test_remove_spot(setup):
 
     parking_store.decrease_spots(lot)
     assert parking_store.get_spots(lot) == 0
+
+def test_lot_not_present(setup):
+
+    parking_store = setup
+    lot = "abcdefghijklmnopqrstuvwxyz"
+
+    try:
+        parking_store.increase_spots(lot)
+        parking_store.decrease_spots(lot)
+        parking_store.get_capacity(lot)
+        parking_store.get_spots(lot)
+        parking_store.remove_lot(lot)
+
+    except:
+        TestCase.fail()

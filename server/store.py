@@ -1,6 +1,7 @@
 from json import JSONEncoder
 from collections import UserDict
 
+
 class Store(UserDict):
 
     def __init__(self):
@@ -8,24 +9,29 @@ class Store(UserDict):
         self.store = {}
         self.current_id = 0
 
-    def add_lot(self, name, capacity):
-        self.store[name] = ParkingLot(self.current_id, name, capacity)
+    def add_lot(self, lot, capacity):
+        self.store[lot] = ParkingLot(self.current_id, lot, capacity)
         self.current_id += 1
 
-    def remove_lot(self, name):
-        del self.store[name]
+    def remove_lot(self, lot):
+        if lot in self.store:
+            del self.store[lot]
 
     def increase_spots(self, lot):
-        self.store[lot].increase_spots()
+        if lot in self.store:
+            self.store[lot].increase_spots()
 
     def decrease_spots(self, lot):
-        self.store[lot].decrease_spots()
+        if lot in self.store:
+            self.store[lot].decrease_spots()
 
     def get_capacity(self, lot):
-        return self.store[lot].get_capacity()
+        if lot in self.store:
+            return self.store[lot].get_capacity()
 
     def get_spots(self, lot):
-        return self.store[lot].get_spots()
+        if lot in self.store:
+            return self.store[lot].get_spots()
 
     def get_store(self):
         return self.store

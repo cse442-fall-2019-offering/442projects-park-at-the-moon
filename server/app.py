@@ -1,9 +1,6 @@
-from flask import Flask, request
-from flask_socketio import SocketIO, emit, join_room, leave_room
-import eventlet
-
-from config import main_room
+from flask import Flask
 from store import *
+from config import SECRET_KEY
 
 
 class App:
@@ -20,16 +17,14 @@ class App:
 
         app = Flask(__name__)
         app.debug = True
-        app.config['SECRET_KEY'] = 'gjr39dkjn344_!67#'
+        app.config['SECRET_KEY'] = SECRET_KEY
 
         from engine import engine
         app.register_blueprint(engine)
 
-        socketio.init_app(app, logger=True, engineio_logger=True)
-
         return app
 
-socketio = SocketIO()
+
 app_instance = App()
 
 if __name__ == '__main__':

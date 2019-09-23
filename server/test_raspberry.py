@@ -1,15 +1,23 @@
 import socketio
 import requests
-
 from flask import Flask
-from config import hostname, pi_room
+from config import hostname, pi_room, SECRET_KEY
 from apscheduler.schedulers.background import BackgroundScheduler
+
 
 app = Flask(__name__)
 app.debug = True
-app.config['SECRET_KEY'] = 'gjr39dkjn344_!67#'
+app.config['SECRET_KEY'] = SECRET_KEY
 scheduler = BackgroundScheduler()
 sio = socketio.Client()
+
+
+def car_entered(lot):
+    requests.get(hostname + '/car-entered/' + lot)
+
+
+def car_exited(lot):
+    requests.get(hostname + '/car-exited/' + lot)
 
 
 def enter():
@@ -24,14 +32,6 @@ def exit():
 
 def join():
     sio.emit('join', {'room': pi_room})
-
-
-def car_entered(lot):
-    requests.get(hostname + '/car-entered/' + lot)
-
-
-def car_exited(lot):
-    requests.get(hostname + '/car-exited/' + lot)
 
 
 @sio.on('connect')
@@ -51,7 +51,6 @@ def disconnect():
 
 
 if __name__ == '__main__':
-    #sio.connect(hostname)
     scheduler.start()
     scheduler.add_job(car_entered, 'interval', ['hochstetter'], seconds = 2)
     scheduler.add_job(car_exited, 'interval', ['hochstetter'], seconds=10)

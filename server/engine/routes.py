@@ -4,9 +4,7 @@
 
 from flask import jsonify
 from flask_socketio import SocketIO, emit, join_room, leave_room
-
 from config import main_room
-from store import *
 from app import *
 
 from . import engine
