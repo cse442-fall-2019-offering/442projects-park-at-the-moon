@@ -1,0 +1,3 @@
+[submodule "patm-server"]
+	path = patm-server
+	url = https://github.com/sanchitcop19/park-at-the-moon-server
