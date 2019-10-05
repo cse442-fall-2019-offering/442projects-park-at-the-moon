@@ -34,16 +34,16 @@ class Store(UserDict):
             return self.store[lot].get_spots()
 
     def set_boundary_lat(self, lot, coordinates):
-        self.store[lot].set_boundary_lot(coordinates)
+        self.store[lot].set_boundary_lat(coordinates)
 
-    def set_boundary_long(self, lot, coordinates):
-        self.store[lot].set_boundary_lot(coordinates)
+    def set_boundary_lon(self, lot, coordinates):
+        self.store[lot].set_boundary_lon(coordinates)
 
     def set_available_times(self, lot, available_times):
-        self.store[lot].set_boundary_lot(available_times)
+        self.store[lot].set_available_times(available_times)
 
     def set_type(self, lot, type):
-        self.store[lot].set_boundary_lot(lot)
+        self.store[lot].set_type(type)
 
     def get_store(self):
         return self.store
@@ -66,7 +66,7 @@ class ParkingLot:
         self.spots = capacity
         self.capacity = capacity
         self.boundary_lat = []
-        self.boundary_long = []
+        self.boundary_lon = []
         self.available_times = []
         self.type = -1
 
@@ -88,8 +88,8 @@ class ParkingLot:
     def set_boundary_lat(self, coordinates):
         self.boundary_lat = coordinates
 
-    def set_boundary_long(self, coordinates):
-        self.boundary_long(self, coordinates)
+    def set_boundary_lon(self, coordinates):
+        self.boundary_lon = coordinates
 
     def set_available_times(self, available_times):
         self.available_times = available_times

@@ -17,7 +17,12 @@ class App:
         with open("lot_data.json") as file:
             data = json.load(file)
         for lot in data['lots']:
-            self.parking_store.add_lot(lot["name"], lot["capacity"])
+            name = lot["name"]
+            self.parking_store.add_lot(name, lot["capacity"])
+            self.parking_store.set_available_times(name, lot["available_times"])
+            self.parking_store.set_boundary_lat(name, lot["boundary_lat"])
+            self.parking_store.set_boundary_lon(name, lot["boundary_long"])
+            self.parking_store.set_type(name, lot["type"])
         self.__class__.parking_store = self.parking_store
 
     def create_app(self):
