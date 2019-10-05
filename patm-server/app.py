@@ -29,7 +29,6 @@ class App:
         app.config['SECRET_KEY'] = SECRET_KEY
         return app
 
-sdmfsd
 app_instance = App()
 app = app_instance.create_app()
 

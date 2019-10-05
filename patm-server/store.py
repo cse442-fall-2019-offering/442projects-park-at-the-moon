@@ -65,6 +65,10 @@ class ParkingLot:
         self.name = name
         self.spots = capacity
         self.capacity = capacity
+        self.boundary_lat = []
+        self.boundary_long = []
+        self.available_times = []
+        self.type = -1
 
     def increase_spots(self):
         self.spots = min(self.capacity, self.spots + 1)
