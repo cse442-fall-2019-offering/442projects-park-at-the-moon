@@ -1,4 +1,5 @@
 import sys,os
+sys.path.append(os.getcwd() + '/patm-server')
 import json
 from flask import Flask
 from store import *
@@ -14,7 +15,7 @@ class App:
 
         self.parking_store = Store()
         data = None
-        with open("lot_data.json") as file:
+        with open(os.getcwd() + '/patm-server/' + "lot_data.json") as file:
             data = json.load(file)
         for lot in data['lots']:
             name = lot["name"]
