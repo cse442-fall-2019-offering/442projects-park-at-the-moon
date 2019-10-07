@@ -77,7 +77,7 @@ def get_building_names():
     .find(class_="par parsys")\
     .findAll(class_="teaser-title")
     for name in buildingsRaw:
-        building_names.append(name.text)    
+        building_names.append(name.text.split('(')[0].strip())    
 
     data = None
     with open('../data/manual_additions.json') as j_file:
