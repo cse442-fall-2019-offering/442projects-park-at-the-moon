@@ -15,15 +15,22 @@ class App:
 
         self.parking_store = Store()
         data = None
-        with open(os.getcwd() + '/patm-server/' + "lot_data.json") as file:
+        filename = os.getcwd() + '/patm-server/' + "lot_data.json"
+        if len(sys.argv) >= 1:
+            filename = "lot_data.json"
+        with open(filename) as file:
             data = json.load(file)
         for lot in data['lots']:
-            name = lot["name"]
-            self.parking_store.add_lot(name, lot["capacity"])
-            self.parking_store.set_available_times(name, lot["available_times"])
-            self.parking_store.set_boundary_lat(name, lot["boundary_lat"])
-            self.parking_store.set_boundary_lon(name, lot["boundary_long"])
-            self.parking_store.set_type(name, lot["type"])
+                name = lot["name"]
+                self.parking_store.add_lot(name, lot["capacity"])
+                self.parking_store.set_available_times(name, lot["available_times"])
+                self.parking_store.set_boundary_lat(name, lot["boundary_lat"])
+                self.parking_store.set_boundary_lon(name, lot["boundary_long"])
+                self.parking_store.set_type(name, lot["type"])
+                self.parking_store.set_center(name)
+        for building in data['buildings']:
+            self.parking_store.add_building(building)
+
         self.__class__.parking_store = self.parking_store
 
     def create_app(self):

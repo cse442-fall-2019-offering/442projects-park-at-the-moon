@@ -11,7 +11,6 @@ class TestServer:
         :param client:
         :return:
         """
-
         lot = "Spaulding"
         spots = 0
 
@@ -41,9 +40,9 @@ class TestServer:
     def verify_spots(self, client, lot, num_spots):
 
         response = client.get('/update_spots')
-        store = json.loads(response.data)['store']
+        store = json.loads(response.data)['store']['lots']
 
         assert response.status_code == 200
         assert lot in store
         assert store[lot]['spots'] == num_spots
-        assert store[lot]['capacity'] == 190
+        assert store[lot]['capacity'] == 0

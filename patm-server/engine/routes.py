@@ -2,7 +2,7 @@
 #                                 <HEADER>
 ##############################################################################
 
-from flask import jsonify
+from flask import jsonify, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from config import main_room
 from app import *
@@ -41,7 +41,9 @@ def car_exited(lot):
     app_instance.parking_store.increase_spots(lot)
     return jsonify()
 
-
+@engine.route('/')
+def index():
+    return redirect(url_for('engine.update_spots'))
 ##############################################################################
 #                               SOCKET EVENTS
 # Sockets to be used as backup only
