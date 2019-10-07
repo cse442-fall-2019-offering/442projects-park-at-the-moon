@@ -1346,8 +1346,14 @@
   "buildings": [
     {
       "name": "Bonner Hall",
-      "entrance_lat": "43.0015621",
-      "entrance_lon": "-78.7878308",
+      "entrances_lat": [
+        "43.0016540",
+        "43.0015621"
+      ],
+      "entrances_lon": [
+        "-78.7884233",
+        "-78.7878308"
+      ],
       "boundary_lat": [
         43.0013833,
         43.0013848,
@@ -1397,8 +1403,14 @@
     },
     {
       "name": "Ketter Hall",
-      "entrance_lat": "43.0024419",
-      "entrance_lon": "-78.7879398",
+      "entrances_lat": [
+        "43.0022477",
+        "43.0024419"
+      ],
+      "entrances_lon": [
+        "-78.7885033",
+        "-78.7879398"
+      ],
       "boundary_lat": [
         43.00214,
         43.0021389,
@@ -1484,8 +1496,18 @@
     },
     {
       "name": "Student Union",
-      "entrance_lat": "43.0014320",
-      "entrance_lon": "-78.7858925",
+      "entrances_lat": [
+        "43.0008574",
+        "43.0008583",
+        "43.0013263",
+        "43.0014320"
+      ],
+      "entrances_lon": [
+        "-78.7867677",
+        "-78.7862487",
+        "-78.7866822",
+        "-78.7858925"
+      ],
       "boundary_lat": [
         43.0014124,
         43.0013759,
@@ -1617,8 +1639,12 @@
     },
     {
       "name": "Bissell Hall",
-      "entrance_lat": "42.9985876",
-      "entrance_lon": "-78.7808018",
+      "entrances_lat": [
+        "42.9985876"
+      ],
+      "entrances_lon": [
+        "-78.7808018"
+      ],
       "boundary_lat": [
         42.9986002,
         42.9987261,
@@ -1654,8 +1680,12 @@
     },
     {
       "name": "Flint Village",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         42.9976894,
         42.9976075,
@@ -1685,8 +1715,12 @@
     },
     {
       "name": "Morris Sports Performance Center",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         42.9996719,
         42.9996719,
@@ -1712,8 +1746,12 @@
     },
     {
       "name": "Roosevelt Hall",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         43.0026597,
         43.0025747,
@@ -1857,8 +1895,12 @@
     },
     {
       "name": "Lehman Hall",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         43.002099,
         43.002013,
@@ -1996,8 +2038,12 @@
     },
     {
       "name": "Clinton Hall",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         43.002013,
         43.002013,
@@ -2137,8 +2183,12 @@
     },
     {
       "name": "Dewey Hall",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         43.0023583,
         43.0022667,
@@ -2278,8 +2328,12 @@
     },
     {
       "name": "Walter Kunz Stadium",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         42.9975354,
         42.9976246,
@@ -2385,8 +2439,12 @@
     },
     {
       "name": "Campus Mail Center",
-      "entrance_lat": "42.9977141",
-      "entrance_lon": "-78.7826745",
+      "entrances_lat": [
+        "42.9977141"
+      ],
+      "entrances_lon": [
+        "-78.7826745"
+      ],
       "boundary_lat": [
         42.997726,
         42.9977141,
@@ -2434,8 +2492,12 @@
     },
     {
       "name": "UB Stadium",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         42.9982807,
         42.9983035,
@@ -2531,8 +2593,12 @@
     },
     {
       "name": "South Lake Village",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         43.0031938,
         43.0031179,
@@ -2562,8 +2628,14 @@
     },
     {
       "name": "Furnas Hall",
-      "entrance_lat": "43.0018461",
-      "entrance_lon": "-78.7868310",
+      "entrances_lat": [
+        "43.0018612",
+        "43.0018461"
+      ],
+      "entrances_lon": [
+        "-78.7873368",
+        "-78.7868310"
+      ],
       "boundary_lat": [
         43.0018442,
         43.001846,
@@ -2611,8 +2683,16 @@
     },
     {
       "name": "Jarvis Hall",
-      "entrance_lat": "43.0023938",
-      "entrance_lon": "-78.7873640",
+      "entrances_lat": [
+        "43.0021178",
+        "43.0023948",
+        "43.0023938"
+      ],
+      "entrances_lon": [
+        "-78.7868428",
+        "-78.7867612",
+        "-78.7873640"
+      ],
       "boundary_lat": [
         43.0024941,
         43.0024945,
@@ -2682,8 +2762,14 @@
     },
     {
       "name": "Davis Hall",
-      "entrance_lat": "43.0029744",
-      "entrance_lon": "-78.7875888",
+      "entrances_lat": [
+        "43.0025449",
+        "43.0029744"
+      ],
+      "entrances_lon": [
+        "-78.7874984",
+        "-78.7875888"
+      ],
       "boundary_lat": [
         43.0026463,
         43.0026462,
@@ -2739,8 +2825,14 @@
     },
     {
       "name": "Alumni Arena",
-      "entrance_lat": "43.0000730",
-      "entrance_lon": "-78.7820469",
+      "entrances_lat": [
+        "43.0001257",
+        "43.0000730"
+      ],
+      "entrances_lon": [
+        "-78.7803599",
+        "-78.7820469"
+      ],
       "boundary_lat": [
         42.999442,
         42.9994484,
@@ -2818,8 +2910,14 @@
     },
     {
       "name": "Center for the Arts",
-      "entrance_lat": "43.0015219",
-      "entrance_lon": "-78.7831418",
+      "entrances_lat": [
+        "43.0005291",
+        "43.0015219"
+      ],
+      "entrances_lon": [
+        "-78.7830824",
+        "-78.7831418"
+      ],
       "boundary_lat": [
         43.0005671,
         43.0005646,
@@ -2891,8 +2989,16 @@
     },
     {
       "name": "Clemens Hall",
-      "entrance_lat": "43.0003709",
-      "entrance_lon": "-78.7851703",
+      "entrances_lat": [
+        "43.0001115",
+        "43.0005982",
+        "43.0003709"
+      ],
+      "entrances_lon": [
+        "-78.7851049",
+        "-78.7851879",
+        "-78.7851703"
+      ],
       "boundary_lat": [
         43.0001341,
         43.0003204,
@@ -2984,8 +3090,14 @@
     },
     {
       "name": "Baird Hall",
-      "entrance_lat": "42.9999377",
-      "entrance_lon": "-78.7847068",
+      "entrances_lat": [
+        "43.0001018",
+        "42.9999377"
+      ],
+      "entrances_lon": [
+        "-78.7847420",
+        "-78.7847068"
+      ],
       "boundary_lat": [
         43.000213,
         43.0001584,
@@ -3095,8 +3207,14 @@
     },
     {
       "name": "Slee Hall",
-      "entrance_lat": "43.0004513",
-      "entrance_lon": "-78.7837224",
+      "entrances_lat": [
+        "43.0003097",
+        "43.0004513"
+      ],
+      "entrances_lon": [
+        "-78.7841626",
+        "-78.7837224"
+      ],
       "boundary_lat": [
         43.0005973,
         43.0003093,
@@ -3122,8 +3240,12 @@
     },
     {
       "name": "Park Hall",
-      "entrance_lat": "42.9998805",
-      "entrance_lon": "-78.7883686",
+      "entrances_lat": [
+        "42.9998805"
+      ],
+      "entrances_lon": [
+        "-78.7883686"
+      ],
       "boundary_lat": [
         42.999965,
         42.9999653,
@@ -3239,8 +3361,14 @@
     },
     {
       "name": "Jacobs Management Center",
-      "entrance_lat": "42.9996353",
-      "entrance_lon": "-78.7864899",
+      "entrances_lat": [
+        "42.9994926",
+        "42.9996353"
+      ],
+      "entrances_lon": [
+        "-78.7865220",
+        "-78.7864899"
+      ],
       "boundary_lat": [
         42.9995993,
         42.9995995,
@@ -3306,8 +3434,12 @@
     },
     {
       "name": "Alfiero Center",
-      "entrance_lat": 0.0,
-      "entrance_lon": 0.0,
+      "entrances_lat": [
+        0.0
+      ],
+      "entrances_lon": [
+        0.0
+      ],
       "boundary_lat": [
         42.9997201,
         42.999741,
@@ -3355,8 +3487,14 @@
     },
     {
       "name": "Dorsheimer Laboratory/Greenhouse",
-      "entrance_lat": "42.9998158",
-      "entrance_lon": "-78.7922231",
+      "entrances_lat": [
+        "42.9998226",
+        "42.9998158"
+      ],
+      "entrances_lon": [
+        "-78.7918235",
+        "-78.7922231"
+      ],
       "boundary_lat": [
         42.9998864,
         42.9998867,
@@ -3390,8 +3528,16 @@
     },
     {
       "name": "Hochstetter Hall",
-      "entrance_lat": "43.0000648",
-      "entrance_lon": "-78.7904115",
+      "entrances_lat": [
+        "43.0004684",
+        "43.0002818",
+        "43.0000648"
+      ],
+      "entrances_lon": [
+        "-78.7910714",
+        "-78.7907689",
+        "-78.7904115"
+      ],
       "boundary_lat": [
         42.9998034,
         42.9998033,
@@ -3455,8 +3601,16 @@
     },
     {
       "name": "Cooke Hall",
-      "entrance_lat": "43.0000597",
-      "entrance_lon": "-78.7917675",
+      "entrances_lat": [
+        "43.0004690",
+        "42.9996973",
+        "43.0000597"
+      ],
+      "entrances_lon": [
+        "-78.7911465",
+        "-78.7914422",
+        "-78.7917675"
+      ],
       "boundary_lat": [
         42.9998007,
         42.9998006,
@@ -3532,8 +3686,18 @@
     },
     {
       "name": "Natural Sciences Complex",
-      "entrance_lat": "43.0009416",
-      "entrance_lon": "-78.7926093",
+      "entrances_lat": [
+        "43.0004690",
+        "43.0005936",
+        "43.0009609",
+        "43.0009416"
+      ],
+      "entrances_lon": [
+        "-78.7911465",
+        "-78.7919511",
+        "-78.7910814",
+        "-78.7926093"
+      ],
       "boundary_lat": [
         43.0005212,
         43.0005067,
@@ -3681,8 +3845,12 @@
     },
     {
       "name": "Computing Center",
-      "entrance_lat": "43.0013988",
-      "entrance_lon": "-78.7920322",
+      "entrances_lat": [
+        "43.0013988"
+      ],
+      "entrances_lon": [
+        "-78.7920322"
+      ],
       "boundary_lat": [
         43.0011448,
         43.0013797,
@@ -3724,8 +3892,14 @@
     },
     {
       "name": "Fronczak Hall",
-      "entrance_lat": "43.0014002",
-      "entrance_lon": "-78.7903357",
+      "entrances_lat": [
+        "43.0013203",
+        "43.0014002"
+      ],
+      "entrances_lon": [
+        "-78.7911150",
+        "-78.7903357"
+      ],
       "boundary_lat": [
         43.0011448,
         43.0011149,
@@ -3791,8 +3965,14 @@
     },
     {
       "name": "Mathematics Building",
-      "entrance_lat": "43.0010982",
-      "entrance_lon": "-78.7926108",
+      "entrances_lat": [
+        "43.0013668",
+        "43.0010982"
+      ],
+      "entrances_lon": [
+        "-78.7925667",
+        "-78.7926108"
+      ],
       "boundary_lat": [
         43.001314,
         43.0013158,
@@ -3826,8 +4006,16 @@
     },
     {
       "name": "Capen Hall",
-      "entrance_lat": "43.0008698",
-      "entrance_lon": "-78.7899394",
+      "entrances_lat": [
+        "43.0008407",
+        "43.0012718",
+        "43.0008698"
+      ],
+      "entrances_lon": [
+        "-78.7891457",
+        "-78.7895418",
+        "-78.7899394"
+      ],
       "boundary_lat": [
         43.0012713,
         43.0012718,
@@ -3865,8 +4053,12 @@
     },
     {
       "name": "Talbert Hall",
-      "entrance_lat": "43.0006890",
-      "entrance_lon": "-78.7900076",
+      "entrances_lat": [
+        "43.0006890"
+      ],
+      "entrances_lon": [
+        "-78.7900076"
+      ],
       "boundary_lat": [
         43.0005241,
         43.0005251,
@@ -3900,8 +4092,12 @@
     },
     {
       "name": "Norton Hall",
-      "entrance_lat": "43.0009383",
-      "entrance_lon": "-78.7886647",
+      "entrances_lat": [
+        "43.0009383"
+      ],
+      "entrances_lon": [
+        "-78.7886647"
+      ],
       "boundary_lat": [
         43.0012742,
         43.0012738,
@@ -3941,8 +4137,18 @@
     },
     {
       "name": "Knox Lecture Hall",
-      "entrance_lat": "43.0010741",
-      "entrance_lon": "-78.7875369",
+      "entrances_lat": [
+        "43.0012486",
+        "43.0012498",
+        "43.0009074",
+        "43.0010741"
+      ],
+      "entrances_lon": [
+        "-78.7880248",
+        "-78.7875616",
+        "-78.7881584",
+        "-78.7875369"
+      ],
       "boundary_lat": [
         43.0009388,
         43.0011069,
@@ -4022,8 +4228,14 @@
     },
     {
       "name": "O'Brian Hall",
-      "entrance_lat": "43.0005768",
-      "entrance_lon": "-78.7876113",
+      "entrances_lat": [
+        "43.0005740",
+        "43.0005768"
+      ],
+      "entrances_lon": [
+        "-78.7883634",
+        "-78.7876113"
+      ],
       "boundary_lat": [
         43.0005739,
         43.000574,
@@ -4077,8 +4289,14 @@
     },
     {
       "name": "Lockwood Memorial Library",
-      "entrance_lat": "43.0001959",
-      "entrance_lon": "-78.7864014",
+      "entrances_lat": [
+        "43.0002081",
+        "43.0001959"
+      ],
+      "entrances_lon": [
+        "-78.7857077",
+        "-78.7864014"
+      ],
       "boundary_lat": [
         42.9998933,
         42.9998908,
@@ -4130,8 +4348,18 @@
     },
     {
       "name": "Baldy Hall",
-      "entrance_lat": "43.0002392",
-      "entrance_lon": "-78.7874634",
+      "entrances_lat": [
+        "43.0005594",
+        "43.0005588",
+        "43.0002202",
+        "43.0002392"
+      ],
+      "entrances_lon": [
+        "-78.7873149",
+        "-78.7864660",
+        "-78.7864821",
+        "-78.7874634"
+      ],
       "boundary_lat": [
         43.0005595,
         43.0005594,
@@ -4173,8 +4401,18 @@
     },
     {
       "name": "Student Union",
-      "entrance_lat": "43.0014320",
-      "entrance_lon": "-78.7858925",
+      "entrances_lat": [
+        "43.0008574",
+        "43.0008583",
+        "43.0013263",
+        "43.0014320"
+      ],
+      "entrances_lon": [
+        "-78.7867677",
+        "-78.7862487",
+        "-78.7866822",
+        "-78.7858925"
+      ],
       "boundary_lat": [
         43.0015682,
         43.0015154,
@@ -4256,8 +4494,16 @@
     },
     {
       "name": "Bell Hall",
-      "entrance_lat": "43.0013847",
-      "entrance_lon": "-78.7872472",
+      "entrances_lat": [
+        "43.0016793",
+        "43.0016797",
+        "43.0013847"
+      ],
+      "entrances_lon": [
+        "-78.7873565",
+        "-78.7868824",
+        "-78.7872472"
+      ],
       "boundary_lat": [
         43.0013851,
         43.0013846,

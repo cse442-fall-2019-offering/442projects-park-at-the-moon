@@ -97,7 +97,14 @@ def get_entrance_coords():
         tags = n.findall('tag')
         if len(tags) > 1:
             if tags[0].get('k') == 'entrance':
-                entrance_coords[tags[1].get('v')] = [n.get('lat'), n.get('lon')]
+                buildings = tags[1].get('v').split(',')
+                for building in buildings:
+                    if tags[1].get('v') in entrance_coords.keys():
+                        entrance_coords[building]['lat'].append(n.get('lat'))
+                        entrance_coords[building]['lon'].append(n.get('lon'))
+                    else:
+                        coords = {'lat': [n.get('lat')], 'lon': [n.get('lon')]}
+                        entrance_coords[building] = coords
 
     return entrance_coords
 
@@ -132,12 +139,12 @@ def get_building_coords(building_ids, entrance_coords):
             lat.append(float(n.lat))
             lon.append(float(n.lon))
         print(building + " done")
-        entr_lat = 0.0
-        entr_lon = 0.0
+        entr_lat = [0.0]
+        entr_lon = [0.0]
         if building in entrance_coords.keys():
-            entr_lat = entrance_coords[building][0]
-            entr_lon = entrance_coords[building][1]
-        building_coords.append({"name": building, "entrance_lat": entr_lat, "entrance_lon": entr_lon, "boundary_lat": lat, "boundary_long": lon})
+            entr_lat = entrance_coords[building]['lat']
+            entr_lon = entrance_coords[building]['lon']
+        building_coords.append({"name": building, "entrances_lat": entr_lat, "entrances_lon": entr_lon, "boundary_lat": lat, "boundary_long": lon})
         # troubleshooting (remove break when done)
 #       break
 
