@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 from itertools import zip_longest
 import sys
+import json
 
 def get_lot_names():
 
@@ -48,6 +49,14 @@ def get_lot_names():
         else:       
             lot_names.append(lot_str)
             types.append(tempType)
+    data = None
+    with open('../data/manual_additions.json') as j_file:
+        data = json.load(j_file)
+    
+    for lot in data["lots"]:
+        lot_names.append(lot["name"])
+        types.append(lot["type"])
+
     return lot_names, types
 
 def get_building_names():
@@ -69,6 +78,14 @@ def get_building_names():
     .findAll(class_="teaser-title")
     for name in buildingsRaw:
         building_names.append(name.text)    
+
+    data = None
+    with open('../data/manual_additions.json') as j_file:
+        data = json.load(j_file)
+    
+    for building in data["buildings"]:
+        building_names.append(building["name"])
+
     return building_names
 
 

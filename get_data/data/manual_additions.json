@@ -1,0 +1,13 @@
+{
+    "lots": [
+    {
+        "name":"Fronczak A",
+        "type":"3"
+    },
+    {
+        "name":"Fronczak B",
+        "type":3
+    }
+    ],
+    "buildings":[]
+}
