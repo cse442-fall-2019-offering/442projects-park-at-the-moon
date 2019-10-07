@@ -3,6 +3,9 @@ import csv
 import xml.etree.ElementTree as ET
 import json
 import sys
+import os
+import shutil
+import glob
 
 def read_csv_lot_building():
 
@@ -140,17 +143,47 @@ def get_building_coords(building_ids, entrance_coords):
 
     return building_coords
 
+# pass in just the file name
+def mv_old_data(f):
+    # avoid rewriting over old data
+    filename = f.split('.')[0]
+    filetype = f.split('.')[1]
+    if os.path.exists('../data/' + f):
+        filenames = glob.glob('../data/old_data/' + filename + '*')
+        max_version = 0
+        if not filenames == []: 
+            version = 0
+            for fi in filenames:
+                try:
+                    version = int(''.join(filter(str.isdigit, fi)))
+                    if version > max_version:
+                        max_version = version
+                except:
+                    continue
+        fname = filename + 'v' + str(max_version+1) + '.csv' 
+        os.rename('../data/' + f, '../data/' + fname)
+        shutil.move("../data/" + fname, "../data/old_data/" + fname)
+
 def write_2_json_lot_building(lot_data, building_data):
+
+    mv_old_data('lot_building_data.json')
+
     data = {"lots": lot_data, "buildings": building_data}
     with open('../data/lot_building_data.json', 'w') as f:
         json.dump(data, f, indent=2)
 
 def write_2_json_lot(lot_data):
+
+    mv_old_data('lot_data.json')
+
     data = {"lots": lot_data}
     with open('../data/lot_data.json', 'w') as f:
         json.dump(data, f, indent=2)
 
 def write_2_json_building(building_data):
+
+    mv_old_data('building_data.json')
+
     data = {"buildings": building_data}
     with open('../data/building_data.json', 'w') as f:
         json.dump(data, f, indent=2)

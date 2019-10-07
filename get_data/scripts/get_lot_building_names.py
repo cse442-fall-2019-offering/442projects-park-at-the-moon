@@ -4,6 +4,9 @@ import csv
 from itertools import zip_longest
 import sys
 import json
+import os
+import shutil
+import glob
 
 def get_lot_names():
 
@@ -88,9 +91,31 @@ def get_building_names():
 
     return building_names
 
+def mv_old_data(f):
+    # avoid rewriting over old data
+    filename = f.split('.')[0]
+    filetype = f.split('.')[1]
+    if os.path.exists('../data/' + f):
+        filenames = glob.glob('../data/old_data/' + filename + '*')
+        max_version = 0
+        if not filenames == []: 
+            version = 0
+            for fi in filenames:
+                try:
+                    version = int(''.join(filter(str.isdigit, fi)))
+                    if version > max_version:
+                        max_version = version
+                except:
+                    continue
+        fname = filename + 'v' + str(max_version+1) + '.csv' 
+        os.rename('../data/' + f, '../data/' + fname)
+        shutil.move("../data/" + fname, "../data/old_data/" + fname)
 
 def write_2_csv_lot_building(lot_names, types, building_names):
     fullData = [lot_names, types, building_names]
+
+    mv_old_data('lot_building_names.csv')
+
     with open('../data/lot_building_names.csv', 'w') as f:
         writer = csv.writer(f)
         for vals in zip_longest(*fullData):
@@ -98,6 +123,9 @@ def write_2_csv_lot_building(lot_names, types, building_names):
 
 def write_2_csv_lot(lot_names, types):
     fullData = [lot_names, types]
+
+    mv_old_data('lot_names.csv')
+
     with open('../data/lot_names.csv', 'w') as f:
         writer = csv.writer(f)
         for vals in zip_longest(*fullData):
@@ -105,6 +133,9 @@ def write_2_csv_lot(lot_names, types):
 
 def write_2_csv_building(building_names):
     fullData = [building_names]
+
+    mv_old_data('building_names.csv')
+
     with open('../data/building_names.csv', 'w') as f:
         writer = csv.writer(f)
         for vals in zip_longest(*fullData):
