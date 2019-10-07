@@ -83,6 +83,21 @@ def get_building_ids(building_names):
                         break
     return building_ids
 
+def get_entrance_coords():
+    entrance_coords = {}
+    
+    tree = ET.parse('../data/north_campus.osm')
+    root = tree.getroot()
+    nodes = root.findall('node')
+
+    for n in nodes:
+        tags = n.findall('tag')
+        if len(tags) > 1:
+            if tags[0].get('k') == 'entrance':
+                entrance_coords[tags[1].get('v')] = [n.get('lat'), n.get('lon')]
+
+    return entrance_coords
+
 def get_lot_coords(lot_ids):
     lot_coords = []
     api = overpy.Overpass()
@@ -101,7 +116,7 @@ def get_lot_coords(lot_ids):
 #       break
     return lot_coords
 
-def get_building_coords(building_ids):
+def get_building_coords(building_ids, entrance_coords):
     building_coords = []
     api = overpy.Overpass()
 
@@ -114,7 +129,12 @@ def get_building_coords(building_ids):
             lat.append(float(n.lat))
             lon.append(float(n.lon))
         print(building + " done")
-        building_coords.append({"name": building, "entrance_lat": [0.0], "entrance_lon": [0.0], "boundary_lat": lat, "boundary_long": lon})
+        entr_lat = 0.0
+        entr_lon = 0.0
+        if building in entrance_coords.keys():
+            entr_lat = entrance_coords[building][0]
+            entr_lon = entrance_coords[building][1]
+        building_coords.append({"name": building, "entrance_lat": entr_lat, "entrance_lon": entr_lon, "boundary_lat": lat, "boundary_long": lon})
         # troubleshooting (remove break when done)
 #       break
 
@@ -148,14 +168,16 @@ else:
     elif sys.argv[1] == '-building_coords':
         building_names = read_csv_building()
         building_ids = get_building_ids(building_names)
-        building_coords = get_building_coords(building_ids)
+        entrance_coords = get_entrance_coords()
+        building_coords = get_building_coords(building_ids, entrance_coords)
         write_2_json_building(building_coords)
     elif sys.argv[1] == '-both':
         lot_names, building_names = read_csv_lot_building()
         lot_ids = get_lot_ids(lot_names)
         building_ids = get_building_ids(building_names)
         lot_coords = get_lot_coords(lot_ids)
-        building_coords = get_building_coords(building_ids)
+        entrance_coords = get_entrance_coords()
+        building_coords = get_building_coords(building_ids, entrance_coords)
         write_2_json_lot_building(lot_coords, building_coords)
     else:
         print ('Invocation:')
