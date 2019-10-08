@@ -11,7 +11,7 @@ class TestServer:
         :param client:
         :return:
         """
-        lot = "Spaulding"
+        lot = "Alumni A"
         spots = 0
 
         for i in range(spots, -1, -1):

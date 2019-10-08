@@ -7,17 +7,22 @@ class Store(UserDict):
 
     def __init__(self):
         #TODO: Initialize from a central store
-        self.store = {"lots" : {}, "buildings": {}}
+        self.store = {"lots" : {}, "buildings": {}, "users": {}}
+        self.bname_to_bid = {}
         self.current_id = 0
         self.building_id = 0
+
 
     def add_lot(self, lot, capacity):
         self.store['lots'][lot] = ParkingLot(self.current_id, lot, capacity)
         self.current_id += 1
 
     def add_building(self, building):
-        self.store['buildings'][building['name']] = Building(self.building_id, building['name'], building['entrance_lat'], building['entrance_lon'], building['boundary_lat'], building['boundary_long'], self)
+        self.store['buildings'][building['name']] = Building(self.building_id, building['name'], building['entrances_lat'], building['entrances_lon'], building['boundary_lat'], building['boundary_long'], self)
         self.building_id += 1
+
+    def register_user(self, uid):
+        self.store['users'][uid] = User(uid)
 
     def remove_lot(self, lot):
         if lot in self.store['lots']:
@@ -57,6 +62,9 @@ class Store(UserDict):
     def get_store(self):
         return self.store
 
+    def get_bstore(self):
+        return self.bname_to_bid
+
     def __repr__(self):
         return self.store.__str__()
 
@@ -65,6 +73,33 @@ class Store(UserDict):
 
     def __contains__(self, item):
         return item in self.store['lots'] or item in self.store['buildings']
+
+class User:
+
+    def __init__(self, id):
+        self.id = id
+        self.history = None
+
+    def add_history(self, ts, bid):
+        pass
+
+    def get_parking_recommendation(self):
+        """
+        Binary search on the timestamps and return a recommendation only if the timestamp is within 30 minutes
+        :return:
+        """
+        pass
+
+class History:
+
+    def __init__(self, ts, bid):
+        """
+
+        :param ts: Timestamp
+        :param bid: Building ID
+        """
+        self.ts = ts
+        self.bid = bid
 
 class Building:
 
@@ -78,6 +113,7 @@ class Building:
         self.center = (sum(self.boundary_lat)/len(self.boundary_lat), \
                        sum(self.boundary_lon)/len(self.boundary_lon))
         self.closest_lot = self.compute_closest_lot(store.get_store())
+        store.get_bstore()[id] = name
 
     def compute_closest_lot(self, store):
         min_distance = float("inf")
@@ -90,6 +126,9 @@ class Building:
                 closest_lot = lot
 
         return closest_lot
+
+    def get_closest_lot(self):
+        return self.closest_lot
 
 class ParkingLot:
 

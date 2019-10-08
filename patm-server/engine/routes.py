@@ -11,6 +11,7 @@ from . import engine
 
 parking_store = App.parking_store
 
+
 @engine.route('/update_spots')
 def update_spots():
     """
@@ -18,6 +19,17 @@ def update_spots():
     :return: Data regarding parking lot empty spots in the JSON format
     """
     return StoreEncoder().encode(app_instance.parking_store)
+
+
+@engine.route('/closest_lot/<bid>')
+def closest_lot(bid):
+    """
+
+    :param bid: Building ID
+    :return: ID of the closest parking lot
+    """
+    name = app_instance.parking_store.bname_to_bid[int(bid)]
+    return jsonify(app_instance.parking_store.store['buildings'][name].get_closest_lot().id)
 
 
 @engine.route('/car-entered/<lot>')
@@ -41,9 +53,17 @@ def car_exited(lot):
     app_instance.parking_store.increase_spots(lot)
     return jsonify()
 
+
 @engine.route('/')
 def index():
     return redirect(url_for('engine.update_spots'))
+
+
+@engine.route('/register_user/<uid>')
+def register_user(uid):
+    app_instance.parking_store.register_user(uid)
+
+
 ##############################################################################
 #                               SOCKET EVENTS
 # Sockets to be used as backup only

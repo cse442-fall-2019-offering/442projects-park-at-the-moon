@@ -23,10 +23,11 @@ def setup():
 
     return parking_store
 
+
 def test_add_building():
 
     parking_store = Store()
-    building1 = {"name": "student union", "entrance_lat": None, "entrance_lon": None, "boundary_lat": [1], "boundary_long": [1]}
+    building1 = {"name": "student union", "entrances_lat": None, "entrances_lon": None, "boundary_lat": [1], "boundary_long": [1]}
     parking_store.add_building(building1)
     assert "student union" in parking_store
     assert len(parking_store) == 1

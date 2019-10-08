@@ -15,9 +15,9 @@ class App:
 
         self.parking_store = Store()
         data = None
-        filename = os.getcwd() + '/patm-server/' + "lot_data.json"
-        if len(sys.argv) >= 1:
-            filename = "lot_data.json"
+        filename = os.getcwd() + '/patm-server/' + "data.json"
+        if len(sys.argv) > 1 and sys.argv[1] == "local" or ("pytest" in sys.modules):
+            filename = "data.json"
         with open(filename) as file:
             data = json.load(file)
         for lot in data['lots']:
