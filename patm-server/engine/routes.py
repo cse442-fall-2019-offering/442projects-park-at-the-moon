@@ -46,6 +46,11 @@ def search():
 
 
 
+@engine.route('/lot_availability', methods = ["POST"])
+def lot_availability():
+    uid = request.form["userID"]
+    return redirect(url_for('engine.update_spots', uid = uid))
+
 @engine.route('/closest_lot/<bid>')
 def closest_lot(bid):
     """
