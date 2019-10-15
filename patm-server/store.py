@@ -22,7 +22,8 @@ class Store(UserDict):
         self.building_id += 1
 
     def register_user(self, uid):
-        self.store['users'][uid] = User(uid)
+        if uid not in self.store['users']:
+            self.store['users'][uid] = User(uid)
 
     def remove_lot(self, lot):
         if lot in self.store['lots']:

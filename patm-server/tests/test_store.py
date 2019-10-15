@@ -50,6 +50,9 @@ def test_add_parking_lot():
     assert "hochstetter" in parking_store
 
 
+def test_closest_lot():
+    parking_store = Store()
+
 def test_remove_parking_lot():
 
     parking_store = Store()
