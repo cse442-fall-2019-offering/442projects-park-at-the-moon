@@ -62,6 +62,13 @@ def closest_lot(bid):
     return jsonify(app_instance.parking_store.store['buildings'][name].get_closest_lot().id)
 
 
+@engine.route('/search', methods = ["POST"])
+def search():
+    bname = request.form["building"]
+    return jsonify({'building_id': app_instance.parking_store.bname_to_bid[bname]})
+
+
+
 @engine.route('/car-entered/<lot>')
 def car_entered(lot):
     """
