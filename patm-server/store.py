@@ -115,6 +115,7 @@ class Building:
                        sum(self.boundary_lon)/len(self.boundary_lon))
         self.closest_lot = self.compute_closest_lot(store.get_store())
         store.get_bstore()[id] = name
+        store.get_bstore()[name] = id
 
     def compute_closest_lot(self, store):
         min_distance = float("inf")
