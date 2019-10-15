@@ -27,6 +27,7 @@ def lot_availability():
     uid = request.form["userID"]
     return redirect(url_for('engine.update_spots', uid = uid))
 
+
 @engine.route('/closest_lot/<bid>')
 def closest_lot(bid):
     """
@@ -36,6 +37,13 @@ def closest_lot(bid):
     """
     name = app_instance.parking_store.bname_to_bid[int(bid)]
     return jsonify(app_instance.parking_store.store['buildings'][name].get_closest_lot().id)
+
+
+@engine.route('/search', methods = ["POST"])
+def search():
+    bname = request.form["building"]
+    return jsonify({'building_id': app_instance.parking_store.bname_to_bid[bname]})
+
 
 
 @engine.route('/car-entered/<lot>')
