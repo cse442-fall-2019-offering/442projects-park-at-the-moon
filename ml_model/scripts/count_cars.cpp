@@ -1,162 +1,175 @@
-#include <iostream>
-#include <vector>
-#include <cstdlib>
+#include "count_cars.hpp"
 
-/* TODO: update these values */
-// frames per second of the video
-#define FRAMES_SECOND 400
-// distance (mm) from left side of image to right side of image (relative to road)
-#define DISTANCE 15000
-// total pixels for a single row in image
-#define PIXELS_DISTANCE 840
-#define VELOCITY_ERROR .5
-
-
-class Wheel {
-public:
-    float radius;
-    
-    // index 0 is x-coordinate
-    // index 1 is velocity
-    // index 2 is timestamp
-    // index 3 is frame number
-    std::vector<std::vector<float>> wheel;
-    
-};
-
-static std::vector<Wheel> all_wheels;
-
-// for wheels that have not found their way to a timeframe of wheels (yet)
-//
-// index 0 is x-coordinate
-// index 1 is radius
-// index 2 is timestamp
-// index 3 is frame number
-static std::vector<std::vector<float>> unknown_wheels;
-
+int Wheel::total_id = 0;
 // TODO: every 10 seconds or so, I should send the data to the server, and then clean vectors.
 // By clean, I mean look for wheels that have been in the dataset for more than 10 seconds or so
 // and remove them. 
-// 
-
 // TODO: should the velocity be between the last and current point, or from the start and current point?
 // for now I'll do from the starting xpoint
-float get_velocity (float start_x, float start_time, float last_x, float last_time) {
-
-    // TODO: how many digits should we allow for time?
+float  Cars::get_velocity (float start_x, float start_time, float last_x, float last_time) {
     float distance = last_x - start_x;
-    float time = last_time - star_time;
-
-    return distance / time;
-
+    float time = last_time - start_time;
+     return distance / time;
 }
-void find_closest_unknown(float xCoord, vector<float> *closest_wheel, float &min_distance) {
+// TODO: status: i think it works, but not sure
+void  Cars::find_closest_unknown(float x_coord, int &index, float &min_distance) {
+
     float temp_distance;
     float last_x;
-    float last_velocity;
-    for (auto &wheel : unknown_wheels) {
+    for (auto iter = unknown_wheels.begin(); iter != unknown_wheels.end(); ++iter) {
         // get the xCoord of the last added point
-        last_x = wheel->wheel.back().front();
-        if (temp_distance < min_distance){
+        last_x = (*iter)[0];
+        temp_distance = x_coord - last_x;
+        // if moving to the right
+        if (temp_distance >= 0 && temp_distance < min_distance){
             min_distance = temp_distance;
-            closest_wheel = &wheel;
+            index = std::distance(unknown_wheels.begin(), iter);
         } // if wheel is moving to the left
-       else if (abs(temp_distance) < min_distance) {
-                min_distance = temp_distance;
-                closest_wheel = &wheel;
-            }
+        else if (temp_distance < 0 && abs(temp_distance) < min_distance) {
+            min_distance = abs(temp_distance);
+            index = std::distance(unknown_wheels.begin(), iter);
+        }
     }
 }
-void find_closest_known(float xCoord, Wheel *closest_wheel, float &min_distance) {
+void  Cars::find_closest_known(float x_coord,int &index, float &min_distance) {
 
     float temp_distance;
     float last_x;
     float last_velocity;
-    for (auto &wheel : all_wheels) {
+    for (auto iter = all_wheels.begin(); iter != all_wheels.end(); ++iter) {
         // get the xCoord of the last added point
-        last_x = wheel.back().front();
-        last_velocity = wheel.back()[1];
+        last_x = iter->wheel.back().front();
+        last_velocity = iter->wheel.back()[1];
         temp_distance = x_coord - last_x;
         // if wheel is moving to the right
-        if (temp_distance > 0 && velocity > 0) {
+        if (temp_distance > 0 && last_velocity > 0) {
             if (temp_distance < abs(min_distance)){
                 min_distance = temp_distance;
-                closest_wheel = &*wheel;
+                index = std::distance(all_wheels.begin(), iter);
             }
         } // if wheel is moving to the left
-        else if (temp_distance < 0 && velocity < 0) {
-                    
-                if (abs(temp_distance) < abs(min_distance)) {
-                    min_distance = temp_distance;
-                    closest_wheel = &*wheel;
+        else if (temp_distance < 0 && last_velocity < 0) {
+                
+                if (abs(temp_distance) < min_distance) {
+                    min_distance = abs(temp_distance);
+                    index = std::distance(all_wheels.begin(), iter);
                 }
             } 
     } 
 }
-void compare_velocities_unknown(float velocity) {
+// getting velocity by checking first x coordinate with current x coordinate
+void  Cars::compare_velocity(float velocity, int &index) {
+    int min_vel_diff = INT_MAX;
+    int cur_vel_diff;
 
-
-}
-void compare_velocities_known(float velocity) {
-
-
+    for (auto iter = all_wheels.begin(); iter != all_wheels.end(); ++iter) {
+        float existing_velocity = iter->wheel.front()[1];
+        if ((existing_velocity > 0 && velocity > 0) ||
+            (existing_velocity < 0 && velocity < 0)) {
+            cur_vel_diff = abs(existing_velocity - velocity);
+            if ((cur_vel_diff < VELOCITY_ERROR) && (cur_vel_diff < min_vel_diff)) {
+                min_vel_diff = cur_vel_diff;
+                index = std::distance(all_wheels.begin(), iter);
+            }
+        }
+    }
 }
 // TODO: I should probably check radius of incoming wheel and existing wheel
 //       as an added level of security
-void add_point(float x_coord, float radius, float timestamp, int frame) {
+void Cars::add_point(float x_coord, float radius, float timestamp, int frame) {
 
-    std::vector<float> *closest_wheel_unknown = NULL;
-    Wheel *closest_wheel_known = NULL;
+    int index_unknown = -1;
+    int index_known = -1;
     float min_distance_unknown = INT_MAX;
     float min_distance_known = INT_MAX;
 
     // find closest wheel
-    find_closest_unknown(x_coord, closest_wheel_unknown, min_distance_unknown);
-    find_closest_known(x_coord, closest_wheel_known, min_distance_known);
-    
-    float min_distance = abs(min_distance_unknown) <= abs(min_distance_known) ? min_distance_unknown : min_distance_known;
+    find_closest_unknown(x_coord, index_unknown, min_distance_unknown);
+    find_closest_known(x_coord, index_known, min_distance_known);
+//    std::cout << "min distance unknown: " << min_distance_unknown << std::endl;
+//    std::cout << "min distance known: " << min_distance_known << std::endl;
+    float min_distance = min_distance_unknown <= min_distance_known ? min_distance_unknown : min_distance_known;
 
     // basically if there are no wheels yet (should be NULL), we make a new wheel
-    if (closest_wheel_unknown == closest_wheel_known) {
+    // TODO: kind of ignoring the fact that I should be comparing by radius
+    // this wheel is the first of its kind
+    if (index_unknown == -1 && index_known == -1) {
+//        std::cout << "new unknown wheel" << std::endl;
         std::vector<float> unknown;
         unknown.push_back(x_coord);
-        unkown.push_back(radius);
+        unknown.push_back(radius);
         unknown.push_back(timestamp);
         unknown.push_back(frame);
         unknown_wheels.push_back(unknown); 
         
     }
     else if (min_distance == min_distance_unknown) {   // if unknown has a closer wheel
-            
-            float velocity = get_velocity (closest_wheel_unknown[0], closest_wheel_unknown[2], x_coord, timestamp);
-            Wheel wheel;
-            wheel.radius = radius;
-            closest_wheel_unknown[1] = velocity;
-            wheel.wheel.push_back(closest_wheel_unknown);
-            std::vectoe<float> known;
+//            std::cout << "adding to existing wheel" << std::endl;
+            float x = unknown_wheels[index_unknown][0];
+            float old_time = unknown_wheels[index_unknown][2];
+            float velocity = get_velocity (x, old_time, x_coord, timestamp);
+            Wheel wheel(radius);
+            unknown_wheels[index_unknown][1] = velocity;
+            wheel.wheel.push_back(unknown_wheels[index_unknown]);
+            std::vector<float> known;
             known.push_back(x_coord);
             known.push_back(velocity);
             known.push_back(timestamp);
             known.push_back(frame);
-            
+            wheel.wheel.push_back(known);
+
+            // now we have to check if the velocity is the same in known wheels (then we add it) 
+            int index_vel = -1;
+            compare_velocity(velocity, index_vel);
+            // found pair of points in existing wheel need to add new points to it
+            if (index_vel != -1) {
+                // add previous 2 unknown wheels to a timeframe of existing wheels
+                all_wheels[index_vel].wheel.insert(all_wheels[index_vel].wheel.end(), wheel.wheel.begin(), wheel.wheel.end());
+                // need to remove the existing wheel in unknown_wheel
+                
+            }
+            else {
+                // a new wheel was created
+                all_wheels.push_back(wheel);
+            }
+            // in any case, we have 2 points, which is enough to create a new wheel
+            // so we will always remove it from unknown_wheels
+            unknown_wheels.erase(unknown_wheels.begin() + index_unknown);
         }
         else {                                              // if the closest is a known wheel
-
+//            std::cout << "adding wheel to a known wheel" << std::endl;
+            float velocity = get_velocity (all_wheels[index_known].wheel.back()[0], all_wheels[index_known].wheel.back()[2], x_coord, timestamp);
+            std::vector<float> wheel;
+            wheel.push_back(x_coord);
+            wheel.push_back(velocity);
+            wheel.push_back(timestamp);
+            wheel.push_back(frame);
+            all_wheels[index_known].wheel.push_back(wheel);
         }
-
-
 }
-void calculate_distance(Wheel& wheel1, Wheel& wheel2
-
-void find_cars(std::vector<Wheel> &c1) {
-
-
-
+std::vector<Wheel> Cars::get_all_wheels() {
+    return all_wheels;
+}
+std::vector<std::vector<float>> Cars::get_unknown_wheels() {
+    return unknown_wheels;
 }
 
+//void calculate_distance(Wheel& wheel1, Wheel& wheel2
 
-int count_cars(std::vector<std::vector<Wheel>> c1, std::vector<std::vector<Wheel>> c2) {
+//void find_cars(std::vector<Wheel> &c1) {
+    
 
-
-
+//int count_cars(std::vector<std::vector<Wheel>> c1, std::vector<std::vector<Wheel>> c2) {
+//}
+/*
+int main() {
+    
+    Cars c;
+    float xcoord = 2.33;
+    float radius = 2.5;
+    float time = 4.55;
+    int frame = 0;
+    c.add_point(xcoord, radius, time, frame); 
+    return 0;
 }
+*/
