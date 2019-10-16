@@ -1,33 +1,33 @@
-Parking Lots,Faculty and Staff,Students,Commuter,Max Regular Spots,Max Handicap Spots,Max Zipcar Spots,Total Max Spots
-Arena,0,1,0,,,,
-Alumni A,1,1,0,,,,
-Alumni B,1,1,0,,,,
-Alumni C,1,1,0,,,,
-Baird A,1,1,0,,,,
-Baird B,1,0,0,,,,
-Cooke A,1,1,0,,,,
-Cooke B,1,1,0,,,,
-Crofts,1,1,0,,,,
-Fargo,1,1,0,,,,
-Furnas,1,0,0,,,,
-Governors A,1,0,0,,,,
-Governors B,1,1,0,,,,
-Governors C,1,1,0,,,,
-Governors D,1,1,0,,,,
-Governors E,0,1,0,,,,
-Hochstetter A,1,0,0,,,,
-Hochstetter B,1,0,1,,,,
-Jacobs A,1,0,0,,,,
-Jacobs B,1,1,0,,,,
-Jacobs C,1,1,0,,,,
-Jarvis A,1,0,1,,,,
-Jarvis B,1,1,0,,,,
-Ketter,1,1,0,,,,
-Lake LaSalle,0,1,0,,,,
-Red Jacket,1,1,0,,,,
-Richmond A,1,1,0,,,,
-Richmond B,1,1,0,,,,
-Special Event Parking,0,1,0,,,,
-Stadium,0,1,0,,,,
-Slee A,1,1,0,,,,
-Slee B,1,1,0,,,,
+,Parking Lots,Faculty and Staff,Students,Commuter,Max Regular Spots,Max Handicap Spots,Max Zipcar Spots,Total Max Spots
+0,Arena,0,1,0,,,,67
+1,Alumni A,1,1,0,,,,45
+2,Alumni B,1,1,0,,,,50
+3,Alumni C,1,1,0,,,,18
+4,Baird A,1,1,0,,,,60
+5,Baird B,1,0,0,,,,56
+6,Cooke A,1,1,0,,,,51
+7,Cooke B,1,1,0,,,,77
+8,Crofts,1,1,0,,,,225
+9,Fargo,1,1,0,,,,182
+10,Furnas,1,0,0,,,,91
+11,Governors A,1,0,0,,,,45
+12,Governors B,1,1,0,,,,130
+13,Governors C,1,1,0,,,,99
+14,Governors D,1,1,0,,,,90
+15,Governors E,0,1,0,,,,95
+16,Hochstetter A,1,0,0,,,,105
+17,Hochstetter B,1,0,1,,,,133
+18,Jacobs A,1,0,0,,,,60
+19,Jacobs B,1,1,0,,,,52
+20,Jacobs C,1,1,0,,,,56
+21,Jarvis A,1,0,1,,,,121
+22,Jarvis B,1,1,0,,,,110
+23,Ketter,1,1,0,,,,44
+24,Lake LaSalle,0,1,0,,,,74
+25,Red Jacket,1,1,0,,,,81
+26,Richmond A,1,1,0,,,,88
+27,Richmond B,1,1,0,,,,399
+28,Special Event Parking,0,1,0,,,,91
+29,Stadium,0,1,0,,,,80
+30,Slee A,1,1,0,,,,130
+31,Slee B,1,1,0,,,,60
