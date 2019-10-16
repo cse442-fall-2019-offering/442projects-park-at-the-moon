@@ -1,6 +1,7 @@
 import pytest
-from store import *
 from unittest import TestCase
+from datetime import datetime, timedelta
+from store import *
 
 
 @pytest.fixture(scope="module", autouse=True)
@@ -22,6 +23,34 @@ def setup():
     parking_store.add_lot(lot2, capacity2)
 
     return parking_store
+
+@pytest.fixture(scope="module", autouse=True)
+def test_add_history():
+
+
+    parking_store = Store()
+    parking_store.register_user(0)
+    time = datetime.now()
+    users = parking_store.get_store()['users']
+    users[0].add_history(time, 1)
+    assert (time, 1) in users[0].get_history()
+    new_time = datetime.now() + timedelta(hours=4)
+    users[0].add_history(new_time, 2)
+    assert (time, 1) in users[0].get_history()
+    assert (new_time, 2) in users[0].get_history()
+
+    newest_time = datetime.now() + timedelta(hours=-4)
+    users[0].add_history(newest_time, 2)
+    assert (time, 1) in users[0].get_history()
+    assert users[0].get_history().index((time, 1)) < users[0].get_history().index((new_time, 2))
+    assert users[0].get_history().index((time, 1)) > users[0].get_history().index((newest_time, 2))
+    assert (new_time, 2) in users[0].get_history()
+    assert (newest_time, 2) in users[0].get_history()
+
+    return parking_store
+
+def test_suggestion(test_add_history):
+    pass
 
 
 def test_add_building():

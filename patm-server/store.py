@@ -1,7 +1,7 @@
 import copy
 from json import JSONEncoder
 from collections import UserDict
-
+#from bisect import bisect, insort
 
 class Store(UserDict):
 
@@ -79,17 +79,34 @@ class User:
 
     def __init__(self, id):
         self.id = id
-        self.history = None
+        self.history = []
 
     def add_history(self, ts, bid):
-        pass
+        def insort(a, x, lo=0, hi=None):
+            key = x[0]
+            if lo < 0:
+                raise ValueError('lo must be non-negative')
+            if hi is None:
+                hi = len(a)
+            while lo < hi:
+                mid = (lo + hi) // 2
+                if a[mid][0] < key:
+                    lo = mid + 1
+                else:
+                    hi = mid
+            a.insert(lo, x)
+
+        insort(self.history, (ts, bid))
+
+    def get_history(self):
+        return self.history
 
     def get_parking_recommendation(self):
         """
         Binary search on the timestamps and return a recommendation only if the timestamp is within 30 minutes
         :return:
         """
-        pass
+
 
 class History:
 
