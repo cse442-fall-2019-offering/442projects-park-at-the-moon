@@ -14,6 +14,7 @@ def setup():
     lot1 = "fronczak"
     lot2 = "hochstetter"
 
+
     capacity1 = 100
     capacity2 = 190
 
@@ -22,6 +23,14 @@ def setup():
 
     return parking_store
 
+
+def test_add_building():
+
+    parking_store = Store()
+    building1 = {"name": "student union", "entrances_lat": None, "entrances_lon": None, "boundary_lat": [1], "boundary_long": [1]}
+    parking_store.add_building(building1)
+    assert "student union" in parking_store
+    assert len(parking_store) == 1
 
 def test_add_parking_lot():
 
@@ -40,6 +49,9 @@ def test_add_parking_lot():
     assert len(parking_store) == 2
     assert "hochstetter" in parking_store
 
+
+def test_closest_lot():
+    parking_store = Store()
 
 def test_remove_parking_lot():
 
@@ -91,14 +103,14 @@ def test_add_spot(setup):
     # Increasing spots beyond capacity should not cause overflow
     assert parking_store.get_spots(lot) == capacity
 
-    parking_store.get_store()[lot].spots = capacity // 2
+    parking_store.get_store()['lots'][lot].spots = capacity // 2
     parking_store.increase_spots(lot)
     assert parking_store.get_spots(lot) == (capacity // 2) + 1
 
     parking_store.increase_spots(lot)
     assert parking_store.get_spots(lot) == (capacity // 2) + 2
 
-    parking_store.get_store()[lot].spots = 0
+    parking_store.get_store()['lots'][lot].spots = 0
     parking_store.increase_spots(lot)
     assert parking_store.get_spots(lot) == 1
 

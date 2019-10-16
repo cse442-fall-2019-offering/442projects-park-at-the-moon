@@ -2,7 +2,7 @@
 #                                 <HEADER>
 ##############################################################################
 
-from flask import jsonify
+from flask import jsonify, redirect, url_for, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from config import main_room
 from app import *
@@ -11,13 +11,39 @@ from . import engine
 
 parking_store = App.parking_store
 
-@engine.route('/update_spots')
-def update_spots():
+
+@engine.route('/update_spots/<uid>')
+def update_spots(uid):
     """
     Client pings this method for a parking lot update
     :return: Data regarding parking lot empty spots in the JSON format
     """
-    return StoreEncoder().encode(app_instance.parking_store)
+    store = app_instance.parking_store.get_store()
+    return jsonify({store['lots'][key].id: store['lots'][key].get_spots() for key in store['lots'].keys()})
+
+
+@engine.route('/lot_availability', methods = ["POST"])
+def lot_availability():
+    uid = request.form["userID"]
+    return redirect(url_for('engine.update_spots', uid = uid))
+
+
+@engine.route('/closest_lot/<bid>')
+def closest_lot(bid):
+    """
+
+    :param bid: Building ID
+    :return: ID of the closest parking lot
+    """
+    name = app_instance.parking_store.bname_to_bid[int(bid)]
+    return jsonify(app_instance.parking_store.store['buildings'][name].get_closest_lot().id)
+
+
+@engine.route('/search', methods = ["POST"])
+def search():
+    bname = request.form["building"]
+    return jsonify({'building_id': app_instance.parking_store.bname_to_bid[bname]})
+
 
 
 @engine.route('/car-entered/<lot>')
@@ -41,6 +67,23 @@ def car_exited(lot):
     app_instance.parking_store.increase_spots(lot)
     return jsonify()
 
+
+@engine.route('/')
+def index():
+    return redirect(url_for('engine.update_spots', uid = 1))
+
+
+@engine.route('/register_user', methods = ["POST"])
+def register_user():
+    uid = int(request.form["userID"])
+    app_instance.parking_store.register_user(uid)
+
+    return jsonify({k: v for k, v in app_instance.parking_store.get_store().items() if k in ("buildings", "lots")})
+
+
+@engine.route('/lot_availability')
+def get_availability():
+    pass
 
 ##############################################################################
 #                               SOCKET EVENTS
