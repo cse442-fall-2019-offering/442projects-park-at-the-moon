@@ -22,13 +22,13 @@
 // it has made its total path, and we can remove it
 #define COMPLETE_MARGIN 10
 
-class Wheel {
+class WheelPath {
 private:
     static int total_id;
 public:
     float radius;
     int id;
-    Wheel(float r): radius(r) {
+    WheelPath(float r): radius(r) {
         id = total_id++;
     }
     // index 0 is x-coordinate
@@ -42,7 +42,7 @@ public:
 class Camera {
 private:
     void clean_data(double cur_time);
-    std::vector<Wheel> all_wheels;
+    std::vector<WheelPath> all_wheels;
     // for wheels that have not found their way to a timeframe of wheels (yet)
     // index 0 is x-coordinate
     // index 1 is radius
@@ -59,7 +59,7 @@ public:
     //       as an added level of security
     void add_point(float x_coord, float radius, float timestamp, int frame);
     void send_data_to_server(double cur_time);     
-    std::vector<Wheel> get_all_wheels();
+    std::vector<WheelPath> get_all_wheels();
     std::vector<std::vector<float>> get_unknown_wheels();
 
 };

@@ -1,6 +1,6 @@
 #include "get_wheels.hpp"
 
-int Wheel::total_id = 0;
+int WheelPath::total_id = 0;
 // TODO: every 10 seconds or so, I should send the data to the server, and then clean vectors.
 // By clean, I mean look for wheels that have been in the dataset for more than 10 seconds or so
 // and remove them. 
@@ -108,7 +108,7 @@ void Camera::add_point(float x_coord, float radius, float timestamp, int frame) 
             float x = unknown_wheels[index_unknown][0];
             float old_time = unknown_wheels[index_unknown][2];
             float velocity = get_velocity (x, old_time, x_coord, timestamp);
-            Wheel wheel(radius);
+            WheelPath wheel(radius);
             unknown_wheels[index_unknown][1] = velocity;
             wheel.wheel.push_back(unknown_wheels[index_unknown]);
             std::vector<float> known;
@@ -147,7 +147,7 @@ void Camera::add_point(float x_coord, float radius, float timestamp, int frame) 
             all_wheels[index_known].wheel.push_back(wheel);
         }
 }
-std::vector<Wheel> Camera::get_all_wheels() {
+std::vector<WheelPath> Camera::get_all_wheels() {
     return all_wheels;
 }
 std::vector<std::vector<float>> Camera::get_unknown_wheels() {
@@ -197,12 +197,12 @@ void Camera::send_data_to_server(double cur_time) {
     // then clean data
     clean_data(cur_time);
 }
-//void calculate_distance(Wheel& wheel1, Wheel& wheel2
+//void calculate_distance(WheelPath& wheel1, Wheel& wheel2
 
-//void find_cars(std::vector<Wheel> &c1) {
+//void find_cars(std::vector<WheelPath> &c1) {
     
 
-//int count_cars(std::vector<std::vector<Wheel>> c1, std::vector<std::vector<Wheel>> c2) {
+//int count_cars(std::vector<std::vector<WheelPath>> c1, std::vector<std::vector<Wheel>> c2) {
 //}
 /*
 int main() {
