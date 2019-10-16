@@ -158,6 +158,11 @@ std::vector<std::vector<float>> Camera::get_unknown_wheels() {
 //  2) did the wheel reach both sides of the margin?
 // for unknown_wheels, we'll just check if they've been in there
 // for more than DEAD_INTERVAL
+// TODO: I am checking the current time with the last known time,
+//      but what if somehow a new time keeps getting added?
+//      but if I check the oldest time, that means that the entire
+//      path of the wheel better be from the same wheel
+//      otherwise a wheel could go missing
 void Camera::clean_data(double cur_time) {
    
     std::vector<int> remove_idx_known;
@@ -165,12 +170,12 @@ void Camera::clean_data(double cur_time) {
     for (int i = 0; i < all_wheels.size(); ++i) {
 
         // checking conditions for removal
-        if ((all_wheels[i].wheels.front()[0] <= COMPLETE_MARGIN &&
-            all_wheels[i].wheels.back()[0] >= PIXEL_DISTANCE - COMPLETE_MARGIN) ||
-            (all_wheels[i].wheels.front()[0] >= PIXEL_DISTANCE - COMPLETE_MARGIN &&
-            all_wheels[i].wheels.back()[0] <= COMPLETE_MARGIN) ||
-            cur_time - all_wheels[i].wheels.back()[3] > DEAD_INTERVAL)
-                remove_idx.push_back(i);
+        if ((all_wheels[i].wheel.front()[0] <= COMPLETE_MARGIN &&
+            all_wheels[i].wheel.back()[0] >= PIXELS_DISTANCE - COMPLETE_MARGIN) ||
+            (all_wheels[i].wheel.front()[0] >= PIXELS_DISTANCE - COMPLETE_MARGIN &&
+            all_wheels[i].wheel.back()[0] <= COMPLETE_MARGIN) ||
+            cur_time - all_wheels[i].wheel.back()[3] > DEAD_INTERVAL)
+                remove_idx_known.push_back(i);
     }
     for (auto &idx : remove_idx_known) {
         all_wheels.erase(all_wheels.begin() + idx);

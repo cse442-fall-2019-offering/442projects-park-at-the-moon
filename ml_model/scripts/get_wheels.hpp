@@ -41,7 +41,7 @@ public:
 
 class Camera {
 private:
-    void clean_data();
+    void clean_data(double cur_time);
     std::vector<Wheel> all_wheels;
     // for wheels that have not found their way to a timeframe of wheels (yet)
     // index 0 is x-coordinate
@@ -58,7 +58,7 @@ public:
     // TODO: I should probably check radius of incoming wheel and existing wheel
     //       as an added level of security
     void add_point(float x_coord, float radius, float timestamp, int frame);
-    void send_data_to_server();     
+    void send_data_to_server(double cur_time);     
     std::vector<Wheel> get_all_wheels();
     std::vector<std::vector<float>> get_unknown_wheels();
 
