@@ -1,4 +1,10 @@
 #include "get_wheels.hpp"
+#include <set>
+
+#define XCOORDINATE 0
+#define VELOCITY 1
+#define TIMESTAMP 2
+#define FRAME 3
 
 int WheelPath::total_id = 0;
 // TODO: every 10 seconds or so, I should send the data to the server, and then clean vectors.
@@ -18,7 +24,7 @@ void  Camera::find_closest_unknown(float x_coord, int &index, float &min_distanc
     float last_x;
     for (auto iter = unknown_wheels.begin(); iter != unknown_wheels.end(); ++iter) {
         // get the xCoord of the last added point
-        last_x = (*iter)[0];
+        last_x = (*iter)[XCOORDINATE];
         temp_distance = x_coord - last_x;
         // if moving to the right
         if (temp_distance >= 0 && temp_distance < min_distance && temp_distance <= radius){
@@ -40,7 +46,7 @@ void  Camera::find_closest_known(float x_coord,int &index, float &min_distance, 
     for (auto iter = all_wheels.begin(); iter != all_wheels.end(); ++iter) {
         // get the xCoord of the last added point
         last_x = iter->wheel.back().front();
-        last_velocity = iter->wheel.back()[1];
+        last_velocity = iter->wheel.back()[VELOCITY];
         temp_distance = x_coord - last_x;
         // if wheel is moving to the right
         if (temp_distance > 0 && last_velocity > 0 && temp_distance <= radius) {
@@ -65,7 +71,7 @@ void  Camera::compare_velocity(float velocity, int &index) {
     int cur_vel_diff;
 
     for (auto iter = all_wheels.begin(); iter != all_wheels.end(); ++iter) {
-        float existing_velocity = iter->wheel.front()[1];
+        float existing_velocity = iter->wheel.front()[VELOCITY];
         if ((existing_velocity > 0 && velocity > 0) ||
             (existing_velocity < 0 && velocity < 0)) {
             cur_vel_diff = abs(existing_velocity - velocity);
@@ -107,11 +113,11 @@ void Camera::add_point(float x_coord, float radius, float timestamp, int frame) 
     }
     else if (min_distance == min_distance_unknown) {   // if unknown has a closer wheel
             //std::cout << "adding to existing wheel" << std::endl;
-            float x = unknown_wheels[index_unknown][0];
-            float old_time = unknown_wheels[index_unknown][2];
+            float x = unknown_wheels[index_unknown][XCOORDINATE];
+            float old_time = unknown_wheels[index_unknown][TIMESTAMP];
             float velocity = get_velocity (x, old_time, x_coord, timestamp);
             WheelPath wheel(radius);
-            unknown_wheels[index_unknown][1] = velocity;
+            unknown_wheels[index_unknown][VELOCITY] = velocity;
             wheel.wheel.push_back(unknown_wheels[index_unknown]);
             std::vector<float> known;
             known.push_back(x_coord);
@@ -140,7 +146,7 @@ void Camera::add_point(float x_coord, float radius, float timestamp, int frame) 
         }
         else {                                              // if the closest is a known wheel
             //std::cout << "adding wheel to a known wheel" << std::endl;
-            float velocity = get_velocity (all_wheels[index_known].wheel.back()[0], all_wheels[index_known].wheel.back()[2], x_coord, timestamp);
+            float velocity = get_velocity (all_wheels[index_known].wheel.back()[XCOORDINATE], all_wheels[index_known].wheel.back()[TIMESTAMP], x_coord, timestamp);
             std::vector<float> wheel;
             wheel.push_back(x_coord);
             wheel.push_back(velocity);
@@ -172,11 +178,11 @@ void Camera::clean_data(double cur_time) {
     for (int i = 0; i < all_wheels.size(); ++i) {
 
         // checking conditions for removal
-        if ((all_wheels[i].wheel.front()[0] <= COMPLETE_MARGIN &&
-            all_wheels[i].wheel.back()[0] >= PIXELS_DISTANCE - COMPLETE_MARGIN) ||
-            (all_wheels[i].wheel.front()[0] >= PIXELS_DISTANCE - COMPLETE_MARGIN &&
-            all_wheels[i].wheel.back()[0] <= COMPLETE_MARGIN) ||
-            cur_time - all_wheels[i].wheel.back()[2] > DEAD_INTERVAL)
+        if ((all_wheels[i].wheel.front()[XCOORDINATE] <= COMPLETE_MARGIN &&
+            all_wheels[i].wheel.back()[XCOORDINATE] >= PIXELS_DISTANCE - COMPLETE_MARGIN) ||
+            (all_wheels[i].wheel.front()[XCOORDINATE] >= PIXELS_DISTANCE - COMPLETE_MARGIN &&
+            all_wheels[i].wheel.back()[XCOORDINATE] <= COMPLETE_MARGIN) ||
+            cur_time - all_wheels[i].wheel.back()[TIMESTAMP] > DEAD_INTERVAL)
                 remove_idx_known.push_back(i);
     }
     for (auto &idx : remove_idx_known) {
@@ -184,7 +190,7 @@ void Camera::clean_data(double cur_time) {
     }
     for (int i = 0; i < unknown_wheels.size(); ++i) {
 
-        if (cur_time - unknown_wheels[i][3]) {
+        if (cur_time - unknown_wheels[i][TIMESTAMP]) {
             remove_idx_unknown.push_back(i);
         }
     }
@@ -192,8 +198,59 @@ void Camera::clean_data(double cur_time) {
         all_wheels.erase(all_wheels.begin() + idx);
     }
 }
+float Camera::get_average_velocity(std::vector<std::vector<float>> &wheelpath) {
+
+    float avg_velocity = 0.0;
+
+    
+    for (auto &w : wheelpath) {
+        avg_velocity += w[VELOCITY];
+    }
+    
+    return avg_velocity / wheelpath.size();
+}
+
+
+// TODO: this currently only checks wheels with positive velocity
+// first check if average is positive if so then
+// get average of each wheel and compare
+// if the difference is < VELOCITY_ERROR
+// then both wheels belong to the same car
+int Camera::car_count() {
+
+    int count = 0;
+    float avg_vel1;
+    float avg_vel2;
+    std::set<int> counted_wheels;
+
+    for (int i = 0; i < all_wheels.size() - 1; ++i) {
+        // check first wheel's velocity in wheel path
+        if (all_wheels[i].wheel.front()[VELOCITY] < 0 ||
+            counted_wheels.find(i) != counted_wheels.end()) continue;
+
+        avg_vel1 = get_average_velocity(all_wheels[i].wheel);
+    
+        // check if next wheelpath has same velocity
+        for (int p = i + 1; p < all_wheels.size(); ++p) {
+
+            if (all_wheels[p].wheel.front()[VELOCITY] < 0 ||
+                counted_wheels.find(p) != counted_wheels.end()) continue;
+
+            avg_vel2 = get_average_velocity(all_wheels[p].wheel);
+            // if both wheels have the same velocity
+            if (abs(avg_vel1 - avg_vel2) <= VELOCITY_ERROR) {
+                ++count;
+                counted_wheels.insert(p);
+            }
+        }
+    }
+    
+    return count;
+}
 // need to send all_wheels to server
 void Camera::send_data_to_server(double cur_time) {
+    // get count
+    
     // send to server
     
     // then clean data
