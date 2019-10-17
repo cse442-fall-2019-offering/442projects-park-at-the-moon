@@ -12,6 +12,7 @@
 #define DISTANCE 15000
 // total pixels for a single row in image
 #define PIXELS_DISTANCE 840
+// how far off the difference in velocity can be between wheels to determine it's the same wheel
 #define VELOCITY_ERROR 1
 // how often (in seconds) data should get sent to the server for comparison
 #define SERVER_INTERVAL 10
@@ -61,6 +62,8 @@ public:
     void send_data_to_server(double cur_time);     
     std::vector<WheelPath> get_all_wheels();
     std::vector<std::vector<float>> get_unknown_wheels();
+    int car_count();
+    float get_average_velocity(std::vector<std::vector<float>> &wheelpath);
 
 };
 #endif /* end count_cars.hpp */
