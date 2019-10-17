@@ -24,7 +24,7 @@
 #include "Wheel.hpp"
 #include "Constants.h"
 
-
+// to run: g++ $(pkg-config --cflags --libs opencv4) -std=c++11 -O3 main.cpp TrackerHough.cpp Wheel.cpp -o executable
 
 using namespace std;
 using namespace cv;
@@ -52,14 +52,14 @@ int main(int argc, const char * argv[]) {
     // insert code here...
     //open the video file
     // video6x.5spd dimensions: 850 × 480
-    VideoCapture reader("test_data/video_reallyslow.mp4");
+    VideoCapture reader("input_output_data/video_reallyslow.mp4");
     int ex = static_cast<int>(reader.get(CAP_PROP_FOURCC));
     int frameCount = reader.get(CAP_PROP_FRAME_COUNT);
     int WIDTH = reader.get(CAP_PROP_FRAME_WIDTH);
     int HEIGHT = reader.get(CAP_PROP_FRAME_HEIGHT);
     int FPS = reader.get(CAP_PROP_FPS);
     //init an VideoWriter to output processed video
-    VideoWriter outputVideo("test_data/output.mp4", ex, FPS/3, Size(WIDTH,HEIGHT), true);
+    VideoWriter outputVideo("input_output_data/output.mp4", ex, FPS/3, Size(WIDTH,HEIGHT), true);
     // if cannot open the file
     if (!reader.isOpened()) {
         cout << "cannot open video file" << endl;
@@ -156,7 +156,7 @@ int main(int argc, const char * argv[]) {
         }
         imshow("Tracking", frame);
         std::ostringstream originalName;
-        originalName << "test_data/frames/frame_" << count << ".jpg";
+        originalName << "input_out_data/frames/frame_" << count << ".jpg";
         imwrite(originalName.str(), frame);
         outputVideo << frame;
         cv::waitKey(1);
