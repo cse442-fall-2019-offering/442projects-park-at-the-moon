@@ -31,6 +31,7 @@ void  Camera::find_closest_unknown(float x_coord, int &index, float &min_distanc
         }
     }
 }
+
 void  Camera::find_closest_known(float x_coord,int &index, float &min_distance, float radius) {
 
     float temp_distance;
@@ -57,6 +58,7 @@ void  Camera::find_closest_known(float x_coord,int &index, float &min_distance, 
             } 
     } 
 }
+
 // getting velocity by checking first x coordinate with current x coordinate
 void  Camera::compare_velocity(float velocity, int &index) {
     int min_vel_diff = INT_MAX;
@@ -174,7 +176,7 @@ void Camera::clean_data(double cur_time) {
             all_wheels[i].wheel.back()[0] >= PIXELS_DISTANCE - COMPLETE_MARGIN) ||
             (all_wheels[i].wheel.front()[0] >= PIXELS_DISTANCE - COMPLETE_MARGIN &&
             all_wheels[i].wheel.back()[0] <= COMPLETE_MARGIN) ||
-            cur_time - all_wheels[i].wheel.back()[3] > DEAD_INTERVAL)
+            cur_time - all_wheels[i].wheel.back()[2] > DEAD_INTERVAL)
                 remove_idx_known.push_back(i);
     }
     for (auto &idx : remove_idx_known) {

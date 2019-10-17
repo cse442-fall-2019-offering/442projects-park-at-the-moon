@@ -41,7 +41,8 @@ bool TrackerHough::init( InputArray image, const std::vector<Wheel>& wheelList )
  @param image input image
  @param wheelList the existing wheel list
  @return true or false */
-bool TrackerHough::update(cv::InputArray image, std::vector<Wheel> &wheelList){
+bool TrackerHough::update(cv::InputArray image, std::vector<Wheel> &wheelList, 
+    int frame, std::clock_t time, Camera &camera, std::vector<std::vector<float>>& wheels_cur_image) {
     if( !isInit )
     {
         return false;
@@ -50,7 +51,7 @@ bool TrackerHough::update(cv::InputArray image, std::vector<Wheel> &wheelList){
     if( image.empty() )
         return false;
     
-    return updateImpl( image.getMat(), wheelList );
+    return updateImpl( image.getMat(), wheelList, frame, time, camera, wheels_cur_image);
 }
 
 Ptr<TrackerHough> TrackerHough::create(const TrackerHough::Params &parameters)
@@ -88,21 +89,31 @@ bool TrackerHoughImpl::initImpl(const cv::Mat &image, const std::vector<Wheel>& 
  @param wheelList the existing wheel list
  @return true or false
  */
-bool TrackerHoughImpl::updateImpl(const cv::Mat &image, std::vector<Wheel>& wheelList){
+bool TrackerHoughImpl::updateImpl(const cv::Mat &image, std::vector<Wheel>& wheelList, 
+    int frame, std::clock_t time, Camera &c, std::vector<std::vector<float>>& wheels_cur_image) {
     HoughCircles(image, candidates, CV_HOUGH_GRADIENT, 1, params.width/3, params.param1, params.param2, params.minRadius, params.maxRadius);
-    std::vector<Wheel>::iterator iter;
     voteForCircles(image);
-    for (iter = wheelList.begin(); iter!=wheelList.end(); ++iter) {
-        iter->isTracked = false;
-    }
     int cnt=0;
+    bool voting = false;
     // if enough circles were detected in the points of interest (surf)
     // then we update
-    for (auto circle : candidates) {
-        if (voteVec[cnt]>15) {
-            if (!updateNewWheel(circle, wheelList)) {
-                updateTracking(circle, wheelList);
+    for (auto &circle : candidates) {
+        std::vector<float> point(3);
+        if (voting) {
+            if (voteVec[cnt]>15) {
+                c.add_point(circle[0], circle[2], time, frame); 
+                point[0] = circle[0];
+                point[1] = circle[1];
+                point[2] = circle[2];
+                wheels_cur_image.push_back(point);
             }
+        else {
+            c.add_point(circle[0], circle[2], time, frame); 
+            point[0] = circle[0];
+            point[1] = circle[1];
+            point[2] = circle[2];
+            wheels_cur_image.push_back(point);
+        }
         }
         cnt++;
     }
@@ -110,75 +121,8 @@ bool TrackerHoughImpl::updateImpl(const cv::Mat &image, std::vector<Wheel>& whee
 }
 
 
-/**
- Check is the circle should be the new track of the existing wheel
-
- @param circle the wheel candidate
- @param wheelList the existing wheel list
- @return true or false
- */
-bool TrackerHoughImpl::updateTracking(const cv::Vec3f &circle, std::vector<Wheel> &wheelList ){
-    if (isValidAsWheel(circle)) {
-        std::vector<Wheel>::iterator iter;
-        for (iter = wheelList.begin(); iter!=wheelList.end(); ++iter) {
-//            only consider untracked wheel in current frame
-            if (iter->isTracked) {
-                continue;
-            }
-            float circleX = circle[0];
-            float circleY = circle[1];
-            float circleR = circle[2];
-            float offsetX = circleX - iter->circle[0];
-            if( offsetX>MIN_WHEEL_X_OFFSET_TRACKING &&
-                offsetX<MAX_WHEEL_X_OFFSET_TRACKING && 
-                abs(circleY-iter->circle[1])<MAX_WHEEL_Y_OFFSET &&
-                abs(circleR-iter->circle[2])<MAX_WHEEL_R_DIFF
-              ){
-                iter->circle = circle;
-                iter->xPosVec.push_back(circleX);
-                iter->isTracked = true;
-                return true;
-            }
-        }
-    }
-    return false;
-}
 
 
-/**
- Check if the circle should be a new wheel
-
- @param circle the wheel candidate
- @param wheelList the existing wheel list
- @return true or false
- */
-// this is where we create a car object
-bool TrackerHoughImpl::updateNewWheel(const cv::Vec3f &circle, std::vector<Wheel> &wheelList){
-    if (isValidAsWheel(circle)) {
-//        empty list just insert it
-        float circleX = (circle)[0];
-        if (circleX<params.width-MARGIN_DIST){
-            if (wheelList.size() == 0) {
-                Wheel newWheel(circle);
-                newWheel.xPosVec.push_back(circleX);
-                wheelList.push_back(newWheel);
-                return true;
-            }
-            else {
-    //            need to compare the relation between existing wheels
-                Vec3f lastWheelCircle = wheelList.back().circle;
-                float lastWheelX = lastWheelCircle[0];
-                if (lastWheelX-circleX>MIN_DIST_WHEELS) {
-                    Wheel newWheel(circle);
-                    newWheel.xPosVec.push_back(circleX);
-                    wheelList.push_back(newWheel);
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
 
 
 /**
