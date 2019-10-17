@@ -13,7 +13,7 @@
 // total pixels for a single row in image
 #define PIXELS_DISTANCE 840
 // how far off the difference in velocity can be between wheels to determine it's the same wheel
-#define VELOCITY_ERROR 1
+#define VELOCITY_ERROR 2
 // how often (in seconds) data should get sent to the server for comparison
 #define SERVER_INTERVAL 10
 // dead time, i.e. if the wheel has been sitting in the vector for 
@@ -42,7 +42,6 @@ public:
 
 class Camera {
 private:
-    void clean_data(double cur_time);
     std::vector<WheelPath> all_wheels;
     // for wheels that have not found their way to a timeframe of wheels (yet)
     // index 0 is x-coordinate
@@ -51,6 +50,8 @@ private:
     // index 3 is frame number
     std::vector<std::vector<float>> unknown_wheels;
 public:
+    // TODO: change this back to private
+    void clean_data(double cur_time);
     float get_velocity (float start_x, float start_time, float last_x, float last_time);
     void find_closest_unknown(float x_coord, int &index, float &min_distance, float radius);
     void find_closest_known(float x_coord, int &index, float &min_distance, float radius);

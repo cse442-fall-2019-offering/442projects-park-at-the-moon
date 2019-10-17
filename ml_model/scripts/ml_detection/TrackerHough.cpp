@@ -15,7 +15,7 @@ TrackerHough::~TrackerHough()
 {
 }
 TrackerHough::Params::Params(){}
-bool TrackerHough::init( InputArray image, const std::vector<Wheel>& wheelList ){
+bool TrackerHough::init( InputArray image){
     if( isInit )
     {
         return false;
@@ -24,7 +24,7 @@ bool TrackerHough::init( InputArray image, const std::vector<Wheel>& wheelList )
     if( image.empty() )
         return false;
     
-    bool initTracker = initImpl( image.getMat(), wheelList);
+    bool initTracker = initImpl( image.getMat());
     
     if( initTracker )
     {
@@ -41,8 +41,9 @@ bool TrackerHough::init( InputArray image, const std::vector<Wheel>& wheelList )
  @param image input image
  @param wheelList the existing wheel list
  @return true or false */
-bool TrackerHough::update(cv::InputArray image, std::vector<Wheel> &wheelList, 
-    int frame, std::clock_t time, Camera &camera, std::vector<std::vector<float>>& wheels_cur_image) {
+bool TrackerHough::update(cv::InputArray image, int frame, std::clock_t time, 
+    Camera &camera, std::vector<std::vector<float>>& wheels_cur_image) {
+
     if( !isInit )
     {
         return false;
@@ -51,7 +52,7 @@ bool TrackerHough::update(cv::InputArray image, std::vector<Wheel> &wheelList,
     if( image.empty() )
         return false;
     
-    return updateImpl( image.getMat(), wheelList, frame, time, camera, wheels_cur_image);
+    return updateImpl( image.getMat(), frame, time, camera, wheels_cur_image);
 }
 
 Ptr<TrackerHough> TrackerHough::create(const TrackerHough::Params &parameters)
@@ -62,35 +63,18 @@ Ptr<TrackerHough> TrackerHough::create()
 {
     return Ptr<TrackerHough>(new TrackerHoughImpl());
 }
-//Ptr<TrackerHough> TrackerHough::createDetetor(const TrackerHough::Params &parameters)
-//{
-//    return Ptr<TrackerHough>(new DetectorWheel(parameters));
-//}
-
-
-
-
-
-
 
 TrackerHoughImpl::TrackerHoughImpl(const TrackerHough::Params &parameters): params( parameters ){
     isInit = true;
 }
 
-bool TrackerHoughImpl::initImpl(const cv::Mat &image, const std::vector<Wheel>& wheelList){
+bool TrackerHoughImpl::initImpl(const cv::Mat &image){
     return true;
 }
 
+bool TrackerHoughImpl::updateImpl(const cv::Mat &image, int frame, std::clock_t time, 
+    Camera &c, std::vector<std::vector<float>>& wheels_cur_image) {
 
-/**
- The implementation of tracking update for each frame
-
- @param image input image
- @param wheelList the existing wheel list
- @return true or false
- */
-bool TrackerHoughImpl::updateImpl(const cv::Mat &image, std::vector<Wheel>& wheelList, 
-    int frame, std::clock_t time, Camera &c, std::vector<std::vector<float>>& wheels_cur_image) {
     HoughCircles(image, candidates, CV_HOUGH_GRADIENT, 1, params.width/3, params.param1, params.param2, params.minRadius, params.maxRadius);
     voteForCircles(image);
     int cnt=0;
@@ -107,13 +91,13 @@ bool TrackerHoughImpl::updateImpl(const cv::Mat &image, std::vector<Wheel>& whee
                 point[2] = circle[2];
                 wheels_cur_image.push_back(point);
             }
+        }
         else {
             c.add_point(circle[0], circle[2], time, frame); 
             point[0] = circle[0];
             point[1] = circle[1];
             point[2] = circle[2];
             wheels_cur_image.push_back(point);
-        }
         }
         cnt++;
     }

@@ -176,7 +176,6 @@ void Camera::clean_data(double cur_time) {
     std::vector<int> remove_idx_known;
     std::vector<int> remove_idx_unknown;
     for (int i = 0; i < all_wheels.size(); ++i) {
-
         // checking conditions for removal
         if ((all_wheels[i].wheel.front()[XCOORDINATE] <= COMPLETE_MARGIN &&
             all_wheels[i].wheel.back()[XCOORDINATE] >= PIXELS_DISTANCE - COMPLETE_MARGIN) ||
@@ -185,7 +184,7 @@ void Camera::clean_data(double cur_time) {
             cur_time - all_wheels[i].wheel.back()[TIMESTAMP] > DEAD_INTERVAL)
                 remove_idx_known.push_back(i);
     }
-    for (auto &idx : remove_idx_known) {
+    for (int idx = remove_idx_known.size() - 1; idx >= 0; --idx) {
         all_wheels.erase(all_wheels.begin() + idx);
     }
     for (int i = 0; i < unknown_wheels.size(); ++i) {
@@ -194,8 +193,9 @@ void Camera::clean_data(double cur_time) {
             remove_idx_unknown.push_back(i);
         }
     }
-    for (auto &idx : remove_idx_unknown) {
-        all_wheels.erase(all_wheels.begin() + idx);
+    
+    for (int idx = remove_idx_unknown.size() - 1; idx >= 0; --idx) {
+        unknown_wheels.erase(unknown_wheels.begin() + idx);
     }
 }
 float Camera::get_average_velocity(std::vector<std::vector<float>> &wheelpath) {
@@ -210,68 +210,54 @@ float Camera::get_average_velocity(std::vector<std::vector<float>> &wheelpath) {
     return avg_velocity / wheelpath.size();
 }
 
-
-// TODO: this currently only checks wheels with positive velocity
-// first check if average is positive if so then
 // get average of each wheel and compare
 // if the difference is < VELOCITY_ERROR
 // then both wheels belong to the same car
 int Camera::car_count() {
 
-    int count = 0;
+    int moving_right = 0;
+    int moving_left = 0;
     float avg_vel1;
     float avg_vel2;
     std::set<int> counted_wheels;
 
     for (int i = 0; i < all_wheels.size() - 1; ++i) {
         // check first wheel's velocity in wheel path
-        if (all_wheels[i].wheel.front()[VELOCITY] < 0 ||
-            counted_wheels.find(i) != counted_wheels.end()) continue;
+        if (counted_wheels.find(i) != counted_wheels.end()) continue;
 
         avg_vel1 = get_average_velocity(all_wheels[i].wheel);
     
         // check if next wheelpath has same velocity
         for (int p = i + 1; p < all_wheels.size(); ++p) {
 
-            if (all_wheels[p].wheel.front()[VELOCITY] < 0 ||
-                counted_wheels.find(p) != counted_wheels.end()) continue;
-
+            if (counted_wheels.find(p) != counted_wheels.end()) continue;
+            
             avg_vel2 = get_average_velocity(all_wheels[p].wheel);
-            // if both wheels have the same velocity
+            if (avg_vel1 * avg_vel2 < 0)
+                continue;
+                
+            // if both wheelpaths have the same velocity
             if (abs(avg_vel1 - avg_vel2) <= VELOCITY_ERROR) {
-                ++count;
+                if (avg_vel1 > 0)
+                    ++moving_right;
+                else
+                    ++moving_left;
                 counted_wheels.insert(p);
+                break;
             }
         }
     }
-    
-    return count;
+    std::cout << "cars moving right: " << moving_right << std::endl; 
+    std::cout << "cars moving left: " << moving_left << std::endl; 
+    return moving_right + moving_left;
 }
 // need to send all_wheels to server
 void Camera::send_data_to_server(double cur_time) {
     // get count
-    
-    // send to server
-    
+    int count = car_count();    
+    // send count to server
+    std::cout << "car count: " << count << std::endl; 
     // then clean data
     clean_data(cur_time);
 }
-//void calculate_distance(WheelPath& wheel1, Wheel& wheel2
 
-//void find_cars(std::vector<WheelPath> &c1) {
-    
-
-//int count_cars(std::vector<std::vector<WheelPath>> c1, std::vector<std::vector<Wheel>> c2) {
-//}
-/*
-int main() {
-    
-    Camera c;
-    float xcoord = 2.33;
-    float radius = 2.5;
-    float time = 4.55;
-    int frame = 0;
-    c.add_point(xcoord, radius, time, frame); 
-    return 0;
-}
-*/

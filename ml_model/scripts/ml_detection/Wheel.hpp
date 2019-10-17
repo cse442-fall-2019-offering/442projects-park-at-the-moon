@@ -21,8 +21,6 @@ public:
     Wheel(const cv::Vec3f & circle);
     cv::Vec3f circle;
     std::vector<float> xPosVec;
-//    a flag to mark whether the wheel is tracked in current frame
-    bool isTracked;
 //    index for tracking
     int index;
 };

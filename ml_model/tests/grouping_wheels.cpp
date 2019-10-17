@@ -146,7 +146,7 @@ void single_wheel() {
     
     print_unknown_wheels(c);
     print_known_wheels(c);
-
+    c.send_data_to_server(2);
 }
 
 void multiple_wheels() {
@@ -156,13 +156,14 @@ void multiple_wheels() {
     populate_reappear(c, 2, true);
     print_unknown_wheels(c);
     print_known_wheels(c);
+    c.send_data_to_server(2);
 }
 
 int main() {
 
 
 
-    //single_wheel();
-    multiple_wheels();
+    single_wheel();
+    //multiple_wheels();
     return 0;
 }

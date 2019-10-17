@@ -36,7 +36,7 @@ public:
     static Ptr<TrackerHough> createDetetor(const TrackerHough::Params &parameters);
     CV_WRAP static Ptr<TrackerHough> create();
     
-    CV_WRAP bool init( InputArray image, const std::vector<Wheel>& wheelList);
+    CV_WRAP bool init( InputArray image);
     
     /**
      Update wheels data for each frame
@@ -44,24 +44,26 @@ public:
      @param image input image
      @param wheelList the existing wheel list
      @return true or false */
-    CV_WRAP bool update( InputArray image, CV_OUT std::vector<Wheel>& wheelList, 
-        int frame, std::clock_t time, Camera &camera, std::vector<std::vector<float>> &wheels_cur_image);
+    CV_WRAP bool update( InputArray image, int frame, std::clock_t time, 
+    Camera &camera, std::vector<std::vector<float>> &wheels_cur_image);
     
     virtual ~TrackerHough();
     
 protected:
-    virtual bool initImpl( const Mat& image, const std::vector<Wheel>& wheelList ) = 0;
-    virtual bool updateImpl( const Mat& image, std::vector<Wheel>& wheelList, 
-    int frame, std::clock_t time, Camera &camera, std::vector<std::vector<float>>& wheels_cur_image) = 0;
+    virtual bool initImpl( const Mat& image) = 0;
+    virtual bool updateImpl( const Mat& image, int frame, std::clock_t time, 
+    Camera &camera, std::vector<std::vector<float>>& wheels_cur_image) = 0;
+
     bool isInit;
 };
 
 class TrackerHoughImpl: public TrackerHough{
 public:
     TrackerHoughImpl(const TrackerHough::Params &parameters = TrackerHough::Params());
-    bool initImpl(const Mat& image, const std::vector<Wheel>& wheelList);
-    bool updateImpl(const Mat& image, std::vector<Wheel>& wheelList, int frame, 
-        std::clock_t time, Camera &camera, std::vector<std::vector<float>>& wheels_cur_image);
+    bool initImpl(const Mat& image);
+    bool updateImpl(const Mat& image, int frame, std::clock_t time, 
+    Camera &camera, std::vector<std::vector<float>>& wheels_cur_image);
+
     TrackerHough::Params params;
     //candidates for each image detecting
     std::vector<Vec3f> candidates;

@@ -27,24 +27,6 @@
 using namespace std;
 using namespace cv;
 
-void print_wheelList(vector<Wheel> &wheelList)
-{
-    for (auto &wheel : wheelList)
-    {
-        cout << "id: " << wheel.id << endl;
-        cout << "circle x: " << wheel.circle[0] << endl;
-        cout << "circle y: " << wheel.circle[1] << endl;
-        cout << "circle radius: " << wheel.circle[2] << endl;
-        for (auto &x : wheel.xPosVec)
-        {
-           cout << "xPosvec: " << x << endl;
-        }
-        cout << "isTracked: " << wheel.isTracked << endl;
-        cout << "index: " << wheel.index << endl;
-        cout << endl;
-    }
-    cout << endl;
-}
 void print_unknown_wheels(Camera &c) {                                                                                                                                          
    
     std::cout << "**** unknown wheels *****" << std::endl;
@@ -102,9 +84,6 @@ int main(int argc, const char * argv[]) {
  
     Mat frame;
     
-//    Camera camera;
-//    camera.carCount = 0;
- 
     //    set parameters for tracker
     TrackerHough::Params params;
     params.param1 = HOUGH_CIRCLE_PARA1;
@@ -117,10 +96,9 @@ int main(int argc, const char * argv[]) {
     Ptr<TrackerHough> tracker = TrackerHough::create(params);
     
     //    use a list to record wheels
-    std::vector<Wheel> wheelList = {};
 
     std::srand(std::time(NULL));
-    std::clock_t timer;
+    std::clock_t time;
     Camera camera;
 //    reader.set(1, 60);
     int count = 0;
@@ -129,15 +107,10 @@ int main(int argc, const char * argv[]) {
     for (;count < frameCount; ++count) 
     {
         //cout<<"frame count "<<count<<endl;
-        timer = std::clock();
+        time = std::clock();
 
         reader >> frame; // get a new frame from camera
         Mat imageGray, imageBlur, imageThresh;
-        //cout << "rows:" << frame.rows << endl;
-        // args: x, y, width, height
-        //cout << frame.rows*.25 << endl;
-        //cout << frame.cols << endl;
-        //if (count == 20) break;
         Mat imageCrop = frame(Rect(0,frame.rows*.35,frame.cols,frame.rows - frame.rows*.45));
         //    convert to gray
         if(imageCrop.channels() > 1)
@@ -159,33 +132,17 @@ int main(int argc, const char * argv[]) {
 
         imshow("threshold image", imageThresh); 
 
-        tracker->update(imageThresh, wheelList, count, timer, camera, wheels_cur_image);
+        tracker->update(imageThresh, count, time, camera, wheels_cur_image);
 
         for (auto &iter: wheels_cur_image) {
             float circleX = iter[0];
-            // add # of rows
             float circleY = iter[1]+frame.rows*.35;
             float circleR = iter[2];
-//            std::cout << "x: " << iter[0] << std::endl;
-//            std::cout << "y: " << iter[1] << std::endl;
-//            std::cout << "radius: " << iter[2] << std::endl;
             Point center(circleX, circleY);
             Point centerID(circleX, circleY-circleR);
             circle(frame, center, circleR, Scalar(0, 255, 0), 5);
 //            putText(frame, "meh", centerID, 1, 10, Scalar(255, 0, 0), 3);
-            //if the velocity has multiple records, show the average speed
-/*
-            if (iter->xPosVec.size() > 1) {
-                std::ostringstream speedText;
-                float beginX = iter->xPosVec[0];
-                float dis = circleX-beginX;
-                //cout << dis << endl;
-                float speed = dis/iter->xPosVec.size();
-                speedText<<speed;
-                Point textOrg(circleX, circleY+circleR);
-                putText(frame, speedText.str(), textOrg, 1, 2, Scalar(0, 255, 0),3);
-            }
-*/
+
         }
         imshow("Tracking", frame);
         std::ostringstream originalName;
@@ -194,7 +151,11 @@ int main(int argc, const char * argv[]) {
         outputVideo << frame;
         cv::waitKey(1);
         wheels_cur_image.clear();
+        if (count % 100 == 0) {
+            camera.clean_data(time);
+        }
     }
+    camera.send_data_to_server(time);
     print_known_wheels(camera);
     print_unknown_wheels(camera);
     outputVideo.release();

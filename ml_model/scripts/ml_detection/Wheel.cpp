@@ -8,5 +8,5 @@
 
 #include "Wheel.hpp"
 int Wheel::id = 0;
-Wheel::Wheel(const cv::Vec3f & circle):circle(circle),isTracked(false),index(id++){
+Wheel::Wheel(const cv::Vec3f & circle):circle(circle),index(id++){
 }
