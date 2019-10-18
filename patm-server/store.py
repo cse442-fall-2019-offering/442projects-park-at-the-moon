@@ -174,6 +174,18 @@ class Building:
     def get_closest_lot(self):
         return self.closest_lot
 
+    def to_json(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "entrance_lat" : self.entrance_lat,
+            "entrance_lon" : self.entrance_lon,
+            "boundary_lat" : self.boundary_lat,
+            "boundary_lon" : self.boundary_lon,
+            "center" : (sum(self.boundary_lat) / len(self.boundary_lat), \
+                       sum(self.boundary_lon) / len(self.boundary_lon))
+        }
+
 class ParkingLot:
 
     def __init__(self, id, name, capacity):
@@ -223,6 +235,18 @@ class ParkingLot:
 
     def __repr__(self):
         return "Lot(ID: {}, Name: {}, Spots: {}, Capacity: {})".format(self.id, self.name, self.spots, self.capacity)
+
+    def to_json(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "capacity": self.capacity,
+            "spots": self.capacity,
+            "boundary_lat" : self.boundary_lat,
+            "boundary_lon" : self.boundary_lon,
+            "center" : (sum(self.boundary_lat) / len(self.boundary_lat), \
+                       sum(self.boundary_lon) / len(self.boundary_lon))
+        }
 
 
 class StoreEncoder(JSONEncoder):

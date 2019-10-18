@@ -77,8 +77,10 @@ def index():
 def register_user():
     uid = int(request.form["userID"])
     app_instance.parking_store.register_user(uid)
-
-    return jsonify({k: v for k, v in app_instance.parking_store.get_store().items() if k in ("buildings", "lots")})
+    response = {k: v for k, v in app_instance.parking_store.get_store().items() if k in ("buildings", "lots")}
+    response['buildings'] = {k: v.to_json() for k, v in response['buildings'].items()}
+    response['lots'] = {k: v.to_json() for k, v in response['lots'].items()}
+    return jsonify(response)
 
 
 @engine.route('/lot_availability')
