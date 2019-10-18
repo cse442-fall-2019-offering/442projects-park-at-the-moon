@@ -50,7 +50,8 @@ def test_add_history():
     return parking_store
 
 def test_suggestion(test_add_history):
-    pass
+    store = test_add_history
+    assert store.get_recommendation(0) == 1
 
 
 def test_add_building():

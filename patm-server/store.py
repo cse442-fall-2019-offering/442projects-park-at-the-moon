@@ -1,6 +1,7 @@
 import copy
 from json import JSONEncoder
 from collections import UserDict
+from datetime import datetime, timedelta
 #from bisect import bisect, insort
 
 class Store(UserDict):
@@ -24,6 +25,10 @@ class Store(UserDict):
     def register_user(self, uid):
         if uid not in self.store['users']:
             self.store['users'][uid] = User(uid)
+
+    def get_recommendation(self, uid):
+        if uid in self.store['users']:
+            return self.store['users'][uid].get_parking_recommendation()
 
     def remove_lot(self, lot):
         if lot in self.store['lots']:
@@ -106,6 +111,26 @@ class User:
         Binary search on the timestamps and return a recommendation only if the timestamp is within 30 minutes
         :return:
         """
+        # Credits: https://gist.github.com/ericremoreynolds/2d80300dabc70eebc790
+        class KeyifyList(object):
+            def __init__(self, inner, key):
+                self.inner = inner
+                self.key = key
+
+            def __len__(self):
+                return len(self.inner)
+
+            def __getitem__(self, k):
+                return self.key(self.inner[k])
+
+        from bisect import bisect_left, bisect_right
+        from datetime import datetime
+
+        ls = KeyifyList(self.history, lambda x: x[0])
+        left = bisect_left(ls, datetime.now() - timedelta(minutes=30))
+        right = bisect_right(ls, datetime.now())
+
+        return self.history[left][1]
 
 
 class History:
