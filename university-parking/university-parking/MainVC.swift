@@ -11,25 +11,31 @@ import GoogleMaps
 import Alamofire
 import SwiftyJSON
 
-class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+let kMapStyle =
+"""
+[{"elementType":"geometry","stylers":[{"color":"#212121"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#212121"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"color":"#757575"}]},{"featureType":"administrative.country","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"administrative.land_parcel","stylers":[{"visibility":"off"}]},{"featureType":"administrative.locality","elementType":"labels.text.fill","stylers":[{"color":"#bdbdbd"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#181818"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"featureType":"poi.park","elementType":"labels.text.stroke","stylers":[{"color":"#1b1b1b"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"color":"#2c2c2c"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#8a8a8a"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#373737"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#3c3c3c"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry","stylers":[{"color":"#4e4e4e"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"featureType":"transit","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#3d3d3d"}]}]
+"""
+
+protocol DrawerActionDelegate {
+    func didSelectParkingLot(parkingLotID: Int)
+}
+
+class MainVC: UIViewController, DrawerActionDelegate {
 
     @IBOutlet var mapView: GMSMapView!
-    @IBOutlet var tableView: UITableView!
     
     var buildings:[Building] = []
-    var parkingLots:[Building] = []
+    var parkingLots:[ParkingLot] = []
+    
+    var drawerDataSourceDelegate: DrawerDataSourceDelegate!
 
     // MARK: - UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-                
-        mapView.camera = GMSCameraPosition.camera(withLatitude: 42.999, longitude: -78.791083, zoom: 16.5)
-        mapView.mapType = .hybrid
-                
+                        
+        setupMapAppearance()
+
         retreiveBuildingParkingLotData() {
             self.addParkingLotOverlays()
             self.addBuildingOverlays()
@@ -37,43 +43,43 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 
     // MARK: - MainVC
-
     
-    
-    // MARK: - UITableViewDataSource
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row == 0){
-            let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "1")
-            cell.textLabel?.text = "Hochstetter Lot A"
-            return cell
-        } else if (indexPath.row == 1) {
-            let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "1")
-            cell.textLabel?.text = "Hochstetter Lot B"
-            return cell
-        } else if (indexPath.row == 2) {
-            let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "1")
-            cell.textLabel?.text = "Hochstetter Lot C"
-            return cell
-        } else if (indexPath.row == 3) {
-            let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "1")
-            cell.textLabel?.text = "Cooke Lot A"
-            return cell
-        } else if (indexPath.row == 4) {
-            let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "1")
-            cell.textLabel?.text = "Cooke Lot B"
-            return cell
+    func setupMapAppearance() {
+        mapView.camera = GMSCameraPosition.camera(withLatitude: 42.999, longitude: -78.791083, zoom: 16.5)
+        mapView.mapType = .hybrid
+        if traitCollection.userInterfaceStyle == .light {
+            print("Light mode")
         } else {
-            let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "1")
-            cell.textLabel?.text = "Greiner Lot A"
-            return cell
+            print("Dark mode")
+            mapView.mapStyle(withFilename: "googlemap_style", andType: "json")
         }
     }
+    
+    func getParkingLot(withID: Int) -> ParkingLot? {
+        for parkingLot in parkingLots {
+            if parkingLot.id == withID {
+                return parkingLot
+            }
+        }
+        return nil
+    }
 
+    // MARK: - DrawerActionDelegate
+    
+    func didSelectParkingLot(parkingLotID: Int) {
+        if let parkingLot = getParkingLot(withID: parkingLotID) {
+            let path = GMSMutablePath()
+            for boundaryCoord in parkingLot.boundaryCoords {
+                path.add(boundaryCoord)
+            }
+            let bounds = GMSCoordinateBounds.init(path: path)
+            let edgeInsets = UIEdgeInsets.init(top: 100, left: 100, bottom: 400.0, right: 100)
+            
+            let update = GMSCameraUpdate.fit(bounds, with: edgeInsets)
+            mapView.animate(with: update)
+        }
+    }
+    
     // MARK: - Map
     
     func addBuildingOverlays() {
@@ -111,12 +117,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func retreiveBuildingParkingLotData(complete: @escaping (() -> Void)) {
         AF.request("https://patm-server.herokuapp.com/register_user", method: .post, parameters: ["userID": "123"], headers: nil, interceptor: nil)
         .responseJSON { response in
-            print(response)
-            
             switch response.result {
             case .success:
                 let json = JSON.init(response.value!)
-                print(json)
+                //print(json)
 
                 for buildingJSON in json["buildings"] {
                     let building = Building(json: buildingJSON.1)
@@ -124,9 +128,12 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 for parkingLotJSON in json["lots"] {
-                    let parkingLot = Building(json: parkingLotJSON.1)
+                    let parkingLot = ParkingLot(json: parkingLotJSON.1)
                     self.parkingLots.append(parkingLot)
-
+                }
+                
+                if self.drawerDataSourceDelegate != nil {
+                    self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots)
                 }
             case .failure(let error):
                 print(error)

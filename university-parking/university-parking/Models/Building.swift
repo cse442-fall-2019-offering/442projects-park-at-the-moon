@@ -20,14 +20,14 @@ class Building: NSObject {
     var entranceCoords:[CLLocationCoordinate2D] = []
 
     init(json: JSON) {
-        for i in 0...json["boundary_lat"].count {
+        for i in 0..<json["boundary_lat"].count {
             let latitude = json["boundary_lat"][i]
             let longitude = json["boundary_lon"][i]
                                 
             boundaryCoords.append(CLLocationCoordinate2D.init(latitude: latitude.doubleValue, longitude: longitude.doubleValue))
         }
                 
-        for i in 0...json["entrance_lat"].count {
+        for i in 0..<json["entrance_lat"].count {
             let latitude = json["entrance_lat"][i]
             let longitude = json["entrance_lon"][i]
                                 

@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		48F9C599DC0E1F45CEB6B13E /* Pods_university_parking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F582F862B272025902C1449 /* Pods_university_parking.framework */; };
+		CA011E77235CF53B0033BB31 /* DrawerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA011E76235CF53B0033BB31 /* DrawerVC.swift */; };
+		CA011E7D235CFFB10033BB31 /* ParkingLotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA011E7C235CFFB10033BB31 /* ParkingLotTableViewCell.swift */; };
+		CA011E7F235D12550033BB31 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA011E7E235D12550033BB31 /* UIView+Extension.swift */; };
+		CA011E81235D15F20033BB31 /* googlemap_style.json in Resources */ = {isa = PBXBuildFile; fileRef = CA011E80235D15F20033BB31 /* googlemap_style.json */; };
+		CA011E84235D16A30033BB31 /* GMSMapView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA011E83235D16A30033BB31 /* GMSMapView+Extension.swift */; };
 		CA7408EC2334561500F8B65C /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7408EB2334561500F8B65C /* OnboardingVC.swift */; };
 		CA7D2665232EA3BA00B5BF47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */; };
 		CA7D2667232EA3BA00B5BF47 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7D2666232EA3BA00B5BF47 /* MainVC.swift */; };
@@ -23,7 +28,11 @@
 		2F582F862B272025902C1449 /* Pods_university_parking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_university_parking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F77AF9CBD857927570DA95 /* Pods-university-parking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-university-parking.release.xcconfig"; path = "Target Support Files/Pods-university-parking/Pods-university-parking.release.xcconfig"; sourceTree = "<group>"; };
 		62705CE357411C161A0B4E2C /* Pods-university-parking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-university-parking.debug.xcconfig"; path = "Target Support Files/Pods-university-parking/Pods-university-parking.debug.xcconfig"; sourceTree = "<group>"; };
-		CA32397F235CC99300F01ACF /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Pods/Alamofire/Source/Alamofire.swift; sourceTree = "<group>"; };
+		CA011E76235CF53B0033BB31 /* DrawerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerVC.swift; sourceTree = "<group>"; };
+		CA011E7C235CFFB10033BB31 /* ParkingLotTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingLotTableViewCell.swift; sourceTree = "<group>"; };
+		CA011E7E235D12550033BB31 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		CA011E80235D15F20033BB31 /* googlemap_style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = googlemap_style.json; sourceTree = "<group>"; };
+		CA011E83235D16A30033BB31 /* GMSMapView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSMapView+Extension.swift"; sourceTree = "<group>"; };
 		CA7408EB2334561500F8B65C /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
 		CA7D2661232EA3BA00B5BF47 /* university-parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "university-parking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,10 +75,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CA011E82235D168D0033BB31 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CA011E7E235D12550033BB31 /* UIView+Extension.swift */,
+				CA011E83235D16A30033BB31 /* GMSMapView+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		CA7D2658232EA3BA00B5BF47 = {
 			isa = PBXGroup;
 			children = (
-				CA32397F235CC99300F01ACF /* Alamofire.swift */,
+				CA011E80235D15F20033BB31 /* googlemap_style.json */,
 				CA7D2663232EA3BA00B5BF47 /* university-parking */,
 				CA7D2662232EA3BA00B5BF47 /* Products */,
 				22F36458B670F24338AB17CB /* Pods */,
@@ -89,10 +107,13 @@
 			isa = PBXGroup;
 			children = (
 				CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */,
-				CA7D2666232EA3BA00B5BF47 /* MainVC.swift */,
 				CA7408EB2334561500F8B65C /* OnboardingVC.swift */,
+				CA7D2666232EA3BA00B5BF47 /* MainVC.swift */,
+				CA011E76235CF53B0033BB31 /* DrawerVC.swift */,
+				CA011E7C235CFFB10033BB31 /* ParkingLotTableViewCell.swift */,
 				CA7D2668232EA3BA00B5BF47 /* Main.storyboard */,
 				CAA41E8C23345F3400BCD026 /* NavigationController.swift */,
+				CA011E82235D168D0033BB31 /* Extensions */,
 				CAA69630235CE863004544DE /* Models */,
 				CA7D266B232EA3BB00B5BF47 /* Assets.xcassets */,
 				CA7D266D232EA3BB00B5BF47 /* LaunchScreen.storyboard */,
@@ -174,6 +195,7 @@
 				CA7D266F232EA3BB00B5BF47 /* LaunchScreen.storyboard in Resources */,
 				CA7D266C232EA3BB00B5BF47 /* Assets.xcassets in Resources */,
 				CA7D266A232EA3BA00B5BF47 /* Main.storyboard in Resources */,
+				CA011E81235D15F20033BB31 /* googlemap_style.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,8 +268,12 @@
 				CAA69632235CEC2E004544DE /* ParkingLot.swift in Sources */,
 				CA7D2667232EA3BA00B5BF47 /* MainVC.swift in Sources */,
 				CAA41E8D23345F3400BCD026 /* NavigationController.swift in Sources */,
+				CA011E84235D16A30033BB31 /* GMSMapView+Extension.swift in Sources */,
+				CA011E7F235D12550033BB31 /* UIView+Extension.swift in Sources */,
 				CAA6962F235CE85D004544DE /* Building.swift in Sources */,
 				CA7408EC2334561500F8B65C /* OnboardingVC.swift in Sources */,
+				CA011E77235CF53B0033BB31 /* DrawerVC.swift in Sources */,
+				CA011E7D235CFFB10033BB31 /* ParkingLotTableViewCell.swift in Sources */,
 				CA7D2665232EA3BA00B5BF47 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
