@@ -15,6 +15,8 @@
 		CA7D266C232EA3BB00B5BF47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA7D266B232EA3BB00B5BF47 /* Assets.xcassets */; };
 		CA7D266F232EA3BB00B5BF47 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA7D266D232EA3BB00B5BF47 /* LaunchScreen.storyboard */; };
 		CAA41E8D23345F3400BCD026 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA41E8C23345F3400BCD026 /* NavigationController.swift */; };
+		CAA6962F235CE85D004544DE /* Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA6962E235CE85D004544DE /* Building.swift */; };
+		CAA69632235CEC2E004544DE /* ParkingLot.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA69631235CEC2E004544DE /* ParkingLot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		CA7D266E232EA3BB00B5BF47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA7D2670232EA3BB00B5BF47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAA41E8C23345F3400BCD026 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		CAA6962E235CE85D004544DE /* Building.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Building.swift; sourceTree = "<group>"; };
+		CAA69631235CEC2E004544DE /* ParkingLot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkingLot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,11 +93,21 @@
 				CA7408EB2334561500F8B65C /* OnboardingVC.swift */,
 				CA7D2668232EA3BA00B5BF47 /* Main.storyboard */,
 				CAA41E8C23345F3400BCD026 /* NavigationController.swift */,
+				CAA69630235CE863004544DE /* Models */,
 				CA7D266B232EA3BB00B5BF47 /* Assets.xcassets */,
 				CA7D266D232EA3BB00B5BF47 /* LaunchScreen.storyboard */,
 				CA7D2670232EA3BB00B5BF47 /* Info.plist */,
 			);
 			path = "university-parking";
+			sourceTree = "<group>";
+		};
+		CAA69630235CE863004544DE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CAA6962E235CE85D004544DE /* Building.swift */,
+				CAA69631235CEC2E004544DE /* ParkingLot.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,8 +243,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAA69632235CEC2E004544DE /* ParkingLot.swift in Sources */,
 				CA7D2667232EA3BA00B5BF47 /* MainVC.swift in Sources */,
 				CAA41E8D23345F3400BCD026 /* NavigationController.swift in Sources */,
+				CAA6962F235CE85D004544DE /* Building.swift in Sources */,
 				CA7408EC2334561500F8B65C /* OnboardingVC.swift in Sources */,
 				CA7D2665232EA3BA00B5BF47 /* AppDelegate.swift in Sources */,
 			);

@@ -8,6 +8,7 @@ PODS:
   - GooglePlaces (3.5.0):
     - GoogleMaps/Base (= 3.5.0)
   - LGButton (1.1.4)
+  - Pulley (2.7.0)
   - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
@@ -15,6 +16,7 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
   - LGButton
+  - Pulley
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
@@ -24,6 +26,7 @@ SPEC REPOS:
     - Alamofire
     - GoogleMaps
     - GooglePlaces
+    - Pulley
     - SwiftyJSON
 
 SPEC CHECKSUMS:
@@ -31,8 +34,9 @@ SPEC CHECKSUMS:
   GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
   GooglePlaces: be6f19fe8aa6ff0b5bcccfa1b8805cc977ea1450
   LGButton: a2fab54642121da2bee2e5f16bfbb57a8c05c788
+  Pulley: 028ddcc7d2dcbc078d71b61b7eee8e786d72c14a
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 84a14c5aaf089344da86e1827597798edd1b4e9d
+PODFILE CHECKSUM: fe5b8cae856adf3d89ad12452499f07326c42bf5
 
 COCOAPODS: 1.8.4

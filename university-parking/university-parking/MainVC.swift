@@ -16,23 +16,24 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var mapView: GMSMapView!
     @IBOutlet var tableView: UITableView!
     
+    var buildings:[Building] = []
+    var parkingLots:[Building] = []
+
     // MARK: - UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        let centerCoord = CLLocationCoordinate2D.init(latitude: 43, longitude: -78.791083)
-        
-        mapView.camera = GMSCameraPosition.camera(withLatitude: 42.9995, longitude: -78.791083, zoom: 16.5)
-        
-        //        mapView.mapType = .hybrid
-//        mapView.delegate = self
-        
-        retreiveAllLocations()
+                
+        mapView.camera = GMSCameraPosition.camera(withLatitude: 42.999, longitude: -78.791083, zoom: 16.5)
+        mapView.mapType = .hybrid
+                
+        retreiveBuildingParkingLotData() {
+            self.addParkingLotOverlays()
+            self.addBuildingOverlays()
+        }
     }
 
     // MARK: - MainVC
@@ -73,55 +74,65 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    // MARK: - MapView
+    // MARK: - Map
     
-//    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-//        if overlay is MKPolyline {
-//            let renderer = MKPolygonRenderer.init(overlay: overlay)
-//            renderer.fillColor = UIColor.red.withAlphaComponent(0.5)
-//            renderer.strokeColor = UIColor.red
-//            renderer.lineWidth = 2
-//            return renderer
-//        }
-//
-//        return MKOverlayRenderer()
-//    }
+    func addBuildingOverlays() {
+        for building in buildings {
+            let path = GMSMutablePath()
+            for boundaryCoord in building.boundaryCoords {
+                path.add(boundaryCoord)
+            }
+            
+            let polygon = GMSPolygon(path: path)
+            polygon.fillColor = UIColor(red: 0/255, green: 93/255, blue: 199/255, alpha: 0.20);
+            polygon.strokeColor = UIColor(red: 0/255, green: 93/255, blue: 199/255, alpha: 1.0);
+            polygon.strokeWidth = 2
+            polygon.map = self.mapView
+        }
+    }
+    
+    func addParkingLotOverlays() {
+        for parkingLot in parkingLots {
+            let path = GMSMutablePath()
+            for boundaryCoord in parkingLot.boundaryCoords {
+                path.add(boundaryCoord)
+            }
+            
+            let polygon = GMSPolygon(path: path)
+            polygon.fillColor = UIColor(red: 244/255, green: 245/255, blue: 35/255, alpha: 0.20);
+            polygon.strokeColor = UIColor(red: 244/255, green: 245/255, blue: 35/255, alpha: 1.0);
+            polygon.strokeWidth = 3
+            polygon.map = self.mapView
+        }
+    }
 
     // MARK: - Server API
 
-    func retreiveAllLocations() {
+    func retreiveBuildingParkingLotData(complete: @escaping (() -> Void)) {
         AF.request("https://patm-server.herokuapp.com/register_user", method: .post, parameters: ["userID": "123"], headers: nil, interceptor: nil)
         .responseJSON { response in
             print(response)
             
-            //        let JSON = response.value as! NSDictionary
-            //        print(JSON)
-            //
-            //        for i in JSON.allKeys {
-            //            print(i)
-            //        }
-            
-            let json = JSON.init(response.value!)
-            print(json)
+            switch response.result {
+            case .success:
+                let json = JSON.init(response.value!)
+                print(json)
 
-            for building in json["buildings"] {
-                print(building)
-                
-//                building.1.count
-                
-                var coordinates: [CLLocationCoordinate2D] = []
-                for i in 0...building.1.count {
-                    let latitude = building.1["boundary_lat"][i]
-                    let longitude = building.1["boundary_lon"][i]
-                    
-                    print(latitude)
-                    
-                    coordinates.append(CLLocationCoordinate2D.init(latitude: latitude.doubleValue, longitude: longitude.doubleValue))
+                for buildingJSON in json["buildings"] {
+                    let building = Building(json: buildingJSON.1)
+                    self.buildings.append(building)
                 }
+                
+                for parkingLotJSON in json["lots"] {
+                    let parkingLot = Building(json: parkingLotJSON.1)
+                    self.parkingLots.append(parkingLot)
 
-//                let polygon = MKPolygon.init(coordinates: coordinates, count: 1)
-//                self.mapView.addOverlay(polygon)
+                }
+            case .failure(let error):
+                print(error)
             }
+
+            complete()
         }
     }
 }
