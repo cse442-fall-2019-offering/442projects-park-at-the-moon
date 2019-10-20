@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import MapKit
+import GoogleMaps
 import Alamofire
 import SwiftyJSON
 
-class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
+class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet var mapView: MKMapView!
+    @IBOutlet var mapView: GMSMapView!
     @IBOutlet var tableView: UITableView!
     
     // MARK: - UIViewController
@@ -27,9 +27,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMa
         
         let centerCoord = CLLocationCoordinate2D.init(latitude: 43, longitude: -78.791083)
         
-        mapView.setCamera(MKMapCamera.init(lookingAtCenter: centerCoord, fromEyeCoordinate: centerCoord, eyeAltitude: 1250), animated: false);
-        mapView.mapType = .hybrid
-        mapView.delegate = self
+        mapView.camera = GMSCameraPosition.camera(withLatitude: 42.9995, longitude: -78.791083, zoom: 16.5)
+        
+        //        mapView.mapType = .hybrid
+//        mapView.delegate = self
         
         retreiveAllLocations()
     }
@@ -74,17 +75,17 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMa
 
     // MARK: - MapView
     
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKPolyline {
-            let renderer = MKPolygonRenderer.init(overlay: overlay)
-            renderer.fillColor = UIColor.red.withAlphaComponent(0.5)
-            renderer.strokeColor = UIColor.red
-            renderer.lineWidth = 2
-            return renderer
-        }
-        
-        return MKOverlayRenderer()
-    }
+//    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+//        if overlay is MKPolyline {
+//            let renderer = MKPolygonRenderer.init(overlay: overlay)
+//            renderer.fillColor = UIColor.red.withAlphaComponent(0.5)
+//            renderer.strokeColor = UIColor.red
+//            renderer.lineWidth = 2
+//            return renderer
+//        }
+//
+//        return MKOverlayRenderer()
+//    }
 
     // MARK: - Server API
 
@@ -118,8 +119,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMa
                     coordinates.append(CLLocationCoordinate2D.init(latitude: latitude.doubleValue, longitude: longitude.doubleValue))
                 }
 
-                let polygon = MKPolygon.init(coordinates: coordinates, count: 1)
-                self.mapView.addOverlay(polygon)
+//                let polygon = MKPolygon.init(coordinates: coordinates, count: 1)
+//                self.mapView.addOverlay(polygon)
             }
         }
     }

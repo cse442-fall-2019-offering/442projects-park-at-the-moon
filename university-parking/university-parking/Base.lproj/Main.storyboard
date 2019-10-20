@@ -16,9 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="eo0-Qk-prI">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="512"/>
-                            </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MEb-6E-d18">
                                 <rect key="frame" x="0.0" y="512" width="414" height="350"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -44,26 +41,30 @@
                                     <constraint firstAttribute="height" constant="75" id="tch-Gp-CWo"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y7y-2f-hNy" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="88" width="414" height="424"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.12717523117129942" green="0.31172816222823735" blue="0.53295963196286467" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="dz5-7X-Vur" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ACq-lh-VkI"/>
-                            <constraint firstItem="eo0-Qk-prI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="AKa-V1-Qbt"/>
+                            <constraint firstItem="MEb-6E-d18" firstAttribute="top" secondItem="Y7y-2f-hNy" secondAttribute="bottom" id="CoL-9s-pO1"/>
                             <constraint firstItem="MEb-6E-d18" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="O9u-89-cKR"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eo0-Qk-prI" secondAttribute="trailing" id="TEC-fJ-2N6"/>
-                            <constraint firstItem="eo0-Qk-prI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="V81-re-aXt"/>
+                            <constraint firstItem="Y7y-2f-hNy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ZTh-2E-GeN"/>
+                            <constraint firstItem="Y7y-2f-hNy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="dQ1-5h-qs0"/>
                             <constraint firstItem="dz5-7X-Vur" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="h2E-oa-tNY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MEb-6E-d18" secondAttribute="bottom" id="ir2-gy-IaI"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Y7y-2f-hNy" secondAttribute="trailing" id="mYP-Jy-Mj3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MEb-6E-d18" secondAttribute="trailing" id="seY-3v-0GX"/>
                             <constraint firstAttribute="trailing" secondItem="dz5-7X-Vur" secondAttribute="trailing" id="uIx-mC-6sq"/>
-                            <constraint firstItem="MEb-6E-d18" firstAttribute="top" secondItem="eo0-Qk-prI" secondAttribute="bottom" id="x1q-FB-qsm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="University Parking" largeTitleDisplayMode="always" id="Qu3-iq-8W9"/>
                     <connections>
-                        <outlet property="mapView" destination="eo0-Qk-prI" id="OQW-pK-nn5"/>
+                        <outlet property="mapView" destination="Y7y-2f-hNy" id="uxB-Bs-l1X"/>
                         <outlet property="tableView" destination="MEb-6E-d18" id="gMM-sO-IZh"/>
                     </connections>
                 </viewController>
