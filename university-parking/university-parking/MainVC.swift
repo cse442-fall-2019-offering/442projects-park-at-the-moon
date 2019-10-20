@@ -9,8 +9,9 @@
 import UIKit
 import MapKit
 import Alamofire
+import SwiftyJSON
 
-class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
@@ -28,6 +29,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         mapView.setCamera(MKMapCamera.init(lookingAtCenter: centerCoord, fromEyeCoordinate: centerCoord, eyeAltitude: 1250), animated: false);
         mapView.mapType = .hybrid
+        mapView.delegate = self
         
         retreiveAllLocations()
     }
@@ -70,28 +72,55 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-}
-
-// MARK: - Server API
-
-func retreiveAllLocations() {
-    AF.request("https://patm-server.herokuapp.com/register_user", method: .post, parameters: ["userID": "123"], headers: nil, interceptor: nil)
-    .responseJSON { response in
-        print(response)
-        
-        let JSON = response.value as! NSDictionary
-        print(JSON)
-
-        for i in JSON.allKeys {
-            print(i)
+    // MARK: - MapView
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKPolyline {
+            let renderer = MKPolygonRenderer.init(overlay: overlay)
+            renderer.fillColor = UIColor.red.withAlphaComponent(0.5)
+            renderer.strokeColor = UIColor.red
+            renderer.lineWidth = 2
+            return renderer
         }
         
-        if let buildingsJSON = JSON.value(forKey: "buildings") {
-            for i in buildingsJSON {
-                print(i)
+        return MKOverlayRenderer()
+    }
+
+    // MARK: - Server API
+
+    func retreiveAllLocations() {
+        AF.request("https://patm-server.herokuapp.com/register_user", method: .post, parameters: ["userID": "123"], headers: nil, interceptor: nil)
+        .responseJSON { response in
+            print(response)
+            
+            //        let JSON = response.value as! NSDictionary
+            //        print(JSON)
+            //
+            //        for i in JSON.allKeys {
+            //            print(i)
+            //        }
+            
+            let json = JSON.init(response.value!)
+            print(json)
+
+            for building in json["buildings"] {
+                print(building)
+                
+//                building.1.count
+                
+                var coordinates: [CLLocationCoordinate2D] = []
+                for i in 0...building.1.count {
+                    let latitude = building.1["boundary_lat"][i]
+                    let longitude = building.1["boundary_lon"][i]
+                    
+                    print(latitude)
+                    
+                    coordinates.append(CLLocationCoordinate2D.init(latitude: latitude.doubleValue, longitude: longitude.doubleValue))
+                }
+
+                let polygon = MKPolygon.init(coordinates: coordinates, count: 1)
+                self.mapView.addOverlay(polygon)
             }
         }
-        
-
     }
 }

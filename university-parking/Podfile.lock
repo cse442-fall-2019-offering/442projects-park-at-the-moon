@@ -1,10 +1,19 @@
 PODS:
   - Alamofire (5.0.0-rc.2)
+  - GoogleMaps (3.5.0):
+    - GoogleMaps/Maps (= 3.5.0)
+  - GoogleMaps/Base (3.5.0)
+  - GoogleMaps/Maps (3.5.0):
+    - GoogleMaps/Base
+  - GooglePlaces (3.5.0):
+    - GoogleMaps/Base (= 3.5.0)
   - LGButton (1.1.4)
   - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0-rc.2)
+  - GoogleMaps
+  - GooglePlaces
   - LGButton
   - SwiftyJSON (~> 4.0)
 
@@ -13,13 +22,17 @@ SPEC REPOS:
     - LGButton
   trunk:
     - Alamofire
+    - GoogleMaps
+    - GooglePlaces
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: f9450d3c7f6bea2ad62e7a541c3e9b186c7991d6
+  GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
+  GooglePlaces: be6f19fe8aa6ff0b5bcccfa1b8805cc977ea1450
   LGButton: a2fab54642121da2bee2e5f16bfbb57a8c05c788
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 5d463874fe5edb04c3041e1cbbbdc3b19cef6300
+PODFILE CHECKSUM: 84a14c5aaf089344da86e1827597798edd1b4e9d
 
 COCOAPODS: 1.8.4
