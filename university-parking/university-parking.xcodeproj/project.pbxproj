@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,7 @@
 		2F582F862B272025902C1449 /* Pods_university_parking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_university_parking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F77AF9CBD857927570DA95 /* Pods-university-parking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-university-parking.release.xcconfig"; path = "Target Support Files/Pods-university-parking/Pods-university-parking.release.xcconfig"; sourceTree = "<group>"; };
 		62705CE357411C161A0B4E2C /* Pods-university-parking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-university-parking.debug.xcconfig"; path = "Target Support Files/Pods-university-parking/Pods-university-parking.debug.xcconfig"; sourceTree = "<group>"; };
+		CA32397F235CC99300F01ACF /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Pods/Alamofire/Source/Alamofire.swift; sourceTree = "<group>"; };
 		CA7408EB2334561500F8B65C /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
 		CA7D2661232EA3BA00B5BF47 /* university-parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "university-parking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA7D2664232EA3BA00B5BF47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +65,7 @@
 		CA7D2658232EA3BA00B5BF47 = {
 			isa = PBXGroup;
 			children = (
+				CA32397F235CC99300F01ACF /* Alamofire.swift */,
 				CA7D2663232EA3BA00B5BF47 /* university-parking */,
 				CA7D2662232EA3BA00B5BF47 /* Products */,
 				22F36458B670F24338AB17CB /* Pods */,

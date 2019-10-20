@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import Alamofire
 
 class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -27,6 +28,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         mapView.setCamera(MKMapCamera.init(lookingAtCenter: centerCoord, fromEyeCoordinate: centerCoord, eyeAltitude: 1250), animated: false);
         mapView.mapType = .hybrid
+        
+        retreiveAllLocations()
     }
 
     // MARK: - MainVC
@@ -71,3 +74,24 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - Server API
 
+func retreiveAllLocations() {
+    AF.request("https://patm-server.herokuapp.com/register_user", method: .post, parameters: ["userID": "123"], headers: nil, interceptor: nil)
+    .responseJSON { response in
+        print(response)
+        
+        let JSON = response.value as! NSDictionary
+        print(JSON)
+
+        for i in JSON.allKeys {
+            print(i)
+        }
+        
+        if let buildingsJSON = JSON.value(forKey: "buildings") {
+            for i in buildingsJSON {
+                print(i)
+            }
+        }
+        
+
+    }
+}
