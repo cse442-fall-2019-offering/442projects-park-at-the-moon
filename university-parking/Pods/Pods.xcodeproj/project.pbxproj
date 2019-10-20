@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -48,27 +48,27 @@
 		1200B31230282AA09B0587B05C9FFB5E /* Pods-university-parking-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-university-parking-dummy.m"; sourceTree = "<group>"; };
 		147FCF7FE7A679DAEAD8384F9554C984 /* Pods-university-parking-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-university-parking-acknowledgements.markdown"; sourceTree = "<group>"; };
 		1F68B43A01CAA041CCE21254138B26AA /* FontIon.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FontIon.swift; path = LGButton/Classes/SwiftIconFont/FontIon.swift; sourceTree = "<group>"; };
-		213CA2886D3869B740E62809B8F0B5CE /* Pods_university_parking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_university_parking.framework; path = "Pods-university-parking.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		213CA2886D3869B740E62809B8F0B5CE /* Pods_university_parking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_university_parking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BCF5B24A895F7B060311DC42B180992 /* LGButton-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LGButton-dummy.m"; sourceTree = "<group>"; };
 		5045CBFDBDD684B5A5F401F0EE10A14D /* SwiftIconLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftIconLabel.swift; path = LGButton/Classes/SwiftIconFont/SwiftIconLabel.swift; sourceTree = "<group>"; };
-		509913C0AB3EF1B8D7C0DA14F67E62CF /* MaterialIcons-Regular.ttf */ = {isa = PBXFileReference; includeInIndex = 1; name = "MaterialIcons-Regular.ttf"; path = "LGButton/Resources/MaterialIcons-Regular.ttf"; sourceTree = "<group>"; };
-		53F11FBE2A1E8761FB77EF9D48DF2BA3 /* themify.ttf */ = {isa = PBXFileReference; includeInIndex = 1; name = themify.ttf; path = LGButton/Resources/themify.ttf; sourceTree = "<group>"; };
+		509913C0AB3EF1B8D7C0DA14F67E62CF /* MaterialIcons-Regular.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = "MaterialIcons-Regular.ttf"; path = "LGButton/Resources/MaterialIcons-Regular.ttf"; sourceTree = "<group>"; };
+		53F11FBE2A1E8761FB77EF9D48DF2BA3 /* themify.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = themify.ttf; path = LGButton/Resources/themify.ttf; sourceTree = "<group>"; };
 		5AB288BBE25B934CBDE50072DDF2F910 /* Pods-university-parking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-university-parking.release.xcconfig"; sourceTree = "<group>"; };
 		603980B15AA53D6EE81E882A1E962043 /* LGButton-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LGButton-prefix.pch"; sourceTree = "<group>"; };
 		67AA39A3A781DDBF0D8303D310C65914 /* LGButton-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LGButton-umbrella.h"; sourceTree = "<group>"; };
 		6DFCFA3BEA7372802E52B56F61989B96 /* SwiftIconFont.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftIconFont.swift; path = LGButton/Classes/SwiftIconFont/SwiftIconFont.swift; sourceTree = "<group>"; };
-		70F1FBF171988176451C2F8D940C4F83 /* map-icons.ttf */ = {isa = PBXFileReference; includeInIndex = 1; name = "map-icons.ttf"; path = "LGButton/Resources/map-icons.ttf"; sourceTree = "<group>"; };
+		70F1FBF171988176451C2F8D940C4F83 /* map-icons.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = "map-icons.ttf"; path = "LGButton/Resources/map-icons.ttf"; sourceTree = "<group>"; };
 		87237515542EAC67D14F683B7DD26893 /* FontThemify.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FontThemify.swift; path = LGButton/Classes/SwiftIconFont/FontThemify.swift; sourceTree = "<group>"; };
 		87DE68E47AAC69E6FC0F8EA10CAFD893 /* Pods-university-parking.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-university-parking.modulemap"; sourceTree = "<group>"; };
-		8ECB9E4ADD268BCE456433184B0BF116 /* Ionicons.ttf */ = {isa = PBXFileReference; includeInIndex = 1; name = Ionicons.ttf; path = LGButton/Resources/Ionicons.ttf; sourceTree = "<group>"; };
+		8ECB9E4ADD268BCE456433184B0BF116 /* Ionicons.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = Ionicons.ttf; path = LGButton/Resources/Ionicons.ttf; sourceTree = "<group>"; };
 		98F49B6710CB105923C7582A134ABCDA /* Pods-university-parking-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-university-parking-acknowledgements.plist"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A23B77E49E4C4AB6ADCC3E29716ED398 /* Pods-university-parking-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-university-parking-frameworks.sh"; sourceTree = "<group>"; };
-		A9CF6C774E7135C48D7C23EDEFF70252 /* LGButton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = LGButton.framework; path = LGButton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9CF6C774E7135C48D7C23EDEFF70252 /* LGButton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LGButton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9FF9944027B1A9A8E351B4D3F4627B9 /* Pods-university-parking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-university-parking.debug.xcconfig"; sourceTree = "<group>"; };
 		AC8FEAE55A0E97050A70626AA10C09EB /* FontOpenic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FontOpenic.swift; path = LGButton/Classes/SwiftIconFont/FontOpenic.swift; sourceTree = "<group>"; };
 		B2686BF578E493F042D32921383388E5 /* LGButton.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LGButton.xcconfig; sourceTree = "<group>"; };
-		C45601A23F8CBA53E76F8A7CD4E782AE /* open-iconic.ttf */ = {isa = PBXFileReference; includeInIndex = 1; name = "open-iconic.ttf"; path = "LGButton/Resources/open-iconic.ttf"; sourceTree = "<group>"; };
+		C45601A23F8CBA53E76F8A7CD4E782AE /* open-iconic.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = "open-iconic.ttf"; path = "LGButton/Resources/open-iconic.ttf"; sourceTree = "<group>"; };
 		C96161401F79F30223473C9BF97DAFA4 /* Pods-university-parking-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-university-parking-Info.plist"; sourceTree = "<group>"; };
 		C9B13461DEE213303A6F93012C468CCF /* Pods-university-parking-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-university-parking-umbrella.h"; sourceTree = "<group>"; };
 		CA6BEAD43DE939B66C0EED4693670A37 /* FontLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FontLoader.swift; path = LGButton/Classes/SwiftIconFont/FontLoader.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		EDEA8AC86FBAC6F60689BFC55415C9E5 /* LGButton.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = LGButton.xib; path = LGButton/Resources/LGButton.xib; sourceTree = "<group>"; };
 		F51E395B5241392403C24A10AE467ADC /* LGButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LGButton.swift; path = LGButton/Classes/LGButton.swift; sourceTree = "<group>"; };
 		F7317B95CA339F0EEF56F49849A69AD6 /* LGButton.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = LGButton.modulemap; sourceTree = "<group>"; };
-		F84A91A77DAC116A5EF6E1CFC5332644 /* octicons.ttf */ = {isa = PBXFileReference; includeInIndex = 1; name = octicons.ttf; path = LGButton/Resources/octicons.ttf; sourceTree = "<group>"; };
+		F84A91A77DAC116A5EF6E1CFC5332644 /* octicons.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = octicons.ttf; path = LGButton/Resources/octicons.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +137,6 @@
 				FA70D6B4D35B49F135601759832FFC01 /* Resources */,
 				989DEC9FD2581AE8E908EC3758D9CE8D /* Support Files */,
 			);
-			name = LGButton;
 			path = LGButton;
 			sourceTree = "<group>";
 		};
@@ -287,14 +286,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
 			productRefGroup = C88BC5B01DFDBCB21D6308FCD395FB4C /* Products */;
@@ -375,6 +375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -453,11 +454,7 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-university-parking/Pods-university-parking-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-university-parking/Pods-university-parking.modulemap";
 				OTHER_LDFLAGS = "";
@@ -490,11 +487,7 @@
 				INFOPLIST_FILE = "Target Support Files/LGButton/LGButton-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/LGButton/LGButton.modulemap";
 				PRODUCT_MODULE_NAME = LGButton;
 				PRODUCT_NAME = LGButton;
@@ -525,11 +518,7 @@
 				INFOPLIST_FILE = "Target Support Files/LGButton/LGButton-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/LGButton/LGButton.modulemap";
 				PRODUCT_MODULE_NAME = LGButton;
 				PRODUCT_NAME = LGButton;
@@ -562,11 +551,7 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-university-parking/Pods-university-parking-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-university-parking/Pods-university-parking.modulemap";
 				OTHER_LDFLAGS = "";
@@ -587,6 +572,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -636,8 +622,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
