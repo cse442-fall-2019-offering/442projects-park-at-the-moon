@@ -33,16 +33,29 @@ class MainVC: UIViewController, DrawerActionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                        
+
         setupMapAppearance()
 
         retreiveBuildingParkingLotData() {
             self.addParkingLotOverlays()
             self.addBuildingOverlays()
+            if self.drawerDataSourceDelegate != nil {
+                self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots)
+            }
         }
+        Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(reloadData), userInfo: nil, repeats: true)
     }
 
     // MARK: - MainVC
+    
+    @objc func reloadData() {
+        print("Reloaded Data")
+        retreiveBuildingParkingLotData() {
+            if self.drawerDataSourceDelegate != nil {
+                self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots)
+            }
+        }
+    }
     
     func setupMapAppearance() {
         mapView.camera = GMSCameraPosition.camera(withLatitude: 42.999, longitude: -78.791083, zoom: 16.5)
@@ -132,9 +145,6 @@ class MainVC: UIViewController, DrawerActionDelegate {
                     self.parkingLots.append(parkingLot)
                 }
                 
-                if self.drawerDataSourceDelegate != nil {
-                    self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots)
-                }
             case .failure(let error):
                 print(error)
             }
