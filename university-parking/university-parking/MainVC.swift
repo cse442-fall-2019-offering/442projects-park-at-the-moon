@@ -23,8 +23,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.delegate = self
         tableView.dataSource = self
         
-        let centerCoord = CLLocationCoordinate2D.init(latitude: 43.000877, longitude: -78.787342)
-        mapView.setCamera(MKMapCamera.init(lookingAtCenter: centerCoord, fromEyeCoordinate: centerCoord, eyeAltitude: 1500), animated: false);
+        let centerCoord = CLLocationCoordinate2D.init(latitude: 43, longitude: -78.791083)
+        
+        mapView.setCamera(MKMapCamera.init(lookingAtCenter: centerCoord, fromEyeCoordinate: centerCoord, eyeAltitude: 1250), animated: false);
+        mapView.mapType = .hybrid
     }
 
     // MARK: - MainVC
@@ -66,4 +68,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 
 }
+
+// MARK: - Server API
 

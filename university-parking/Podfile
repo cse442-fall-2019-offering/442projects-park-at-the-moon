@@ -6,5 +6,6 @@ target 'university-parking' do
   use_frameworks!
 
   pod 'LGButton'
+  pod 'Alamofire', '~> 5.0.0-rc.2'
 
 end

@@ -37,16 +37,26 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dz5-7X-Vur">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="75"/>
+                                <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="tch-Gp-CWo"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.12717523117129942" green="0.31172816222823735" blue="0.53295963196286467" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="dz5-7X-Vur" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ACq-lh-VkI"/>
                             <constraint firstItem="eo0-Qk-prI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="AKa-V1-Qbt"/>
                             <constraint firstItem="MEb-6E-d18" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="O9u-89-cKR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eo0-Qk-prI" secondAttribute="trailing" id="TEC-fJ-2N6"/>
                             <constraint firstItem="eo0-Qk-prI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="V81-re-aXt"/>
+                            <constraint firstItem="dz5-7X-Vur" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="h2E-oa-tNY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MEb-6E-d18" secondAttribute="bottom" id="ir2-gy-IaI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MEb-6E-d18" secondAttribute="trailing" id="seY-3v-0GX"/>
+                            <constraint firstAttribute="trailing" secondItem="dz5-7X-Vur" secondAttribute="trailing" id="uIx-mC-6sq"/>
                             <constraint firstItem="MEb-6E-d18" firstAttribute="top" secondItem="eo0-Qk-prI" secondAttribute="bottom" id="x1q-FB-qsm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -59,7 +69,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-820" y="70"/>
+            <point key="canvasLocation" x="-820.28985507246387" y="69.642857142857139"/>
         </scene>
         <!--OnboardingVC-->
         <scene sceneID="Ziy-Qv-UwS">
@@ -136,7 +146,7 @@
                                 </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.086274509803921567" green="0.62745098039215685" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="4qu-QW-i43" firstAttribute="centerX" secondItem="MEn-44-D44" secondAttribute="centerX" id="3au-US-uGR"/>
                             <constraint firstItem="4qu-QW-i43" firstAttribute="top" secondItem="nef-sG-xjX" secondAttribute="bottom" constant="30" id="GCe-sa-CVv"/>

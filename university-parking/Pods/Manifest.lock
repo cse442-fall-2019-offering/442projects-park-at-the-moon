@@ -1,16 +1,21 @@
 PODS:
+  - Alamofire (5.0.0-rc.2)
   - LGButton (1.1.4)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.0.0-rc.2)
   - LGButton
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - LGButton
+  trunk:
+    - Alamofire
 
 SPEC CHECKSUMS:
+  Alamofire: f9450d3c7f6bea2ad62e7a541c3e9b186c7991d6
   LGButton: a2fab54642121da2bee2e5f16bfbb57a8c05c788
 
-PODFILE CHECKSUM: 8fb9c4da38cd755032933939dc8e0d62e4806d4f
+PODFILE CHECKSUM: 6ddc89a6d0eba598c6b2108e3120a6009b688780
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.8.4
