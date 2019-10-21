@@ -143,7 +143,32 @@ def test_add_parking_lot():
 
 
 def test_closest_lot():
+
     parking_store = Store()
+    lot1 = "fronczak"
+    lot2 = "hochstetter"
+    building1 = {
+        "name": "governors",
+        "entrances_lat": [0],
+        "entrances_lon": [0],
+        "boundary_lat": [0],
+        "boundary_long": [0]
+    }
+
+    capacity1 = 100
+    capacity2 = 190
+
+    parking_store.add_lot(lot1, capacity1)
+    parking_store.add_lot(lot2, capacity2)
+    parking_store.add_building(building1)
+    parking_store.set_center(lot1, (0, 0))
+    parking_store.set_center(lot2, (5, 5))
+    parking_store.set_building_center(building1, (2, 2))
+    assert parking_store.get_store()['buildings'][building1['name']].closest_lot.name == lot1
+    parking_store.set_building_center(building1, (5, 4))
+    assert parking_store.get_store()['buildings'][building1['name']].closest_lot.name == lot2
+
+
 
 def test_remove_parking_lot():
 

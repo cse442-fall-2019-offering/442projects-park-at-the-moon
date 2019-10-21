@@ -27,7 +27,7 @@ class App:
                 self.parking_store.set_boundary_lat(name, lot["boundary_lat"])
                 self.parking_store.set_boundary_lon(name, lot["boundary_long"])
                 self.parking_store.set_type(name, lot["type"])
-                self.parking_store.set_center(name)
+                self.parking_store.set_center(name, (0, 0))
         for building in data['buildings']:
             self.parking_store.add_building(building)
 

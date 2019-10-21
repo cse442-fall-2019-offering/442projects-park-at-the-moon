@@ -62,8 +62,11 @@ class Store(UserDict):
     def set_type(self, lot, type):
         self.store['lots'][lot].set_type(type)
 
-    def set_center(self, lot):
-        self.store['lots'][lot].set_center()
+    def set_center(self, lot, center):
+        self.store['lots'][lot].set_center(center)
+
+    def set_building_center(self, building, center):
+        self.store['buildings'][building['name']].set_center(center)
 
     def get_store(self):
         return self.store
@@ -158,11 +161,16 @@ class Building:
         self.entrance_lon = entrance_lon
         self.boundary_lat = boundary_lat
         self.boundary_lon = boundary_lon
-        self.center = (sum(self.boundary_lat)/len(self.boundary_lat), \
-                       sum(self.boundary_lon)/len(self.boundary_lon))
+        self.center = (sum(boundary_lat)/len(boundary_lat), \
+                       sum(boundary_lon)/len(boundary_lon))
         self.closest_lot = self.compute_closest_lot(store.get_store())
+        self.parking_store = store
         store.get_bstore()[id] = name
         store.get_bstore()[name] = id
+
+    def set_center(self, center):
+        self.center = center
+        self.closest_lot = self.compute_closest_lot(self.parking_store.get_store())
 
     def compute_closest_lot(self, store):
         min_distance = float("inf")
@@ -198,11 +206,12 @@ class ParkingLot:
         self.name = name
         self.spots = capacity
         self.capacity = capacity
-        self.boundary_lat = []
-        self.boundary_lon = []
+        self.boundary_lat = [0]
+        self.boundary_lon = [0]
         self.available_times = []
         self.type = -1
-        self.center = ()
+        self.center = (sum(self.boundary_lat)/len(self.boundary_lat), \
+                       sum(self.boundary_lon)/len(self.boundary_lon))
 
     def increase_spots(self):
         self.spots = min(self.capacity, self.spots + 1)
@@ -231,9 +240,8 @@ class ParkingLot:
     def set_type(self, type):
         self.type = type
 
-    def set_center(self):
-        self.center =  (sum(self.boundary_lat)/len(self.boundary_lat), \
-                       sum(self.boundary_lon)/len(self.boundary_lon))
+    def set_center(self, center):
+        self.center = center
 
     def get_center(self):
         return self.center
