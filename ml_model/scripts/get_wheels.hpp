@@ -13,15 +13,18 @@
 // total pixels for a single row in image
 #define PIXELS_DISTANCE 840
 // how far off the difference in velocity can be between wheels to determine it's the same wheel
-#define VELOCITY_ERROR 2
+#define VELOCITY_ERROR 1000
 // how often (in seconds) data should get sent to the server for comparison
 #define SERVER_INTERVAL 10
 // dead time, i.e. if the wheel has been sitting in the vector for 
 // this long, then we remove it
-#define DEAD_INTERVAL 10
+#define DEAD_INTERVAL 1000
 // once the wheel has reached this amount from both sides of the image
 // it has made its total path, and we can remove it
 #define COMPLETE_MARGIN 10
+// max difference in frames between 2 points that would
+// still allow consideration of those 2 points belong to the same wheel
+#define FRAME_ERROR 5
 
 class WheelPath {
 private:
@@ -43,18 +46,21 @@ public:
 class Camera {
 private:
     std::vector<WheelPath> all_wheels;
+    // current count of previous car detection run
+    int count;
     // for wheels that have not found their way to a timeframe of wheels (yet)
     // index 0 is x-coordinate
     // index 1 is radius
     // index 2 is timestamp
     // index 3 is frame number
     std::vector<std::vector<float>> unknown_wheels;
-public:
     // TODO: change this back to private
     void clean_data(double cur_time);
+public:
+    Camera(): count(0) {}
     float get_velocity (float start_x, float start_time, float last_x, float last_time);
-    void find_closest_unknown(float x_coord, int &index, float &min_distance, float radius);
-    void find_closest_known(float x_coord, int &index, float &min_distance, float radius);
+    void find_closest_unknown(float x_coord, int &index, float &min_distance, float radius, int frame);
+    void find_closest_known(float x_coord, int &index, float &min_distance, float radius, int frame);
     // getting velocity by checking first x coordinate with current x coordinate
     void compare_velocity(float velocity, int &idex);
     // TODO: I should probably check radius of incoming wheel and existing wheel
@@ -63,7 +69,7 @@ public:
     void send_data_to_server(double cur_time);     
     std::vector<WheelPath> get_all_wheels();
     std::vector<std::vector<float>> get_unknown_wheels();
-    int car_count();
+    void car_count();
     float get_average_velocity(std::vector<std::vector<float>> &wheelpath);
 
 };
