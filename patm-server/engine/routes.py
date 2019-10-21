@@ -53,6 +53,7 @@ def car_entered(lot):
     :param lot: Name of the parking lot where the event was triggered
     :return:
     """
+    import pdb; pdb.set_trace()
     app_instance.parking_store.decrease_spots(lot)
     return jsonify()
 
