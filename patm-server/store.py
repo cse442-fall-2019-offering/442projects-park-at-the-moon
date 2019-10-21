@@ -241,7 +241,7 @@ class ParkingLot:
             "id" : self.id,
             "name" : self.name,
             "capacity": self.capacity,
-            "spots": self.capacity,
+            "spots": self.spots,
             "boundary_lat" : self.boundary_lat,
             "boundary_lon" : self.boundary_lon,
             "center" : (sum(self.boundary_lat) / len(self.boundary_lat), \
