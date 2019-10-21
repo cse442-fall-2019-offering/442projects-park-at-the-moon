@@ -104,8 +104,17 @@ int main(int argc, const char * argv[]) {
     int count = 0;
     std::vector<std::vector<float>> wheels_cur_image;
     //    process the image frame by frame
+    std::vector<std::string> lots = {"Jarvis%20B", "Jarvis%20A", "Governors%20C", "Governors%20D", "Governors%20E", "Stadium", "Arena", "Alumni%20B", "Alumni%20C", "Fronczak%20B", "Governors%20A", "Fronczak%20A", "Governors%20B", "Ketter", "Lake%20LaSalle", "Slee%20B", "Baird%20B", "Baird%20A", "Slee%20A", "Jacobs%20A", "Jacobs%20B", "Jacobs%20C", "Hochstetter%20A", "Hochstetter%20B", "Cooke%20A", "Cooke%20B", "Alumni%20A"};
+
     for (;count < frameCount; ++count) 
     {
+        int random_lot = rand() % 28;
+        if (count % 20 == 0){
+            std::string url = (std::string("curl http://127.0.0.1:5000/car-entered/") + std::string(lots[random_lot]));
+            url = (std::string("curl https://patm-server.herokuapp.com/car-entered/") + std::string(lots[random_lot]));
+            system((url).c_str());
+            //system((std::string("curl http://127.0.0.1:5000/car-exited/") + std::string(lots[random_lot])).c_str());
+        }
         //cout<<"frame count "<<count<<endl;
         time = std::clock();
 
