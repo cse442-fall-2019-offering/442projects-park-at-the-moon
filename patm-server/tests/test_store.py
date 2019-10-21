@@ -52,6 +52,8 @@ def test_add_history():
 def test_suggestion(test_add_history):
     store = test_add_history
     assert store.get_recommendation(0) == 1
+    time = datetime.now() + timedelta(hours = 4)
+    assert store.get_recommendation(0, time) == 2
 
 
 def test_add_building():

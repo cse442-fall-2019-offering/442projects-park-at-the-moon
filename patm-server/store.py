@@ -26,9 +26,9 @@ class Store(UserDict):
         if uid not in self.store['users']:
             self.store['users'][uid] = User(uid)
 
-    def get_recommendation(self, uid):
+    def get_recommendation(self, uid, ts = datetime.now()):
         if uid in self.store['users']:
-            return self.store['users'][uid].get_parking_recommendation()
+            return self.store['users'][uid].get_parking_recommendation(ts)
 
     def remove_lot(self, lot):
         if lot in self.store['lots']:
@@ -106,7 +106,7 @@ class User:
     def get_history(self):
         return self.history
 
-    def get_parking_recommendation(self):
+    def get_parking_recommendation(self, ts):
         """
         Binary search on the timestamps and return a recommendation only if the timestamp is within 30 minutes
         :return:

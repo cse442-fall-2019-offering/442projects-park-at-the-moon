@@ -19,7 +19,6 @@ def update_spots(uid):
     :return: Data regarding parking lot empty spots in the JSON format
     """
     store = app_instance.parking_store.get_store()
-    import pdb; pdb.set_trace()
     return jsonify({store['lots'][key].id: store['lots'][key].get_spots() for key in store['lots'].keys()})
 
 
