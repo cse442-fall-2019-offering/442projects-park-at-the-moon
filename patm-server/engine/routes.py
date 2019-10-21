@@ -54,7 +54,6 @@ def car_entered(lot):
     :return:
     """
     lot = lot.replace('%20', ' ')
-    import pdb; pdb.set_trace()
     app_instance.parking_store.decrease_spots(lot)
     return jsonify()
 
@@ -79,7 +78,6 @@ def index():
 def register_user():
     uid = int(request.form["userID"])
     app_instance.parking_store.register_user(uid)
-    import pdb; pdb.set_trace()
     response = {k: v for k, v in app_instance.parking_store.get_store().items() if k in ("buildings", "lots")}
     response['buildings'] = {k: v.to_json() for k, v in response['buildings'].items()}
     response['lots'] = {k: v.to_json() for k, v in response['lots'].items()}
