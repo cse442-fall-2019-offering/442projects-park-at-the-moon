@@ -24,35 +24,95 @@ def setup():
 
     return parking_store
 
-@pytest.fixture(scope="module", autouse=True)
 def test_add_history():
 
 
     parking_store = Store()
     parking_store.register_user(0)
+    parking_store.register_user(1)
+
     time = datetime.now()
     users = parking_store.get_store()['users']
     users[0].add_history(time, 1)
+    users[1].add_history(time, 2)
+
     assert (time, 1) in users[0].get_history()
+    assert (time, 1) not in users[1].get_history()
+    assert (time, 2) in users[1].get_history()
+    assert (time, 2) not in users[0].get_history()
+
     new_time = datetime.now() + timedelta(hours=4)
     users[0].add_history(new_time, 2)
+    users[1].add_history(new_time, 2)
+
     assert (time, 1) in users[0].get_history()
+    assert (time, 2) in users[1].get_history()
     assert (new_time, 2) in users[0].get_history()
+    assert (new_time, 2) in users[1].get_history()
 
     newest_time = datetime.now() + timedelta(hours=-4)
     users[0].add_history(newest_time, 2)
+
+    users[1].add_history(newest_time, 2)
+
     assert (time, 1) in users[0].get_history()
-    assert users[0].get_history().index((time, 1)) < users[0].get_history().index((new_time, 2))
-    assert users[0].get_history().index((time, 1)) > users[0].get_history().index((newest_time, 2))
+    assert (newest_time, 2) in users[1].get_history()
     assert (new_time, 2) in users[0].get_history()
     assert (newest_time, 2) in users[0].get_history()
 
-    return parking_store
+    assert users[0].get_history().index((time, 1)) < users[0].get_history().index((new_time, 2))
+    assert users[0].get_history().index((time, 1)) > users[0].get_history().index((newest_time, 2))
 
-def test_suggestion(test_add_history):
-    store = test_add_history
+    assert users[1].get_history().index((time, 2)) < users[0].get_history().index((new_time, 2))
+    assert users[1].get_history().index((time, 2)) > users[0].get_history().index((newest_time, 2))
+
+
+def test_add_history_next_day():
+
+    parking_store = Store()
+    parking_store.register_user(1)
+
+    users = parking_store.get_store()['users']
+
+    time = datetime.now()
+    users[1].add_history(time, 2)
+    next_day = datetime.now() + timedelta(days=1)
+    users[1].add_history(next_day, 1)
+
+    assert users[1].get_history().index((time, 2)) < users[1].get_history().index((next_day, 1))
+
+def test_add_history_next_week():
+
+    parking_store = Store()
+    parking_store.register_user(1)
+
+    users = parking_store.get_store()['users']
+
+    time = datetime.now()
+    users[1].add_history(time, 2)
+    next_week = datetime.now() + timedelta(weeks=1, hours=-1)
+    users[1].add_history(next_week, 1)
+
+    assert users[1].get_history().index((time, 2)) > users[1].get_history().index((next_week, 1))
+
+def test_suggestion():
+
+    parking_store = Store()
+    parking_store.register_user(0)
+
+    time = datetime.now()
+    users = parking_store.get_store()['users']
+    users[0].add_history(time, 1)
+    new_time = datetime.now() + timedelta(hours=4)
+    users[0].add_history(new_time, 2)
+
+    newest_time = datetime.now() + timedelta(hours=-4)
+    users[0].add_history(newest_time, 2)
+    store = parking_store
     assert store.get_recommendation(0) == 1
     time = datetime.now() + timedelta(hours = 4)
+    assert store.get_recommendation(0, time) == 2
+    time = datetime.now() + timedelta(hours=-4)
     assert store.get_recommendation(0, time) == 2
 
 

@@ -83,11 +83,6 @@ def register_user():
     response['lots'] = {k: v.to_json() for k, v in response['lots'].items()}
     return jsonify(response)
 
-
-@engine.route('/lot_availability')
-def get_availability():
-    pass
-
 ##############################################################################
 #                               SOCKET EVENTS
 # Sockets to be used as backup only

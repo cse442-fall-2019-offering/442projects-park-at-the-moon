@@ -95,8 +95,13 @@ class User:
                 hi = len(a)
             while lo < hi:
                 mid = (lo + hi) // 2
-                if a[mid][0] < key:
+                if a[mid][0].weekday() < key.weekday():
                     lo = mid + 1
+                elif a[mid][0].weekday() == key.weekday():
+                    if a[mid][0].hour < key.hour:
+                        lo = mid + 1
+                    else:
+                        hi = mid
                 else:
                     hi = mid
             a.insert(lo, x)
@@ -127,8 +132,8 @@ class User:
         from datetime import datetime
 
         ls = KeyifyList(self.history, lambda x: x[0])
-        left = bisect_left(ls, datetime.now() - timedelta(minutes=30))
-        right = bisect_right(ls, datetime.now())
+        left = bisect_left(ls, ts - timedelta(minutes=30))
+        right = bisect_right(ls, ts)
 
         return self.history[left][1]
 
