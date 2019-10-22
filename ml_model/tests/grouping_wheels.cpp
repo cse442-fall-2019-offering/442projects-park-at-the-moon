@@ -35,11 +35,31 @@ void print_known_wheels(Camera &c) {
     }
     std::cout << std::endl;
 }
-// if direction: false = left, true = right
-void populate_single(Camera &c, bool direction) {
 
+void print_cars(Camera &c) {
+
+    std::cout << "**** cars ****" << std::endl;
+    for (auto car = c.get_cars().begin(); car != c.get_cars().end(); ++car) {
+
+        auto front = car->frontwheel->wheel.begin();
+        auto back = car->backwheel->wheel.begin();
+        std::cout << "\t\t\tback wheel\t\t\tfront wheel" << std::endl;
+        while (front != car->frontwheel->wheel.end() && back != car->backwheel->wheel.end()) {
+            std::cout << "xcoordinate:" << (*back)[0] << "\t\t\t" << (*front)[0] << std::endl;
+            std::cout << "velocity:" << (*back)[1] << "\t\t\t" << (*front)[1] << std::endl;
+            std::cout << "timestamp:" << (*back)[2] << "\t\t\t" << (*front)[2] << std::endl;
+            std::cout << "xcoordinate:" << (*back)[3] << "\t\t\t" << (*front)[3] << std::endl;
+            ++front;
+            ++back;
+        }
+        std::cout << std::endl;
+        std::cout << std::endl;
+    }
+}
+
+// if direction: false = left, true = right
+void populate_single(Camera &c, bool direction, int& frame) {
     std::srand(std::time(NULL));
-    int frame = 0;
     int radius = 20;
     unsigned ms = 100;
     if (direction) {
@@ -135,35 +155,45 @@ void populate_reappear(Camera &c, int num_wheels, bool left_right) {
         usleep(ms);
     }
 }
-
-void single_wheel() {
+// directions: true = right, false = left
+void single_wheel(int frame, std::vector<bool> &directions) {
 
     Camera c;
-    // moving right
-    populate_single(c, true); 
-    // moving left
-    populate_single(c, false); 
+    for (int i = 0; i < directions.size(); ++i) {
+        populate_single(c, directions[i], frame); 
+    }
     
     print_unknown_wheels(c);
     print_known_wheels(c);
+    std::cout << "number of actual cars: " << c.get_cars().size() << std::endl;
     c.send_data_to_server(2);
 }
 
-void multiple_wheels() {
+void multiple_wheels(int frame, std::vector<int> &directions) {
 
     Camera c;
-
     populate_reappear(c, 2, true);
     print_unknown_wheels(c);
     print_known_wheels(c);
     c.send_data_to_server(2);
+    std::cout << "number of actual cars: " << c.get_cars().size() << std::endl;
 }
+
 
 int main() {
 
 
+    int frame = 0;
+    std::vector<bool> directions;
 
-    single_wheel();
+    directions.push_back(false);
+    directions.push_back(true);
+    directions.push_back(true);
+    directions.push_back(false);
+    directions.push_back(true);
+    directions.push_back(true);
+
+    single_wheel(frame, directions);
     //multiple_wheels();
     return 0;
 }
