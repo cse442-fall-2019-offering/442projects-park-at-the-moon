@@ -22,27 +22,36 @@
 // once the wheel has reached this amount from both sides of the image
 // it has made its total path, and we can remove it
 #define COMPLETE_MARGIN 10
-// max difference in frames between 2 points that would
+// max difference in time (TODO: in ms i think) between 2 points that would
 // still allow consideration of those 2 points belong to the same wheel
-#define FRAME_ERROR 5
+#define TIME_ERROR 200
+
 
 class WheelPath {
 private:
     static int total_id;
 public:
+    // this represents that another wheelpath was found to form a car
+    // in conjunction with this wheelpath
+    int other_wheelpath;
     float radius;
     int id;
     WheelPath(float r): radius(r) {
-        id = total_id++;
+        id = ++total_id;
     }
     // index 0 is x-coordinate
     // index 1 is velocity
     // index 2 is timestamp
     // index 3 is frame number
-    std::vector<std::vector<float>> wheel;
-    
+    std::vector<std::vector<float>> wheel; 
 };
 
+class Car {
+public:
+    WheelPath *left;
+    WheelPath *right; 
+    Car (): left(NULL), right(NULL) {}
+};
 class Camera {
 private:
     std::vector<WheelPath> all_wheels;
@@ -59,8 +68,10 @@ private:
 public:
     Camera(): count(0) {}
     float get_velocity (float start_x, float start_time, float last_x, float last_time);
-    void find_closest_unknown(float x_coord, int &index, float &min_distance, float radius, int frame);
-    void find_closest_known(float x_coord, int &index, float &min_distance, float radius, int frame);
+    bool find_existing_wheelpoint(float x_coord, float time, int frame);
+    bool find_existing_wheelpath(float x_coord, float time, int frame);
+    void add_unknown_point(float x_coord, float radius, float timestamp, int frame);
+    bool combine_wheelpaths(WheelPath &wheelpath);
     // getting velocity by checking first x coordinate with current x coordinate
     void compare_velocity(float velocity, int &idex);
     // TODO: I should probably check radius of incoming wheel and existing wheel
@@ -69,6 +80,7 @@ public:
     void send_data_to_server(double cur_time);     
     std::vector<WheelPath> get_all_wheels();
     std::vector<std::vector<float>> get_unknown_wheels();
+    void find_cars();
     void car_count();
     float get_average_velocity(std::vector<std::vector<float>> &wheelpath);
 
