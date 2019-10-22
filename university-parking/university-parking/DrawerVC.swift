@@ -54,6 +54,7 @@ class DrawerVC: UIViewController, PulleyDrawerViewControllerDelegate, UISearchBa
 
     func didRetreiveParkingLots(parkingLots: [ParkingLot]) {
         self.parkingLots = parkingLots
+        self.tableView.reloadData()
     }
 
     // MARK: - UITableViewDataSource
