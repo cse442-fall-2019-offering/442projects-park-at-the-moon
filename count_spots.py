@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-#import matplotlib.pyplot as plt
 import math
 import pandas as pd
 
@@ -30,15 +29,17 @@ def templateMatch (imagePath, templateImagePath):
             [int(cv2.IMWRITE_JPEG_QUALITY), 50])
     return len(detectedObjects)
 
+def countSpots():
 
-df = pd.read_csv("lot_data_with_capacity.csv")
-lotNames = list(df["Parking Lots"])
-print(lotNames)
+    df = pd.read_csv("lot_data_with_capacity.csv")
+    lotNames = list(df["Parking Lots"])
+    #print(lotNames)
 
-for i in range (0, len(lotNames)):
-    spaces = templateMatch("lot_images/" + lotNames[i] + ".png", "lot_images/template.png")
-    df.at[i, "Total Max Spots"] = spaces
-    #print(lotNames[i], spaces)
+    for i in range (0, len(lotNames)):
+        spaces = templateMatch("lot_images/" + lotNames[i] + ".png", "lot_images/template.png")
+        df.at[i, "Total Max Spots"] = spaces
+        #print(lotNames[i], spaces)
 
-print(df)
-df.to_csv("lot_data_with_capacity.csv")
+    #print(df)
+    df.to_csv("lot_data_with_capacity.csv")
+    return df
