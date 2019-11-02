@@ -24,6 +24,8 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
     
     var parkingLotOverlayPaths:[GMSPath?] = []
     var parkingLotMarkers:[GMSMarker?] = []
+    var selectedParkingLotID = -1
+    var selectedParkngLotOverlay:GMSPolygon? = nil
 
     var drawerDataSourceDelegate: DrawerDataSourceDelegate!
 
@@ -83,7 +85,15 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
     // MARK: - DrawerActionDelegate
     
     func didSelectParkingLot(parkingLotID: Int) {
+        // Unselect previously selected map elements
+        if selectedParkingLotID != -1 {
+            parkingLotMarkers[selectedParkingLotID]!.icon = UIImage.init(named: "lot-marker")
+        }
+        selectedParkngLotOverlay?.map = nil
+        
+        self.selectedParkingLotID = parkingLotID
         if let parkingLot = getParkingLot(withID: parkingLotID) {
+            // Move and animate camera
             let path = GMSMutablePath()
             for boundaryCoord in parkingLot.boundaryCoords {
                 path.add(boundaryCoord)
@@ -93,6 +103,17 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
             
             let update = GMSCameraUpdate.fit(bounds, with: edgeInsets)
             mapView.animate(with: update)
+            
+            // Add selected overlays
+            let selectedParkingLotMarker = parkingLotMarkers[parkingLotID]!
+            selectedParkingLotMarker.icon = UIImage.init(named: "selected-lot-marker")
+            
+            selectedParkngLotOverlay = GMSPolygon(path: parkingLotOverlayPaths[parkingLotID]!)
+            selectedParkngLotOverlay!.fillColor = UIColor.clear
+            selectedParkngLotOverlay!.strokeColor = UIColor(red: 0/255, green: 93/255, blue: 188/255, alpha: 1.0);
+            selectedParkngLotOverlay!.strokeWidth = 4
+            selectedParkngLotOverlay!.zIndex = 2
+            selectedParkngLotOverlay!.map = self.mapView
         }
     }
     
@@ -125,6 +146,7 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
             polygon.fillColor = UIColor(red: 244/255, green: 245/255, blue: 35/255, alpha: 0.20);
             polygon.strokeColor = UIColor(red: 244/255, green: 245/255, blue: 35/255, alpha: 1.0);
             polygon.strokeWidth = 3
+            polygon.zIndex = 1
             polygon.userData = parkingLot.id
             polygon.map = self.mapView
         }
