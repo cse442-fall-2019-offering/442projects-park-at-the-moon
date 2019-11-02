@@ -15,13 +15,16 @@ protocol DrawerActionDelegate {
     func didSelectParkingLot(parkingLotID: Int)
 }
 
-class MainVC: UIViewController, DrawerActionDelegate {
+class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
 
     @IBOutlet var mapView: GMSMapView!
     
     var buildings:[Building] = []
     var parkingLots:[ParkingLot] = []
     
+    var parkingLotOverlayPaths:[GMSPath?] = []
+    var parkingLotMarkers:[GMSMarker?] = []
+
     var drawerDataSourceDelegate: DrawerDataSourceDelegate!
 
     // MARK: - UIViewController
@@ -29,9 +32,12 @@ class MainVC: UIViewController, DrawerActionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        mapView.delegate = self
         setupMapAppearance()
 
         retreiveBuildingParkingLotData() {
+            self.parkingLotOverlayPaths = Array<GMSPath?>(repeating: nil, count: self.parkingLots.count)
+            self.parkingLotMarkers = Array<GMSMarker?>(repeating: nil, count: self.parkingLots.count)
             self.addParkingLotOverlays()
             self.addParkingLotMarkers()
             self.addBuildingOverlays()
@@ -113,11 +119,13 @@ class MainVC: UIViewController, DrawerActionDelegate {
             for boundaryCoord in parkingLot.boundaryCoords {
                 path.add(boundaryCoord)
             }
-            
+            parkingLotOverlayPaths[parkingLot.id] = path
+
             let polygon = GMSPolygon(path: path)
             polygon.fillColor = UIColor(red: 244/255, green: 245/255, blue: 35/255, alpha: 0.20);
             polygon.strokeColor = UIColor(red: 244/255, green: 245/255, blue: 35/255, alpha: 1.0);
             polygon.strokeWidth = 3
+            polygon.userData = parkingLot.id
             polygon.map = self.mapView
         }
     }
@@ -127,7 +135,30 @@ class MainVC: UIViewController, DrawerActionDelegate {
             let marker = GMSMarker(position: parkingLot.centerCoord)
             //marker.title = parkingLot.name
             marker.icon = UIImage.init(named: "lot-marker")
+            marker.userData = parkingLot.id
             marker.map = mapView
+            
+            parkingLotMarkers[parkingLot.id] = marker
+        }
+    }
+        
+    // MARK: GMSMapViewDelegate
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        let parkingLotID = marker.userData as! Int
+        didSelectParkingLot(parkingLotID: parkingLotID)
+        return true
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        if parkingLotOverlayPaths.count == 0 {
+            return
+        }
+        
+        for parkingLotID in 0..<self.parkingLotOverlayPaths.count {
+            if GMSGeometryContainsLocation(coordinate, parkingLotOverlayPaths[parkingLotID]!, true) {
+                didSelectParkingLot(parkingLotID: parkingLotID)
+            }
         }
     }
 
