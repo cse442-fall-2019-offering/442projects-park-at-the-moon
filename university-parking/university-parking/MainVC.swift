@@ -33,6 +33,7 @@ class MainVC: UIViewController, DrawerActionDelegate {
 
         retreiveBuildingParkingLotData() {
             self.addParkingLotOverlays()
+            self.addParkingLotMarkers()
             self.addBuildingOverlays()
             if self.drawerDataSourceDelegate != nil {
                 self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots)
@@ -54,12 +55,13 @@ class MainVC: UIViewController, DrawerActionDelegate {
     
     func setupMapAppearance() {
         mapView.camera = GMSCameraPosition.camera(withLatitude: 42.999, longitude: -78.791083, zoom: 16.5)
-        mapView.mapType = .hybrid
+        mapView.mapType = .normal
         if traitCollection.userInterfaceStyle == .light {
             print("Light mode")
+            mapView.mapStyle(withFilename: "googlemap_style_light", andType: "json")
         } else {
             print("Dark mode")
-            mapView.mapStyle(withFilename: "googlemap_style", andType: "json")
+            mapView.mapStyle(withFilename: "googlemap_style_dark", andType: "json")
         }
     }
     
@@ -117,6 +119,15 @@ class MainVC: UIViewController, DrawerActionDelegate {
             polygon.strokeColor = UIColor(red: 244/255, green: 245/255, blue: 35/255, alpha: 1.0);
             polygon.strokeWidth = 3
             polygon.map = self.mapView
+        }
+    }
+    
+    func addParkingLotMarkers() {
+        for parkingLot in parkingLots {
+            let marker = GMSMarker(position: parkingLot.centerCoord)
+            //marker.title = parkingLot.name
+            marker.icon = UIImage.init(named: "lot-marker")
+            marker.map = mapView
         }
     }
 
