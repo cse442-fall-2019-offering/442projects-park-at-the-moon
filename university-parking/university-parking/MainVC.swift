@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps
+import GooglePlaces
 import Alamofire
 import SwiftyJSON
 
@@ -24,9 +25,13 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
     var parkingLots:[ParkingLot] = []
     
     var parkingLotOverlayPaths:[GMSPath?] = []
+    var buildingOverlayPaths:[GMSPath?] = []
     var parkingLotMarkers:[GMSMarker?] = []
+    
     var selectedParkingLotID = -1
-    var selectedParkngLotOverlay:GMSPolygon? = nil
+    var selectedParkingLotOverlay:GMSPolygon? = nil
+    var selectedBuildingOverlay:GMSPolygon? = nil
+    var walkingPolyline:GMSPolyline? = nil
 
     var drawerDataSourceDelegate: DrawerDataSourceDelegate!
 
@@ -40,6 +45,7 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
 
         retreiveBuildingParkingLotData() {
             self.parkingLotOverlayPaths = Array<GMSPath?>(repeating: nil, count: self.parkingLots.count)
+            self.buildingOverlayPaths = Array<GMSPath?>(repeating: nil, count: self.buildings.count*3) // TODO: Change back to .count
             self.parkingLotMarkers = Array<GMSMarker?>(repeating: nil, count: self.parkingLots.count)
             self.addParkingLotOverlays()
             self.addParkingLotMarkers()
@@ -82,17 +88,21 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
         }
         return nil
     }
+    
+    func getBuilding(withID: Int) -> Building? {
+        for building in buildings {
+            if building.id == withID {
+                return building
+            }
+        }
+        return nil
+    }
 
     // MARK: - DrawerActionDelegate
-    
-    func didSelectParkingLot(parkingLotID: Int) {
-        // Unselect previously selected map elements
-        if selectedParkingLotID != -1 {
-            parkingLotMarkers[selectedParkingLotID]!.icon = UIImage.init(named: "lot-marker")
-        }
-        selectedParkngLotOverlay?.map = nil
         
-        self.selectedParkingLotID = parkingLotID
+    func didSelectParkingLot(parkingLotID: Int) {
+        removeSelectedOverlaysAndMarker()
+        
         if let parkingLot = getParkingLot(withID: parkingLotID) {
             // Move and animate camera
             let path = GMSMutablePath()
@@ -105,33 +115,101 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
             let update = GMSCameraUpdate.fit(bounds, with: edgeInsets)
             mapView.animate(with: update)
             
-            // Add selected overlays
-            let selectedParkingLotMarker = parkingLotMarkers[parkingLotID]!
-            selectedParkingLotMarker.icon = UIImage.init(named: "selected-lot-marker")
+            addSelectedParkingLotOverlayAndMarker(parkingLotID: parkingLotID)
+        }
+    }
+        
+    func didSearchBuilding(buildingID: Int) {
+        // TODO: Make API request and select parking lot & building
+        removeSelectedOverlaysAndMarker()
+        
+        print("didSearchBuilding")
+        
+        let bestParkingLotID = 24
+        let bestParkingLot = getParkingLot(withID: bestParkingLotID)!
+
+        selectedBuildingOverlay = GMSPolygon(path: buildingOverlayPaths[buildingID]!)
+        selectedBuildingOverlay!.fillColor = UIColor.clear
+        selectedBuildingOverlay!.strokeColor = UIColor(red: 0/255, green: 93/255, blue: 188/255, alpha: 1.0);
+        selectedBuildingOverlay!.strokeWidth = 6
+        selectedBuildingOverlay!.zIndex = 2
+        selectedBuildingOverlay!.map = self.mapView
+        
+        let searchedBuilding = getBuilding(withID: buildingID)!
+        let parkingLotCenterLocation = CLLocation.init(latitude: bestParkingLot.centerCoord.latitude, longitude: bestParkingLot.centerCoord.longitude)
+        var minDistance = 9999999
+        var closestEntranceCoord:CLLocationCoordinate2D! = nil
+        for entranceCoord in searchedBuilding.entranceCoords {
+            let entranceLocation = CLLocation.init(latitude: entranceCoord.latitude, longitude: entranceCoord.longitude)
+            let distance = entranceLocation.distance(from: parkingLotCenterLocation)
+            if minDistance > Int(distance.magnitude) {
+                minDistance = Int(distance.magnitude)
+                closestEntranceCoord = entranceCoord
+            }
+        }
+        
+        print("WHAAAT")
+        
+        retreiveWalkingDirections(buildingEntranceCoord: closestEntranceCoord, parkingLotCoord: bestParkingLot.centerCoord) { walkingPath in
+            // Move and animate camera
+            let path = GMSMutablePath()
+            for boundaryCoord in bestParkingLot.boundaryCoords {
+                path.add(boundaryCoord)
+            }
+            for boundaryCoord in searchedBuilding.boundaryCoords {
+                path.add(boundaryCoord)
+            }
+            let bounds = GMSCoordinateBounds.init(path: path)
+            let edgeInsets = UIEdgeInsets.init(top: 150, left: 100, bottom: 150.0, right: 100)
             
-            selectedParkngLotOverlay = GMSPolygon(path: parkingLotOverlayPaths[parkingLotID]!)
-            selectedParkngLotOverlay!.fillColor = UIColor.clear
-            selectedParkngLotOverlay!.strokeColor = UIColor(red: 0/255, green: 93/255, blue: 188/255, alpha: 1.0);
-            selectedParkngLotOverlay!.strokeWidth = 4
-            selectedParkngLotOverlay!.zIndex = 2
-            selectedParkngLotOverlay!.map = self.mapView
+            let update = GMSCameraUpdate.fit(bounds, with: edgeInsets)
+            self.mapView.animate(with: update)
+            
+            // Plot overlays
+            print("wow")
+            self.walkingPolyline = GMSPolyline.init(path: walkingPath)
+            self.walkingPolyline!.strokeColor = UIColor(red: 0/255, green: 93/255, blue: 199/255, alpha: 1.0);
+            self.walkingPolyline!.strokeWidth = 4
+            self.walkingPolyline!.map = self.mapView
+
+            self.addSelectedParkingLotOverlayAndMarker(parkingLotID: bestParkingLotID)
         }
     }
     
-    func didSearchBuilding(buildingID: Int) {
-        // TODO: Make API request and select parking lot & building
+    // MARK: - Map
         
-        print("WOOOOOOOOOOOOO")
+    func removeSelectedOverlaysAndMarker() {
+        if selectedParkingLotID != -1 {
+            parkingLotMarkers[selectedParkingLotID]!.icon = UIImage.init(named: "lot-marker")
+        }
+        selectedParkingLotOverlay?.map = nil
+        selectedBuildingOverlay?.map = nil
+        walkingPolyline?.map = nil
     }
     
-    // MARK: - Map
-    
+    func addSelectedParkingLotOverlayAndMarker(parkingLotID: Int) {
+        self.selectedParkingLotID = parkingLotID
+        // Add selected overlays
+        let selectedParkingLotMarker = parkingLotMarkers[parkingLotID]!
+        selectedParkingLotMarker.icon = UIImage.init(named: "selected-lot-marker")
+        
+        print("hello")
+        selectedParkingLotOverlay?.map = nil
+        selectedParkingLotOverlay = GMSPolygon(path: parkingLotOverlayPaths[parkingLotID]!)
+        selectedParkingLotOverlay!.fillColor = UIColor.clear
+        selectedParkingLotOverlay!.strokeColor = UIColor(red: 0/255, green: 93/255, blue: 188/255, alpha: 1.0);
+        selectedParkingLotOverlay!.strokeWidth = 4
+        selectedParkingLotOverlay!.zIndex = 2
+        selectedParkingLotOverlay!.map = self.mapView
+    }
+
     func addBuildingOverlays() {
         for building in buildings {
             let path = GMSMutablePath()
             for boundaryCoord in building.boundaryCoords {
                 path.add(boundaryCoord)
             }
+            buildingOverlayPaths[building.id] = path
             
             let polygon = GMSPolygon(path: path)
             polygon.fillColor = UIColor(red: 0/255, green: 93/255, blue: 199/255, alpha: 0.20);
@@ -230,4 +308,42 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
             complete()
         }
     }
+    
+    func retreiveWalkingDirections(buildingEntranceCoord: CLLocationCoordinate2D, parkingLotCoord: CLLocationCoordinate2D, complete: @escaping ((_ walkingPath:GMSPath?) -> Void)) {
+        var params = "?origin=\(parkingLotCoord.latitude),\(parkingLotCoord.longitude)"
+        params += "&destination=\(buildingEntranceCoord.latitude),\(buildingEntranceCoord.longitude)"
+        params += "&mode=walking"
+        params += "&key=AIzaSyARZEb-XeCWZPv4N2OKwI_CEHdZ2OHbWjM"
+        print(params)
+                
+        AF.request("https://maps.googleapis.com/maps/api/directions/json" + params, method: .get, parameters: nil, headers: nil, interceptor: nil)
+        .responseJSON { response in
+            var path:GMSMutablePath? = nil
+
+            switch response.result {
+            case .success:
+                let json = JSON.init(response.value!)
+                let steps = json["routes"].array![0]["legs"].array![0]["steps"]
+                print(steps)
+                
+                path = GMSMutablePath()
+                for step in steps.array! {
+                    if let startLocation = step["start_location"].dictionary {
+                        path!.add(CLLocationCoordinate2D.init(latitude: CLLocationDegrees(startLocation["lat"]!.float!), longitude: CLLocationDegrees(startLocation["lng"]!.float!)))
+                    }
+                    if let endLocation = step["end_location"].dictionary {
+                        print(endLocation["lat"]!.float!)
+                        print(endLocation["lng"]!.float!)
+                        path!.add(CLLocationCoordinate2D.init(latitude: CLLocationDegrees(endLocation["lat"]!.float!), longitude: CLLocationDegrees(endLocation["lng"]!.float!)))
+                    }
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+
+            complete(path)
+        }
+    }
+
 }
