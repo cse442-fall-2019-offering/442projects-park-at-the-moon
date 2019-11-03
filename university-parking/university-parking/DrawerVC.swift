@@ -90,9 +90,13 @@ class DrawerVC: UIViewController, PulleyDrawerViewControllerDelegate, UISearchBa
     // MARK: - UISearchBarDelegate
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        self.pulleyViewController?.setDrawerPosition(position: .partiallyRevealed, animated: true)
+        self.pulleyViewController?.setDrawerPosition(position: .open, animated: true)
         
         return true
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

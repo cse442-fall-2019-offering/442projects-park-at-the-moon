@@ -11,5 +11,6 @@ target 'university-parking' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Pulley'
+  pod "SearchTextField"
 
 end
