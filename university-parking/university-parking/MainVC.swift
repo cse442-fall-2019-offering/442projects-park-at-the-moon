@@ -13,6 +13,7 @@ import SwiftyJSON
 
 protocol DrawerActionDelegate {
     func didSelectParkingLot(parkingLotID: Int)
+    func didSearchBuilding(buildingID: Int)
 }
 
 class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
@@ -44,7 +45,7 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
             self.addParkingLotMarkers()
             self.addBuildingOverlays()
             if self.drawerDataSourceDelegate != nil {
-                self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots)
+                self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots, buildings: self.buildings)
             }
         }
         Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(reloadData), userInfo: nil, repeats: true)
@@ -56,7 +57,7 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
         print("Reloaded Data")
         retreiveBuildingParkingLotData() {
             if self.drawerDataSourceDelegate != nil {
-                self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots)
+                self.drawerDataSourceDelegate.didRetreiveParkingLots(parkingLots: self.parkingLots, buildings: self.buildings)
             }
         }
     }
@@ -115,6 +116,12 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
             selectedParkngLotOverlay!.zIndex = 2
             selectedParkngLotOverlay!.map = self.mapView
         }
+    }
+    
+    func didSearchBuilding(buildingID: Int) {
+        // TODO: Make API request and select parking lot & building
+        
+        print("WOOOOOOOOOOOOO")
     }
     
     // MARK: - Map
