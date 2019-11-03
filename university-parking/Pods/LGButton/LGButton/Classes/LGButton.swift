@@ -18,7 +18,7 @@ open class LGButton: UIControl {
     }
     
     let touchDisableRadius : CGFloat = 100.0
-
+    
     private var availableFontIcons: [String: IconFont] = ["fa": Fonts.awesome,
                                                           "io": Fonts.ion,
                                                           "oc": Fonts.oct,
@@ -26,9 +26,8 @@ open class LGButton: UIControl {
                                                           "ma": Fonts.material,
                                                           "ti": Fonts.themify,
                                                           "mi": Fonts.map]
-
-    var gradient : CAGradientLayer?
     
+    fileprivate var gradient : CAGradientLayer?
     
     fileprivate var rootView : UIView!
     @IBOutlet fileprivate weak var titleLbl: UILabel!
@@ -56,6 +55,8 @@ open class LGButton: UIControl {
     @IBOutlet fileprivate var trailingLoadingConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate var leadingLoadingConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var bgContentWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bgContentHeightConstraint: NSLayoutConstraint!
     
     public var isLoading = false {
         didSet {
@@ -363,7 +364,7 @@ open class LGButton: UIControl {
     public var attributedString: NSAttributedString? {
         didSet {
             titleLbl.attributedText = attributedString
-         }
+        }
     }
     
     // MARK: - Overrides
@@ -444,6 +445,8 @@ open class LGButton: UIControl {
     }
     
     fileprivate func setupBackgroundColor() {
+        bgContentWidthConstraint.constant = min(0, -borderWidth)
+        bgContentHeightConstraint.constant = min(0, -borderWidth)
         bgContentView.backgroundColor = bgColor
     }
     
@@ -482,8 +485,8 @@ open class LGButton: UIControl {
             bgContentView.layer.cornerRadius = cornerRadius
             layer.cornerRadius = cornerRadius
         }
-        bgContentView.layer.borderColor = borderColor.cgColor
-        bgContentView.layer.borderWidth = borderWidth
+        self.layer.borderColor = borderColor.cgColor
+        self.layer.borderWidth = borderWidth
     }
     
     fileprivate func setupTitle() {
@@ -547,10 +550,12 @@ open class LGButton: UIControl {
     }
     
     fileprivate func setupShadow(){
-        layer.shadowOffset = shadowOffset
-        layer.shadowRadius = shadowRadius
-        layer.shadowOpacity = Float(shadowOpacity)
-        layer.shadowColor = shadowColor.cgColor
+        if shadowRadius > 0 {
+            layer.shadowOffset = shadowOffset
+            layer.shadowRadius = shadowRadius
+            layer.shadowOpacity = Float(shadowOpacity)
+            layer.shadowColor = shadowColor.cgColor
+        }
     }
     
     fileprivate func setupLoadingView(){
@@ -631,7 +636,7 @@ open class LGButton: UIControl {
     // MARK: - Xib file
     // MARK:
     fileprivate func xibSetup() {
-		guard rootView == nil else { return }
+        guard rootView == nil else { return }
         rootView = loadViewFromNib()
         rootView.frame = bounds
         rootView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -662,7 +667,6 @@ open class LGButton: UIControl {
             if !showTouchFeedback {
                 return
             }
-            
             touchAlpha = (pressed) ? .touched : .untouched
         }
     }
@@ -672,11 +676,10 @@ open class LGButton: UIControl {
     }
     
     override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?){
-        let shouldSendActions = pressed
-        pressed = false
-        if shouldSendActions{
+        if pressed {
             sendActions(for: .touchUpInside)
         }
+        pressed = false
     }
     
     override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -706,10 +709,12 @@ open class LGButton: UIControl {
     }
     
     @IBAction func tapAction(_ sender: Any) {
-        let shouldSendActions = pressed
-        pressed = false
-        if shouldSendActions{
-            sendActions(for: .touchUpInside)
+        sendActions(for: .touchUpInside)
+        if !isLoading {
+            pressed = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.pressed = false
+            }
         }
     }
 }
