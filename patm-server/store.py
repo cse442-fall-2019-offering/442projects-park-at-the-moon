@@ -152,6 +152,25 @@ class History:
         self.ts = ts
         self.bid = bid
 
+class GlobalHistory:
+
+    def __init__(self, parking_store):
+        store = parking_store.get_store()
+        self.global_history = {store['lots'][key].name: store['lots'][key].capacity for key in store['lots'].keys()}
+        self.count = 1
+
+    def update(self, store):
+
+        for lot in self.global_history:
+            self.global_history[lot] = ((self.global_history[lot]*self.count) + store.get_store()['lots'][lot].spots)/(self.count + 1)
+        self.count += 1
+
+    def get_store(self):
+        return self.global_history
+
+    def get_lot_average(self, lot):
+        return self.global_history[lot]
+
 class Building:
 
     def __init__(self, id, name, entrance_lat, entrance_lon, boundary_lat, boundary_lon, store):
