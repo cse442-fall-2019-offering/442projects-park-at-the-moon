@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D9A9E005533A122CEFD70DE9589C1F66"
+               BlueprintIdentifier = "FD999FE212F29E29DEEA0A85E1DC4D4E"
+               BuildableName = "LGButton.framework"
                BlueprintName = "LGButton"
-               ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "LGButton.framework">
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

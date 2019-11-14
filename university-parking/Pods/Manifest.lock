@@ -1,16 +1,45 @@
 PODS:
-  - LGButton (1.1.4)
+  - Alamofire (5.0.0-rc.3)
+  - GoogleMaps (3.6.0):
+    - GoogleMaps/Maps (= 3.6.0)
+  - GoogleMaps/Base (3.6.0)
+  - GoogleMaps/Maps (3.6.0):
+    - GoogleMaps/Base
+  - GooglePlaces (3.6.0):
+    - GoogleMaps/Base (= 3.6.0)
+  - LGButton (1.1.6)
+  - Pulley (2.7.0)
+  - SearchTextField (1.2.4)
+  - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.0.0-rc.2)
+  - GoogleMaps
+  - GooglePlaces
   - LGButton
+  - Pulley
+  - SearchTextField
+  - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
+    - Alamofire
+    - GoogleMaps
+    - GooglePlaces
     - LGButton
+    - Pulley
+    - SearchTextField
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
-  LGButton: a2fab54642121da2bee2e5f16bfbb57a8c05c788
+  Alamofire: ca8c0de6906873be89d6deec5c8de279e00bf872
+  GoogleMaps: 82f8fe307193bb4de6ef6bf9e88f1d624b718f9d
+  GooglePlaces: 1b9d29cf3e164903d873600f511f42acdfe85294
+  LGButton: 9f0a7f9d3030e3f504108342f6b66d64a429371b
+  Pulley: 028ddcc7d2dcbc078d71b61b7eee8e786d72c14a
+  SearchTextField: 40dc3cc57def5a211f263cac263622c163bbc25a
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 8fb9c4da38cd755032933939dc8e0d62e4806d4f
+PODFILE CHECKSUM: 73f872cb4e1602570a905d720b3cb4bc9dbbde83
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.8.4

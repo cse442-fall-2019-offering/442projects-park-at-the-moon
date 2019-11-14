@@ -46,6 +46,29 @@ def search():
 
 
 
+@engine.route('/lot_availability', methods = ["POST"])
+def lot_availability():
+    uid = request.form["userID"]
+    return redirect(url_for('engine.update_spots', uid = uid))
+
+@engine.route('/closest_lot/<bid>')
+def closest_lot(bid):
+    """
+
+    :param bid: Building ID
+    :return: ID of the closest parking lot
+    """
+    name = app_instance.parking_store.bname_to_bid[int(bid)]
+    return jsonify(app_instance.parking_store.store['buildings'][name].get_closest_lot().id)
+
+
+@engine.route('/search', methods = ["POST"])
+def search():
+    bname = request.form["building"]
+    return jsonify({'building_id': app_instance.parking_store.bname_to_bid[bname]})
+
+
+
 @engine.route('/car-entered/<lot>')
 def car_entered(lot):
     """
@@ -167,4 +190,3 @@ def serialize_store():
     """
     with open("store.json", "w") as file:
         json.dump(parking_store.get_store(), file)
-
