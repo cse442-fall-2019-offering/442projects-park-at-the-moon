@@ -1,7 +1,8 @@
 import copy
 from json import JSONEncoder
 from collections import UserDict
-
+from datetime import datetime, timedelta
+#from bisect import bisect, insort
 
 class Store(UserDict):
 
@@ -13,8 +14,8 @@ class Store(UserDict):
         self.building_id = 0
 
 
-    def add_lot(self, lot, capacity):
-        self.store['lots'][lot] = ParkingLot(self.current_id, lot, capacity)
+    def add_lot(self, lot, capacity, boundary_lat = [0], boundary_long = [0]):
+        self.store['lots'][lot] = ParkingLot(self.current_id, lot, capacity, boundary_lat, boundary_long)
         self.current_id += 1
 
     def add_building(self, building):
@@ -24,6 +25,10 @@ class Store(UserDict):
     def register_user(self, uid):
         if uid not in self.store['users']:
             self.store['users'][uid] = User(uid)
+
+    def get_recommendation(self, uid, ts = datetime.now()):
+        if uid in self.store['users']:
+            return self.store['users'][uid].get_parking_recommendation(ts)
 
     def remove_lot(self, lot):
         if lot in self.store['lots']:
@@ -57,8 +62,11 @@ class Store(UserDict):
     def set_type(self, lot, type):
         self.store['lots'][lot].set_type(type)
 
-    def set_center(self, lot):
-        self.store['lots'][lot].set_center()
+    def set_center(self, lot, center):
+        self.store['lots'][lot].set_center(center)
+
+    def set_building_center(self, building, center):
+        self.store['buildings'][building['name']].set_center(center)
 
     def get_store(self):
         return self.store
@@ -79,17 +87,59 @@ class User:
 
     def __init__(self, id):
         self.id = id
-        self.history = None
+        self.history = []
 
     def add_history(self, ts, bid):
-        pass
+        def insort(a, x, lo=0, hi=None):
+            key = x[0]
+            if lo < 0:
+                raise ValueError('lo must be non-negative')
+            if hi is None:
+                hi = len(a)
+            while lo < hi:
+                mid = (lo + hi) // 2
+                if a[mid][0].weekday() < key.weekday():
+                    lo = mid + 1
+                elif a[mid][0].weekday() == key.weekday():
+                    if a[mid][0].hour < key.hour:
+                        lo = mid + 1
+                    else:
+                        hi = mid
+                else:
+                    hi = mid
+            a.insert(lo, x)
 
-    def get_parking_recommendation(self):
+        insort(self.history, (ts, bid))
+
+    def get_history(self):
+        return self.history
+
+    def get_parking_recommendation(self, ts):
         """
         Binary search on the timestamps and return a recommendation only if the timestamp is within 30 minutes
         :return:
         """
-        pass
+        # Credits: https://gist.github.com/ericremoreynolds/2d80300dabc70eebc790
+        class KeyifyList(object):
+            def __init__(self, inner, key):
+                self.inner = inner
+                self.key = key
+
+            def __len__(self):
+                return len(self.inner)
+
+            def __getitem__(self, k):
+                return self.key(self.inner[k])
+
+        from bisect import bisect_left, bisect_right
+        from datetime import datetime
+
+        ls = KeyifyList(self.history, lambda x: x[0])
+        left = bisect_left(ls, ts - timedelta(minutes=30))
+        right = bisect_right(ls, ts)
+
+        return self.history[left][1]
+
 
 class History:
 
@@ -102,6 +152,25 @@ class History:
         self.ts = ts
         self.bid = bid
 
+class GlobalHistory:
+
+    def __init__(self, parking_store):
+        store = parking_store.get_store()
+        self.global_history = {store['lots'][key].name: store['lots'][key].capacity for key in store['lots'].keys()}
+        self.count = 1
+
+    def update(self, store):
+
+        for lot in self.global_history:
+            self.global_history[lot] = ((self.global_history[lot]*self.count) + store.get_store()['lots'][lot].spots)/(self.count + 1)
+        self.count += 1
+
+    def get_store(self):
+        return self.global_history
+
+    def get_lot_average(self, lot):
+        return self.global_history[lot]
+
 class Building:
 
     def __init__(self, id, name, entrance_lat, entrance_lon, boundary_lat, boundary_lon, store):
@@ -111,11 +180,16 @@ class Building:
         self.entrance_lon = entrance_lon
         self.boundary_lat = boundary_lat
         self.boundary_lon = boundary_lon
-        self.center = (sum(self.boundary_lat)/len(self.boundary_lat), \
-                       sum(self.boundary_lon)/len(self.boundary_lon))
+        self.center = (sum(boundary_lat)/len(boundary_lat), \
+                       sum(boundary_lon)/len(boundary_lon))
         self.closest_lot = self.compute_closest_lot(store.get_store())
+        self.parking_store = store
         store.get_bstore()[id] = name
         store.get_bstore()[name] = id
+
+    def set_center(self, center):
+        self.center = center
+        self.closest_lot = self.compute_closest_lot(self.parking_store.get_store())
 
     def compute_closest_lot(self, store):
         min_distance = float("inf")
@@ -132,18 +206,31 @@ class Building:
     def get_closest_lot(self):
         return self.closest_lot
 
+    def to_json(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "entrance_lat" : self.entrance_lat,
+            "entrance_lon" : self.entrance_lon,
+            "boundary_lat" : self.boundary_lat,
+            "boundary_lon" : self.boundary_lon,
+            "center" : (sum(self.boundary_lat) / len(self.boundary_lat), \
+                       sum(self.boundary_lon) / len(self.boundary_lon))
+        }
+
 class ParkingLot:
 
-    def __init__(self, id, name, capacity):
+    def __init__(self, id, name, capacity, boundary_lat = [0], boundary_lon = [0]):
         self.id = id
         self.name = name
         self.spots = capacity
         self.capacity = capacity
-        self.boundary_lat = []
-        self.boundary_lon = []
+        self.boundary_lat = boundary_lat
+        self.boundary_lon = boundary_lon
         self.available_times = []
         self.type = -1
-        self.center = ()
+        self.center = (sum(self.boundary_lat)/len(self.boundary_lat), \
+                       sum(self.boundary_lon)/len(self.boundary_lon))
 
     def increase_spots(self):
         self.spots = min(self.capacity, self.spots + 1)
@@ -172,15 +259,26 @@ class ParkingLot:
     def set_type(self, type):
         self.type = type
 
-    def set_center(self):
-        self.center =  (sum(self.boundary_lat)/len(self.boundary_lat), \
-                       sum(self.boundary_lon)/len(self.boundary_lon))
+    def set_center(self, center):
+        self.center = center
 
     def get_center(self):
         return self.center
 
     def __repr__(self):
         return "Lot(ID: {}, Name: {}, Spots: {}, Capacity: {})".format(self.id, self.name, self.spots, self.capacity)
+
+    def to_json(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "capacity": self.capacity,
+            "spots": self.spots,
+            "boundary_lat" : self.boundary_lat,
+            "boundary_lon" : self.boundary_lon,
+            "center" : (sum(self.boundary_lat) / len(self.boundary_lat), \
+                       sum(self.boundary_lon) / len(self.boundary_lon))
+        }
 
 
 class StoreEncoder(JSONEncoder):

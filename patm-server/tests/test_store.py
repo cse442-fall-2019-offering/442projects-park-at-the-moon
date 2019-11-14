@@ -1,6 +1,8 @@
 import pytest
-from store import *
+from math import isclose
 from unittest import TestCase
+from datetime import datetime, timedelta
+from store import *
 
 
 @pytest.fixture(scope="module", autouse=True)
@@ -22,6 +24,97 @@ def setup():
     parking_store.add_lot(lot2, capacity2)
 
     return parking_store
+
+def test_add_history():
+
+
+    parking_store = Store()
+    parking_store.register_user(0)
+    parking_store.register_user(1)
+
+    time = datetime.now()
+    users = parking_store.get_store()['users']
+    users[0].add_history(time, 1)
+    users[1].add_history(time, 2)
+
+    assert (time, 1) in users[0].get_history()
+    assert (time, 1) not in users[1].get_history()
+    assert (time, 2) in users[1].get_history()
+    assert (time, 2) not in users[0].get_history()
+
+    new_time = datetime.now() + timedelta(hours=4)
+    users[0].add_history(new_time, 2)
+    users[1].add_history(new_time, 2)
+
+    assert (time, 1) in users[0].get_history()
+    assert (time, 2) in users[1].get_history()
+    assert (new_time, 2) in users[0].get_history()
+    assert (new_time, 2) in users[1].get_history()
+
+    newest_time = datetime.now() + timedelta(hours=-4)
+    users[0].add_history(newest_time, 2)
+
+    users[1].add_history(newest_time, 2)
+
+    assert (time, 1) in users[0].get_history()
+    assert (newest_time, 2) in users[1].get_history()
+    assert (new_time, 2) in users[0].get_history()
+    assert (newest_time, 2) in users[0].get_history()
+
+    assert users[0].get_history().index((time, 1)) < users[0].get_history().index((new_time, 2))
+    assert users[0].get_history().index((time, 1)) > users[0].get_history().index((newest_time, 2))
+
+    assert users[1].get_history().index((time, 2)) < users[0].get_history().index((new_time, 2))
+    assert users[1].get_history().index((time, 2)) > users[0].get_history().index((newest_time, 2))
+
+
+def test_add_history_next_day():
+
+    parking_store = Store()
+    parking_store.register_user(1)
+
+    users = parking_store.get_store()['users']
+
+    time = datetime.now()
+    users[1].add_history(time, 2)
+    next_day = datetime.now() + timedelta(days=1)
+    users[1].add_history(next_day, 1)
+
+    assert users[1].get_history().index((time, 2)) < users[1].get_history().index((next_day, 1))
+
+def test_add_history_next_week():
+
+    parking_store = Store()
+    parking_store.register_user(1)
+
+    users = parking_store.get_store()['users']
+
+    time = datetime.now()
+    users[1].add_history(time, 2)
+    next_week = datetime.now() + timedelta(weeks=1, hours=-1)
+    users[1].add_history(next_week, 1)
+
+    assert users[1].get_history().index((time, 2)) > users[1].get_history().index((next_week, 1))
+
+def test_suggestion():
+
+    parking_store = Store()
+    parking_store.register_user(0)
+
+    time = datetime.now()
+    users = parking_store.get_store()['users']
+    users[0].add_history(time, 1)
+    new_time = datetime.now() + timedelta(hours=4)
+    users[0].add_history(new_time, 2)
+
+    newest_time = datetime.now() + timedelta(hours=-4)
+    users[0].add_history(newest_time, 2)
+    store = parking_store
+    assert store.get_recommendation(0) == 1
+    time = datetime.now() + timedelta(hours = 4)
+    assert store.get_recommendation(0, time) == 2
+    time = datetime.now() + timedelta(hours=-4)
+    assert store.get_recommendation(0, time) == 2
 
 
 def test_add_building():
@@ -51,7 +144,32 @@ def test_add_parking_lot():
 
 
 def test_closest_lot():
+
     parking_store = Store()
+    lot1 = "fronczak"
+    lot2 = "hochstetter"
+    building1 = {
+        "name": "governors",
+        "entrances_lat": [0],
+        "entrances_lon": [0],
+        "boundary_lat": [0],
+        "boundary_long": [0]
+    }
+
+    capacity1 = 100
+    capacity2 = 190
+
+    parking_store.add_lot(lot1, capacity1)
+    parking_store.add_lot(lot2, capacity2)
+    parking_store.add_building(building1)
+    parking_store.set_center(lot1, (0, 0))
+    parking_store.set_center(lot2, (5, 5))
+    parking_store.set_building_center(building1, (2, 2))
+    assert parking_store.get_store()['buildings'][building1['name']].closest_lot.name == lot1
+    parking_store.set_building_center(building1, (5, 4))
+    assert parking_store.get_store()['buildings'][building1['name']].closest_lot.name == lot2
+
+
 
 def test_remove_parking_lot():
 
@@ -145,3 +263,31 @@ def test_lot_not_present(setup):
 
     except:
         TestCase.fail()
+
+def test_history_analytics():
+    parking_store = Store()
+    lot1, lot2 = "Fronczak", "Governors"
+    parking_store.add_lot(lot1, 100)
+    parking_store.add_lot(lot2, 200)
+
+    ghistory = GlobalHistory(parking_store)
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store)
+    assert isclose(ghistory.get_lot_average(lot1), 99.5)
+
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store)
+    assert isclose(ghistory.get_lot_average(lot1), 99)
+
+    parking_store.increase_spots(lot1)
+    ghistory.update(parking_store)
+    assert isclose(ghistory.get_lot_average(lot1), 99)
+
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store)
+    assert isclose(ghistory.get_lot_average(lot1), 98.8)
+
+    parking_store.decrease_spots(lot1)
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store)
+    assert isclose(ghistory.get_lot_average(lot1), 98.33333333333)

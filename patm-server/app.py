@@ -22,12 +22,9 @@ class App:
             data = json.load(file)
         for lot in data['lots']:
                 name = lot["name"]
-                self.parking_store.add_lot(name, lot["capacity"])
+                self.parking_store.add_lot(name, lot["capacity"], lot["boundary_lat"], lot["boundary_long"])
                 self.parking_store.set_available_times(name, lot["available_times"])
-                self.parking_store.set_boundary_lat(name, lot["boundary_lat"])
-                self.parking_store.set_boundary_lon(name, lot["boundary_long"])
                 self.parking_store.set_type(name, lot["type"])
-                self.parking_store.set_center(name)
         for building in data['buildings']:
             self.parking_store.add_building(building)
 
