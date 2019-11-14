@@ -44,30 +44,6 @@ def search():
     return jsonify({'building_id': app_instance.parking_store.bname_to_bid[bname]})
 
 
-
-@engine.route('/lot_availability', methods = ["POST"])
-def lot_availability():
-    uid = request.form["userID"]
-    return redirect(url_for('engine.update_spots', uid = uid))
-
-@engine.route('/closest_lot/<bid>')
-def closest_lot(bid):
-    """
-
-    :param bid: Building ID
-    :return: ID of the closest parking lot
-    """
-    name = app_instance.parking_store.bname_to_bid[int(bid)]
-    return jsonify(app_instance.parking_store.store['buildings'][name].get_closest_lot().id)
-
-
-@engine.route('/search', methods = ["POST"])
-def search():
-    bname = request.form["building"]
-    return jsonify({'building_id': app_instance.parking_store.bname_to_bid[bname]})
-
-
-
 @engine.route('/car-entered/<lot>')
 def car_entered(lot):
     """
@@ -78,7 +54,6 @@ def car_entered(lot):
     lot = lot.replace('%20', ' ')
     app_instance.parking_store.decrease_spots(lot)
     return jsonify()
-
 
 
 @engine.route('/car-exited/<lot>')
@@ -104,12 +79,6 @@ def register_user():
     response['buildings'] = {k: v.to_json() for k, v in response['buildings'].items()}
     response['lots'] = {k: v.to_json() for k, v in response['lots'].items()}
     return jsonify(response)
-
-##############################################################################
-#                               SOCKET EVENTS
-# Sockets to be used as backup only
-##############################################################################
-
 
 
 def serialize_store():
