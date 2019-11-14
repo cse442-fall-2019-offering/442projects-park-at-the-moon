@@ -11,6 +11,10 @@ from . import engine
 parking_store = App.parking_store
 
 
+@engine.route('/analytics')
+def get_analytics():
+    return jsonify(app_instance.global_history.get_store())
+
 @engine.route('/update_spots/<uid>')
 def update_spots(uid):
     """

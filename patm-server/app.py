@@ -2,6 +2,7 @@ import sys,os
 sys.path.append(os.getcwd() + '/patm-server')
 import json
 from flask import Flask
+from apscheduler.schedulers.background import BackgroundScheduler
 from store import *
 from config import SECRET_KEY
 
@@ -14,6 +15,7 @@ class App:
     def __init__(self):
 
         self.parking_store = Store()
+
         data = None
         filename = os.getcwd() + '/patm-server/' + "data.json"
         if len(sys.argv) > 1 and sys.argv[1] == "local" or ("pytest" in sys.modules):
@@ -29,6 +31,7 @@ class App:
             self.parking_store.add_building(building)
 
         self.__class__.parking_store = self.parking_store
+        self.global_history = GlobalHistory(self.parking_store)
 
     def create_app(self):
         global app
@@ -39,8 +42,16 @@ class App:
         app.config['SECRET_KEY'] = SECRET_KEY
         return app
 
+    def update_status(self):
+        print("updating", flush=True)
+        self.global_history.update(self.parking_store)
+
+
 app_instance = App()
 app = app_instance.create_app()
+scheduler = BackgroundScheduler()
+scheduler.add_job(app_instance.update_status, 'interval', seconds = 30)
+scheduler.start()
 
 if __name__ == '__main__':
     app.run()

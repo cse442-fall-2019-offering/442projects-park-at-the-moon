@@ -156,7 +156,7 @@ class GlobalHistory:
 
     def __init__(self, parking_store):
         store = parking_store.get_store()
-        self.global_history = {store['lots'][key].name: store['lots'][key].capacity for key in store['lots'].keys()}
+        self.global_history = {store['lots'][key].name: float(store['lots'][key].capacity) for key in store['lots'].keys()}
         self.count = 1
 
     def update(self, store):
@@ -170,6 +170,7 @@ class GlobalHistory:
 
     def get_lot_average(self, lot):
         return self.global_history[lot]
+
 
 class Building:
 
