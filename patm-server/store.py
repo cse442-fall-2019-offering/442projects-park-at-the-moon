@@ -14,8 +14,8 @@ class Store(UserDict):
         self.building_id = 0
 
 
-    def add_lot(self, lot, capacity):
-        self.store['lots'][lot] = ParkingLot(self.current_id, lot, capacity)
+    def add_lot(self, lot, capacity, boundary_lat, boundary_long):
+        self.store['lots'][lot] = ParkingLot(self.current_id, lot, capacity, boundary_lat, boundary_long)
         self.current_id += 1
 
     def add_building(self, building):
@@ -220,13 +220,13 @@ class Building:
 
 class ParkingLot:
 
-    def __init__(self, id, name, capacity):
+    def __init__(self, id, name, capacity, boundary_lat, boundary_lon):
         self.id = id
         self.name = name
         self.spots = capacity
         self.capacity = capacity
-        self.boundary_lat = [0]
-        self.boundary_lon = [0]
+        self.boundary_lat = boundary_lat
+        self.boundary_lon = boundary_lon
         self.available_times = []
         self.type = -1
         self.center = (sum(self.boundary_lat)/len(self.boundary_lat), \
