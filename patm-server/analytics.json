@@ -1,0 +1,59 @@
+[{
+		"day": "Monday",
+		"data": [
+		   {
+			"lot": "Fronczak",
+			"analytics": [
+				60,
+				60,
+				50,
+				40,
+				40,
+				30,
+				20
+			]
+		},
+		{
+			"lot": "Hochstetter",
+			"analytics": [
+				60,
+				60,
+				50,
+				40,
+				40,
+				30,
+				20
+			]
+		}
+		]
+	},
+	{
+		"day": "Tuesday",
+		"data": [
+		   {
+			"lot": "Fronczak",
+			"analytics": [
+				60,
+				60,
+				50,
+				40,
+				40,
+				30,
+				20
+			]
+		},
+		{
+			"lot": "Hochstetter",
+			"analytics": [
+				60,
+				60,
+				50,
+				40,
+				40,
+				30,
+				20
+			]
+		}
+		]
+	}
+]
