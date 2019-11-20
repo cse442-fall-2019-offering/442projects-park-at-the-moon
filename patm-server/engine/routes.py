@@ -15,6 +15,7 @@ parking_store = App.parking_store
 def get_analytics():
     return jsonify(app_instance.global_history.get_store())
 
+
 @engine.route('/update_spots/<uid>')
 def update_spots(uid):
     """

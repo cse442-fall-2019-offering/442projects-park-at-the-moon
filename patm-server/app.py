@@ -1,12 +1,13 @@
 import sys,os
-sys.path.append(os.getcwd() + '/patm-server')
 import json
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
 from store import *
 from config import SECRET_KEY
 
+sys.path.append(os.getcwd() + '/patm-server')
 app = None
+
 
 class App:
 
@@ -44,7 +45,7 @@ class App:
 
     def update_status(self):
         print("updating", flush=True)
-        self.global_history.update(self.parking_store)
+        self.global_history.update(self.parking_store, datetime.now())
 
 
 app_instance = App()
