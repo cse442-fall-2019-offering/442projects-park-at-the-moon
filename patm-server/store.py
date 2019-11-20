@@ -160,7 +160,7 @@ class History:
 class GlobalHistory:
 
     def __init__(self, parking_store):
-        self.update_count = False
+
         store = parking_store.get_store()
         self.global_history = [
             {"day": day} for day in range(7)
@@ -169,14 +169,12 @@ class GlobalHistory:
             self.global_history[day]["analytics"] = {store['lots'][key].name: [float(store['lots'][key].capacity) for i in range(24)] for key in store['lots'].keys()}
         self.count = 1
 
-    def update(self, store, ts = datetime.now()):
-
-        if ts.hour == 0 and self.update_count:
+    def update_count(self, ts):
+        if ts.hour == 0 and ts.weekday == 0:
             self.count += 1
-            self.update_count = False
-        if ts.hour == 23 and not self.update_count:
-            self.update_count = True
 
+    def update(self, store, ts = datetime.now()):
+        self.update_count(ts)
         for lot in self.global_history[ts.weekday()]["analytics"]:
             self.global_history[ts.weekday()]["analytics"][lot][ts.hour] = ((self.global_history[ts.weekday()][
                                                                                  "analytics"][lot][

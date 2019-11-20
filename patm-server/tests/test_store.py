@@ -284,8 +284,8 @@ def test_history_analytics():
     ghistory.update(parking_store, time)
     assert isclose(ghistory.get_lot_average(lot1, time), 99.5)
 
-    time = time.replace(hour=0)
-    time = time + timedelta(weeks=1)
+    current = datetime.now()
+    time = current + timedelta(days=(7-current.weekday()))
     parking_store.decrease_spots(lot1)
     ghistory.update(parking_store, time)
     assert isclose(ghistory.get_lot_average(lot1, time), 99.0)
@@ -311,13 +311,6 @@ def test_history_analytics():
     parking_store.increase_spots(lot1)
     ghistory.update(parking_store, time)
     assert isclose(ghistory.get_lot_average(lot1, time), 99.5)
-    assert isclose(ghistory.get_lot_average(lot1), 99.5)
-
-    # right before the day ends
-    time = time.replace(hour=23)
-    parking_store.decrease_spots(lot1)
-    ghistory.update(parking_store, time)
-    assert isclose(ghistory.get_lot_average(lot1, time), 99)
     assert isclose(ghistory.get_lot_average(lot1), 99.5)
 
 
