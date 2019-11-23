@@ -130,7 +130,7 @@ class ContourDetection(PipelineProcessor):
                 continue
 
             centroid = utils.get_centroid(x, y, w, h)
-
+# important here for determining what the value of context will be
             matches.append(((x, y, w, h), centroid))
 
         return matches
@@ -147,7 +147,7 @@ class ContourDetection(PipelineProcessor):
         if self.save_image:
             utils.save_frame(fg_mask, self.image_dir +
                              "/mask_%04d.png" % frame_number, flip=False)
-
+# important
         context['objects'] = self.detect_vehicles(fg_mask, context)
         context['fg_mask'] = fg_mask
 

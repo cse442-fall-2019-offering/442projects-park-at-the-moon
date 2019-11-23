@@ -9,6 +9,25 @@ import argparse
 import imutils
 import time
 import cv2
+from pipelinev2 import VehicleCounter
+
+
+
+EXIT_PTS = np.array([
+# left side
+#    [[0, 0], [50, 0], [50, 480], [0, 480]]
+# right side
+    [[764,0], [864,0],[864,480],[764,480]]
+])
+
+def get_centroid(x, y, w, h): 
+    x1 = int(w / 2)
+    y1 = int(h / 2)
+
+    cx = x + x1
+    cy = y + y1
+
+    return (cx, cy)
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -40,6 +59,9 @@ vs = VideoStream(src=0).start()
 time.sleep(2.0)
 fps = FPS().start()
 
+
+vehicle_counter = VehicleCounter(exit_masks=EXIT_PTS)
+
 # loop over the frames from the video stream
 while True:
 	# grab the frame from the threaded video stream and resize it
@@ -62,7 +84,7 @@ while True:
 		# extract the confidence (i.e., probability) associated with
 		# the prediction
 		confidence = detections[0, 0, i, 2]
-
+        matches = []
 		# filter out weak detections by ensuring the `confidence` is
 		# greater than the minimum confidence
 		if confidence > args["confidence"]:
@@ -72,7 +94,8 @@ while True:
 			idx = int(detections[0, 0, i, 1])
 			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
 			(startX, startY, endX, endY) = box.astype("int")
-
+            
+            matches.append((startX, startY, endX, endY), get_centroid(startX,startY,endX,endY))
 			# draw the prediction on the frame
 			label = "{}: {:.2f}%".format(CLASSES[idx],
 				confidence * 100)
@@ -81,6 +104,11 @@ while True:
 			y = startY - 15 if startY - 15 > 15 else startY + 15
 			cv2.putText(frame, label, (startX, y),
 				cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+        
+    if matches = []:
+        continue
+    d['objects'] = matches
+    vehicler_counter.run(d)
 
 	# show the output frame
 	cv2.imshow("Frame", frame)
