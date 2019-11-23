@@ -7,7 +7,9 @@ import numpy as np
 import skvideo.io
 import cv2
 import matplotlib.pyplot as plt
-
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
 import utils
 # without this some strange errors happen
 cv2.ocl.setUseOpenCL(False)
@@ -22,31 +24,53 @@ from pipeline import (
 
 # ============================================================================
 IMAGE_DIR = "./out"
-VIDEO_SOURCE = "ub_road_long.mp4"
-SHAPE = (480, 850)  # HxW
+BG_SUB_SOURCE = "ub_road_res_change.mp4"
+SHAPE = (480, 864)  # HxW
 EXIT_PTS = np.array([
 # left side
 #    [[0, 0], [50, 0], [50, 480], [0, 480]]
 # right side
-    [[750,0], [850,0],[850,480],[750,480]]
+    [[764,0], [864,0],[864,480],[764,480]]
 ])
 MIN_COUNTOUR_WIDTH = 100
 MIN_COUNTOUR_HEIGHT = 35
+
+camera = PiCamera()
+camera.resolution = (864, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(864, 480))
+# allow the camera to warmup
+time.sleep(0.1)
 # ============================================================================
 
 
-def train_bg_subtractor(inst, cap, num=500):
+def train_bg_subtractor(bg, num=500):
     '''
         BG substractor need process some amount of frames to start giving result
     '''
     print ('Training BG Subtractor...')
-    i = 0
-    for frame in cap:
-        inst.apply(frame, None, 0.001)
-        i += 1
-        if i >= num:
-            return cap
+    # allow the camera to warmup
+    time.sleep(0.1)
+    count = 0 
+    # capture frames from the camera
+    for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+        # grab the raw NumPy array representing the image, then initialize the timestamp
+        # and occupied/unoccupied text
+        image = frame.array
+        bg.apply(image, None, 0.001)
+ 
+        # show the frame
+        cv2.imshow("Frame", image)
+ 
+        # clear the stream in preparation for the next frame
+        rawCapture.truncate(0)
+ 
+        # if the `q` key was pressed, break from the loop
+        if count > num:
+            break
+        count += 1
 
+    print ('Finishing training BG Subtractor')
 
 def main():
     log = logging.getLogger("main")
@@ -75,24 +99,26 @@ def main():
 
     # Set up image source
     # You can use also CV2, for some reason it not working for me
-    cap = skvideo.io.vreader(VIDEO_SOURCE)
+#    cap = skvideo.io.vreader(VIDEO_SOURCE)
 
     # skipping 500 frames to train bg subtractor
-    train_bg_subtractor(bg_subtractor, cap, num=500)
+    train_bg_subtractor(bg_subtractor, num=500)
+#    cap = skvideo.io.vreader(VIDEO_SOURCE)
 
-    cap = skvideo.io.vreader(VIDEO_SOURCE)
     _frame_number = -1
     frame_number = -1
-    for frame in cap:
-        if not frame.any():
-            log.error("Frame capture failed, stopping...")
-            break
+    for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+        image = frame.array
+#        if not frame.any():
+#            log.error("Frame capture failed, stopping...")
+#            break
 
         # real frame number
         _frame_number += 1
 
         # skip every 2nd frame to speed up processing
         if _frame_number % 2 != 0:
+            rawCapture.truncate(0)
             continue
 
         # frame number that will be passed to pipline
@@ -104,10 +130,19 @@ def main():
         # return
 
         pipeline.set_context({
-            'frame': frame,
+            'frame': image,
             'frame_number': frame_number,
         })
+
         pipeline.run()
+        # clear the stream in preparation for the next frame
+        key = cv2.waitKey(1) & 0xFF
+        rawCapture.truncate(0)
+        if key == ord("q"):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
 
 # ============================================================================
 
