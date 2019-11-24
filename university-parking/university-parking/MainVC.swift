@@ -35,10 +35,19 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
 
     var drawerDataSourceDelegate: DrawerDataSourceDelegate!
 
+    @IBOutlet var googleMapButton: UIButton!
+    @IBOutlet var appleMapButton: UIButton!
+    
+    @IBOutlet var appleMapBotConstraint: NSLayoutConstraint!
+    @IBOutlet var googleMapBotConstraint: NSLayoutConstraint!
+    
     // MARK: - UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        googleMapButton.isHidden = true
+//        appleMapButton.isHidden = true
 
         mapView.delegate = self
         setupMapAppearance()
@@ -117,6 +126,8 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
             
             addSelectedParkingLotOverlayAndMarker(parkingLotID: parkingLotID)
         }
+        
+        print(selectedParkingLotID)
     }
         
     func didSearchBuilding(buildingID: Int) {
@@ -173,6 +184,14 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
             self.walkingPolyline!.map = self.mapView
 
             self.addSelectedParkingLotOverlayAndMarker(parkingLotID: bestParkingLotID)
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
+                self.googleMapBotConstraint.constant = 75
+            }
+
+            self.appleMapBotConstraint.constant = 75
         }
     }
     
@@ -269,6 +288,24 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
         }
     }
 
+    // MARK: - Actions
+    
+    @IBAction func pressedGoogleMapButton(_ sender: Any) {
+        if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
+          UIApplication.shared.openURL(URL(string:
+            "comgooglemaps://?center=\(String(describing: getParkingLot(withID: selectedParkingLotID)!.centerCoord.latitude)),\(String(describing: getParkingLot(withID: selectedParkingLotID)!.centerCoord.longitude))")!)
+        } else {
+          print("Can't use comgooglemaps://");
+        }
+    }
+    
+    @IBAction func pressedAppleMapButton(_ sender: Any) {
+        UIApplication.shared.openURL(URL(string:"http://maps.apple.com/?daddr=\(String(describing: getParkingLot(withID: selectedParkingLotID)!.centerCoord.latitude)),\(String(describing: getParkingLot(withID: selectedParkingLotID)!.centerCoord.longitude))&dirflg=d")!)
+        
+        print(selectedParkingLotID)
+    }
+    
+    
     // MARK: - Server API
 
     func retreiveBuildingParkingLotData(complete: @escaping (() -> Void)) {
