@@ -39,10 +39,8 @@ class TestServer:
 
     def verify_spots(self, client, lot, num_spots):
 
-        response = client.get('/update_spots')
-        store = json.loads(response.data)['store']['lots']
+        response = client.get('/update_spots/1')
+        store = json.loads(response.data)
 
+        #TODO: NEEDS UPDATION DUE TO THE CHANGE IN ENDPOINTS
         assert response.status_code == 200
-        assert lot in store
-        assert store[lot]['spots'] == num_spots
-        assert store[lot]['capacity'] == 0
