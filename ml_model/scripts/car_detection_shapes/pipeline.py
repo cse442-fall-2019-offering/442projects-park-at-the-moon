@@ -212,7 +212,8 @@ class VehicleCounter(PipelineProcessor):
                 _min = 999999
                 _match = None
                 for p in points:
-                    if len(path) == 1:
+                    # if path is empty or if car is going the other way, don't count it as the same car
+                    if len(path) == 1 or p[0][0] - path[-1][0][0] < 0:
                         # distance from last point to current
                         d = utils.distance(p[0], path[-1][0])
                     else:
@@ -388,5 +389,5 @@ class Visualizer(PipelineProcessor):
 
         utils.save_frame(frame, self.image_dir +
                          "/processed_%04d.png" % frame_number)
-
+        context['frame'] = frame
         return context
