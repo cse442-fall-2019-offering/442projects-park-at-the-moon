@@ -293,7 +293,7 @@ class MainVC: UIViewController, DrawerActionDelegate, GMSMapViewDelegate {
     @IBAction func pressedGoogleMapButton(_ sender: Any) {
         if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
           UIApplication.shared.openURL(URL(string:
-            "comgooglemaps://?center=\(String(describing: getParkingLot(withID: selectedParkingLotID)!.centerCoord.latitude)),\(String(describing: getParkingLot(withID: selectedParkingLotID)!.centerCoord.longitude))")!)
+            "comgooglemaps://?saddr=&daddr=\(String(describing: getParkingLot(withID: selectedParkingLotID)!.centerCoord.latitude)),\(String(describing: getParkingLot(withID: selectedParkingLotID)!.centerCoord.longitude))&directionsmode=driving")!)
         } else {
           print("Can't use comgooglemaps://");
         }
