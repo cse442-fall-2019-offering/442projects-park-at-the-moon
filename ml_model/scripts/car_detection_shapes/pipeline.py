@@ -270,6 +270,7 @@ class VehicleCounter(PipelineProcessor):
                 self.path_size <= len(path)
             ):
                 self.vehicle_count += 1
+                requests.get('https://patm-server.herokuapp.com/car-entered/24')
             else:
                 # prevent linking with path that already in exit zone
                 add = True
