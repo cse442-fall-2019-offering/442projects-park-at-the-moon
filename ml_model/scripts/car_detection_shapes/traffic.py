@@ -155,6 +155,9 @@ def run_video(pipeline, cap):
             'frame_number': frame_number,
         })
         image = pipeline.run()
+        #print(image)
+        #cv2.imshow('car detection',np.array(image, dtype = np.uint8 ))
+        #cv2.waitKey(0)
 
 def main():
     log = logging.getLogger("main")

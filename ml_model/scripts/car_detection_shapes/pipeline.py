@@ -60,7 +60,7 @@ class PipelineRunner(object):
 
         self.log.debug("Frame #%d processed.", self.context['frame_number'])
 
-        return self.context
+        return self.context['frame']
 
 
 class PipelineProcessor(object):
