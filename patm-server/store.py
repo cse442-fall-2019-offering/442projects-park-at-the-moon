@@ -50,6 +50,10 @@ class Store(UserDict):
         if lot in self.store['lots']:
             return self.store['lots'][lot].get_spots()
 
+    def reset(self, lot):
+        if lot in self.store['lots']:
+            self.store['lots'][lot].reset()
+
     def set_boundary_lat(self, lot, coordinates):
         self.store['lots'][lot].set_boundary_lat(coordinates)
 
@@ -152,24 +156,44 @@ class History:
         self.ts = ts
         self.bid = bid
 
+
 class GlobalHistory:
 
     def __init__(self, parking_store):
+
         store = parking_store.get_store()
-        self.global_history = {store['lots'][key].name: store['lots'][key].capacity for key in store['lots'].keys()}
+        self.global_history = [
+            {"day": day} for day in range(7)
+        ]
+        for day in range(len(self.global_history)):
+            self.global_history[day]["analytics"] = {store['lots'][key].name: [float(store['lots'][key].capacity) for i in range(24)] for key in store['lots'].keys()}
         self.count = 1
 
-    def update(self, store):
+    def update_count(self, ts):
+        if ts.hour == 0 and ts.weekday == 0:
+            self.count += 1
 
-        for lot in self.global_history:
-            self.global_history[lot] = ((self.global_history[lot]*self.count) + store.get_store()['lots'][lot].spots)/(self.count + 1)
-        self.count += 1
+    def update(self, store, ts = datetime.now()):
+        self.update_count(ts)
+        for lot in self.global_history[ts.weekday()]["analytics"]:
+            self.global_history[ts.weekday()]["analytics"][lot][ts.hour] = ((self.global_history[ts.weekday()][
+                                                                                 "analytics"][lot][
+                                                                                 ts.hour] * self.count) +
+                                                                            store.get_store()['lots'][lot].spots) / (
+                                                                                       self.count + 1)
+
+    def reset(self, parking_store):
+        store = parking_store.get_store()
+        self.count = 1
+        for day in range(len(self.global_history)):
+            self.global_history[day]["analytics"] = {store['lots'][key].name: [float(store['lots'][key].capacity) for i in range(24)] for key in store['lots'].keys()}
 
     def get_store(self):
         return self.global_history
 
-    def get_lot_average(self, lot):
-        return self.global_history[lot]
+    def get_lot_average(self, lot, ts = datetime.now()):
+        return self.global_history[ts.weekday()]["analytics"][lot][ts.hour]
+
 
 class Building:
 
@@ -217,6 +241,7 @@ class Building:
             "center" : (sum(self.boundary_lat) / len(self.boundary_lat), \
                        sum(self.boundary_lon) / len(self.boundary_lon))
         }
+
 
 class ParkingLot:
 
