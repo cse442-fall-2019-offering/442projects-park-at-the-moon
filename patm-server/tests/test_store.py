@@ -264,7 +264,72 @@ def test_lot_not_present(setup):
     except:
         TestCase.fail()
 
-def test_history_analytics():
+def test_history_current():
+    parking_store = Store()
+    lot1, lot2 = "Fronczak", "Governors"
+    parking_store.add_lot(lot1, 100)
+    parking_store.add_lot(lot2, 200)
+
+    ghistory = GlobalHistory(parking_store)
+
+    time = datetime.now()
+    #current time
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store)
+    assert isclose(ghistory.get_lot_average(lot1), 99.5)
+
+
+def test_history_one_hour():
+    parking_store = Store()
+    lot1, lot2 = "Fronczak", "Governors"
+    parking_store.add_lot(lot1, 100)
+    parking_store.add_lot(lot2, 200)
+
+    ghistory = GlobalHistory(parking_store)
+
+    time = datetime.now()
+    #current time
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store)
+    assert isclose(ghistory.get_lot_average(lot1), 99.5)
+
+    #next hour
+    time = datetime.now() + timedelta(hours=1)
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store, time)
+    assert isclose(ghistory.get_lot_average(lot1, time), 99)
+    assert isclose(ghistory.get_lot_average(lot1), 99.5)
+
+def test_history_two_hours():
+    parking_store = Store()
+    lot1, lot2 = "Fronczak", "Governors"
+    parking_store.add_lot(lot1, 100)
+    parking_store.add_lot(lot2, 200)
+
+    ghistory = GlobalHistory(parking_store)
+
+    time = datetime.now()
+    #current time
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store)
+    assert isclose(ghistory.get_lot_average(lot1), 99.5)
+
+    #next hour
+    time = datetime.now() + timedelta(hours=1)
+    parking_store.decrease_spots(lot1)
+    ghistory.update(parking_store, time)
+    assert isclose(ghistory.get_lot_average(lot1, time), 99)
+    assert isclose(ghistory.get_lot_average(lot1), 99.5)
+
+    # after 2 hours
+    time = time + timedelta(hours=1)
+    parking_store.increase_spots(lot1)
+    ghistory.update(parking_store, time)
+    assert isclose(ghistory.get_lot_average(lot1, time), 99.5)
+    assert isclose(ghistory.get_lot_average(lot1), 99.5)
+
+
+def test_history_comprehensive():
     parking_store = Store()
     lot1, lot2 = "Fronczak", "Governors"
     parking_store.add_lot(lot1, 100)

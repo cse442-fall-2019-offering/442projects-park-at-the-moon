@@ -44,7 +44,6 @@ class App:
         return app
 
     def update_status(self):
-        print("updating", flush=True)
         self.global_history.update(self.parking_store, datetime.now())
 
 
