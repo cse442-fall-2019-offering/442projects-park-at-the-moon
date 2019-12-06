@@ -59,9 +59,12 @@ def train_bg_subtractor_pi(bg, camera, rawCapture, num=500):
  
         # show the frame
         cv2.imshow("Frame", image)
- 
         # clear the stream in preparation for the next frame
         rawCapture.truncate(0)
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord("q"):
+            break
+ 
  
         # if the `q` key was pressed, break from the loop
         if count > num:
@@ -75,13 +78,16 @@ def train_bg_subtractor_video(bg, cap, num=500):
         BG substractor need process some amount of frames to start giving result
     '''
     print ('Training BG Subtractor on input video...')
-    # allow the camera to warmup
-    time.sleep(0.1)
     count = 0 
-    # capture frames from the camera
+    # capture frames from the video
     for frame in cap:
         bg.apply(frame, None, 0.001)
+        cv2.imshow("Frame", frame)
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord("q"):
+            break
         count += 1
+        print(count)
         if count >= num:
             return cap
 
@@ -118,7 +124,7 @@ def run_pi(pipeline, camera, rawCapture):
             'frame_number': frame_number,
         })
 
-        pipeline.run()
+        image = pipeline.run()
         # clear the stream in preparation for the next frame
         key = cv2.waitKey(1) & 0xFF
         rawCapture.truncate(0)
@@ -155,9 +161,10 @@ def run_video(pipeline, cap):
             'frame_number': frame_number,
         })
         image = pipeline.run()
-        #print(image)
-        #cv2.imshow('car detection',np.array(image, dtype = np.uint8 ))
-        #cv2.waitKey(0)
+        cv2.imshow("Frame", image)
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord("q"):
+            break
 
 def main():
     log = logging.getLogger("main")
